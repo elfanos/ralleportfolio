@@ -1,0 +1,151 @@
+// Place all the styles related to the portfolio controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+body{
+  background-color: black;
+}
+#portfolio{
+  background-color: black;
+  .magic-box{
+    .parent {
+      height: 700px;
+      position: relative;
+    }
+
+    .child {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      -webkit-transform: translate(-50%, -50%);
+      -moz-transform: translate(-50%, -50%);
+      -ms-transform: translate(-50%, -50%);
+      -o-transform: translate(-50%, -50%);
+      transform: translate(-50%, -50%);
+    }
+
+    img{
+      width: 100%;
+      height: auto;
+    }
+    .magic-circle{
+      width: 300px;
+      height: 300px;
+      background-color: black;
+      border-radius: 200px 200px 200px 200px;
+      -moz-border-radius: 200px 200px 200px 200px;
+      -webkit-border-radius: 200px 200px 200px 200px;
+      border: 0px solid white;
+    }
+
+
+    // #about-me{
+    //   float:left;
+    //   width: 50%;
+    //   height: 50%;
+    //   margin: auto;
+    // }
+    // #job-section{
+    //   float:left;
+    //   width: 50%;
+    //   height: 50%;
+    //   margin: auto;
+    // }
+    // #intresst-section{
+    //   float:left;
+    //   width: 50%;
+    //   height: 50%;
+    //   margin: auto;
+    // }
+    // #goals-section{
+    //   float:left;
+    //   width: 50%;
+    //   height: 50%;
+    //   margin: auto;
+    // }
+    .about-me{
+      float:left;
+      width: 50%;
+      height: 50%;
+      // margin: -30px;
+      margin: auto;
+      background-color: orange;
+      border-radius: 100% 0 0 0;
+     -moz-border-radius:100% 0 0 0;
+     -webkit-border-radius: 100% 0 0 0;
+    }
+    .jobs-me{
+      float:left;
+      width: 50%;
+      height: 50%;
+      margin: auto;
+      background-color: red;
+      border-radius: 0 100% 0 0;
+     -moz-border-radius: 0 100% 0 0;
+     -webkit-border-radius: 0 100% 0 0;
+    }
+    .goals-me{
+      float:left;
+      width: 50%;
+      height: 50%;
+      // margin: -30px;
+      margin: auto;
+      background-color: blue;
+     border-radius: 0 0 0 100%;
+    -moz-border-radius: 0 0 0 100%;
+    -webkit-border-radius: 0 0 0 100%;
+    }
+    .intrest-me{
+      float:left;
+      width: 50%;
+      height: 50%;
+      margin: auto;
+      background-color: green;
+      border-radius: 0 0 100% 0;
+      -moz-border-radius: 0 0 100% 0;
+      -webkit-border-radius: 0 0 100% 0;
+    }
+
+  }
+
+  /*  SECTIONS  */
+  .section {
+  	clear: both;
+  	padding: 0px;
+  	margin: 0px;
+  }
+
+  /*  COLUMN SETUP  */
+  .col {
+  	display: block;
+  	float:left;
+  	margin: 0% 0% 0% 0%;
+  }
+  .col:first-child { margin-left: 0; }
+
+  /*  GROUPING  */
+  .group:before,
+  .group:after { content:""; display:table; }
+  .group:after { clear:both;}
+  .group { zoom:1; /* For IE 6/7 */ }
+
+  /*  GRID OF TWO  */
+  .span_2_of_2 {
+  	width: 100%;
+  }
+  .span_1_of_2 {
+  	width: 50%;
+  }
+
+  /*  GO FULL WIDTH AT LESS THAN 480 PIXELS */
+
+  @media only screen and (max-width: 480px) {
+  	.col {
+  		margin: 1% 0 1% 0%;
+  	}
+  }
+
+  @media only screen and (max-width: 480px) {
+  	.span_2_of_2, .span_1_of_2 { width: 100%; }
+  }
+}

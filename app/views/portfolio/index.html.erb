@@ -1,0 +1,332 @@
+<script>
+ $(document).ready(function(){
+   var bodyRect = document.body.getBoundingClientRect();
+   initializeBody(bodyRect);
+
+   var aboutMe = document.getElementById("about-button");
+   var jobs = document.getElementById("jobs-button");
+   var goals = document.getElementById("goals-button");
+   var intrest = document.getElementById("intrest-button");
+
+
+   aboutMe.addEventListener('click', function(){
+     console.log("bodyRec", bodyRect.top);
+     console.log("bodyRec", bodyRect.left);
+     console.log("bodyRec element", bodyRect);
+
+     var setLocationY = "top";
+     var setLocationX = "left";
+     moveDivToTarget(aboutMe,setLocationY,setLocationX);
+
+   },false)
+
+   jobs.addEventListener('click', function(){
+      var setLocationY = "top";
+      var setLocationX = "right";
+      moveDivToTarget(jobs, setLocationY, setLocationX);
+   },false);
+
+   goals.addEventListener('click', function(){
+      var setLocationY = "bottom";
+      var setLocationX = "left";
+      moveDivToTarget(goals, setLocationY, setLocationX);
+   },false);
+
+   intrest.addEventListener('click', function(){
+      var setLocationY = "bottom";
+      var setLocationX = "right";
+      moveDivToTarget(intrest, setLocationY, setLocationX);
+   },false);
+});
+var bodyRect;
+var moveToTargetPosition;
+
+function initializeBody(body){
+  bodyRect = body;
+}
+
+function moveDivToTarget(element, setLocationY, setLocationX){
+  // console.log("which listener?", element);
+  //
+  // console.log("location one", setLocationY);
+  // console.log("location two", setLocationX);
+  // console.log("setLocationY", setLocationY);
+  // console.log("bodyrec", bodyRect);
+  var secs = 10 * 60;
+  var count = 0, speed = -1;
+
+  topLeftLength = Math.sqrt(
+    getOffsetFromTopleft(getCurrentPosition(element,setLocationX),setLocationX)
+   * getOffsetFromTopleft(getCurrentPosition(element,setLocationX),setLocationX)
+   + getOffsetFromTopleft(getCurrentPosition(element,setLocationY),setLocationY)
+   * getOffsetFromTopleft(getCurrentPosition(element,setLocationY),setLocationY)
+  );
+
+
+  // console.log("topleft------------", topLeftLength);
+  toTopLeftX = getOffsetFromTopleft(getCurrentPosition(element,setLocationX),setLocationX)/topLeftLength;
+  toTopLeftY = getOffsetFromTopleft(getCurrentPosition(element,setLocationY),setLocationY)/topLeftLength;
+  console.log("getcurrentpost", getCurrentPosition(element,setLocationX));
+  console.log("totopleftx-------------", toTopLeftX);
+  console.log("toTopLeftY--------------", toTopLeftY);
+    moveToTargetPosition = setInterval(function() {
+
+      // if(!checkIfMarginDivs(element)){
+      //   element.style.margin = "0px";
+      // }
+
+      element.style.position = "absolute"
+      count = count - speed;
+
+      // if(setLocationX === "left"){
+      //   if(offsetPositionX < 30 && offsetPositionY < 30){
+      //     clearInterval(moveToTargetPosition);
+      //   }
+      // }else{
+      //   if(offsetPositionX > -30 && offsetPositionY > -30){
+      //     clearInterval(moveToTargetPosition);
+      //   }
+      // }
+
+      ifDivMoveToTarget(
+        xjao = getOffsetFromTopleft(getCurrentPosition(element,setLocationX), setLocationX)/
+       yjao =  getOffsetFromTopleft(getCurrentPosition(element,setLocationY), setLocationY)
+
+
+        element.style.left = xjao*speed + "px";
+        element.style.top = yjao * speed + "px";
+      );
+      // ifDivMoveToTargetY(
+      //   getOffsetFromTopleft(getCurrentPosition(element,setLocationX), setLocationX),
+      //   setLocationX,
+      //   getOffsetFromTopleft(getCurrentPosition(element,setLocationY), setLocationY),
+      //   setLocationY
+      // );
+
+  }, secs*0.05);
+
+  // element.style = '';
+// '  console.log("moveTopRight");
+//   console.log("currentX", currentX);
+//   console.log("currentY", currentY);
+//
+//   console.log("offsetY", offsetY);
+//   console.log("offsetX", offsetX);'
+
+};
+function toTopLeftX(){
+  getOffsetFromTopleft(getCurrentPosition(element,setLocationX),setLocationX)/topLeftLength;
+};
+function toTopLeftY(){
+  getOffsetFromTopleft(getCurrentPosition(element,setLocationY),setLocationY)/topLeftLength;
+};
+function getLengthOffset(element,setLocationX,setLocationY) {
+  return Math.sqrt(
+      getOffsetFromTopleft(getCurrentPosition(element,setLocationX),setLocationX)
+     * getOffsetFromTopleft(getCurrentPosition(element,setLocationX),setLocationX)
+     + getOffsetFromTopleft(getCurrentPosition(element,setLocationY),setLocationY)
+     * getOffsetFromTopleft(getCurrentPosition(element,setLocationY),setLocationY)
+    );
+};
+function checkIfMarginDivs(element){
+  if(element.id === "jobs-button" || element.id === "intrest-button"){
+    return false;
+  }else{
+    return true;
+  }
+}
+function ifDivMoveToTargetY(offsetPositionX, setLocationX, offsetPositionY, setLocationY){
+  // console.log("ifdivx", offsetPositionX);
+  // console.log("ifdivy", offsetPositionY);
+  // console.log("");
+  // if(setLocationX === "left"){
+  //   if(offsetPositionX < 30 && offsetPositionY < 30){
+  //     clearInterval(moveToTargetPosition);
+  //   }
+  // }else{
+  //   if(offsetPositionX > -30 && offsetPositionY > -30){
+  //     clearInterval(moveToTargetPosition);
+  //   }
+  // }
+};
+function ifDivMoveToTarget(offsetPosition, setLocation){
+  //console.log("ifdiv", offsetPosition)
+  //console.log("")
+  // if(setLocation === "left"){
+  //   if(offsetPosition < 30){
+  //     clearInterval(moveToTargetPosition);
+  //   }
+  // }else{
+  //   if(offsetPosition > -30){
+  //     clearInterval(moveToTargetPosition);
+  //   }
+  // }
+};
+function getOffsetFromTopleft(currentPosition, setLocation){
+  // console.log("getofsetsa");
+  var getLocation;
+  switch (setLocation) {
+    case "top":
+      // console.log("location", setLocation);
+       console.log("top offset",window.bodyRect.top);
+      getLocation = bodyRect.top;
+      break;
+    case "bottom":
+      // console.log("location", setLocation);
+      // console.log("goals bottom offset");
+      getLocation = bodyRect.bottom;
+      break;
+    case "right":
+      // console.log("location", setLocation);
+      // console.log("right offset",bodyRect.right);
+      getLocation = bodyRect.right;
+      break;
+    case "left":
+      // console.log("location", setLocation);
+      // console.log("left offset",bodyRect.left);
+      getLocation = bodyRect.left;
+      break;
+    default:
+  }
+  // console.log("ehm lol current", currentPosition);
+  // console.log("what is return? the location?", getLocation);
+  // console.log("what is return?", currentPosition-getLocation);
+  return currentPosition - getLocation;
+};
+function getCurrentPosition(element,setLocation){
+  // console.log("getosad");
+  console.log("hmm the element", element);
+  // console.log("location", setLocation);
+  var currentPosition;
+  switch (setLocation) {
+    case "top":
+      console.log("top getCurrentPosition");
+      currentPosition = element.getBoundingClientRect().top;
+      break;
+    case "bottom":
+      // console.log("bottom getCurrentPosition");
+      currentPosition = element.getBoundingClientRect().bottom;
+      break;
+    case "right":
+      // console.log("right getCurrentPosition");
+      currentPosition = element.getBoundingClientRect().right;
+      break;
+    case "left":
+      // console.log("left getCurrentPosition");
+      currentPosition = element.getBoundingClientRect().left;
+      break;
+    default:
+  }
+  return currentPosition;
+};
+function getOffsetYFromTopLeft(currentY, setLocation){
+  return currentY - bodyRect.setLocation;
+};
+function getCurrentPositionY(element, setLocation){
+  return element.getBoundingClientRect().setLocation;
+};
+function getCurrentPositionX(element,setLocation){
+  return element.getBoundingClientRect().setLocation;
+};
+
+function drawQuarterCircle(x,y,startAngle,endAngle,canvas,radius, antiClockWise){
+  console.log("radiues", radius)
+  if(canvas.getContext){
+
+    var context = canvas.getContext("2d");
+    // var x = 300;
+    // var y = 300;
+    console.log("x: ", x);
+    console.log("y: ", y);
+    //;
+    // var startAngle = stAngle / 180 * Math.PI;
+    // var endAngle = eAngle / 180 * Math.PI;
+    // var radians = angle / 180 * Math.PI;
+    // var endX = x + length * Math.cos(radians);
+    // var endY = y - length * Math.sin(radians);
+    var radius = 100;
+    console.log(radius);
+    console.log("radius: ", radius);
+    console.log("angle", startAngle);
+    console.log("angle", endAngle);
+    // var startAngle = Math.PI;
+    // var endAngle = Math.PI*1.5;
+
+    context.fillStyle="orange";
+    context.beginPath();
+    context.arc(x,y,radius,degreesToRadians(startAngle),degreesToRadians(endAngle), antiClockWise);
+    context.lineTo(x,y);
+    context.fill();
+    console.log("yey");
+  }
+
+};
+function degreesToRadians(degrees) {
+  return (degrees * Math.PI) / 180;
+};
+// function drawCircleByThree() {
+//     var can = document.getElementById('mycanvas');
+//     if (can.getContext) {
+//         var ctx = can.getContext('2d');
+//
+//         var drawAngledLine = function(x, y, length, angle) {
+//             var radians = angle / 180 * Math.PI;
+//             var endX = x + length * Math.cos(radians);
+//             var endY = y - length * Math.sin(radians);
+//
+//             ctx.beginPath();
+//             ctx.moveTo(x, y)
+//             ctx.lineTo(endX, endY);
+//             ctx.closePath();
+//             ctx.stroke();
+//         }
+//
+//         ctx.fillStyle = "orange";
+//         ctx.beginPath();
+//         ctx.arc(200, 200, 100, 0, (Math.PI * 2)/4, true);
+//         ctx.closePath();
+//         ctx.fill();
+//
+//         ctx.strokeStyle = "#FFC8B2";
+//         ctx.lineWidth = "2";
+//
+//         drawAngledLine(200, 200, 200, 0);
+//         drawAngledLine(200, 200, 200, 120);
+//         // drawAngledLine(200, 200, 150, -120);
+//     } else {
+//         // Fallback code goes here
+//     }
+// }
+</script>
+<div id="portfolio">
+  <h1>Haj</h1>
+
+    <div class="magic-box">
+      <div class="parent">
+        <div class="child">
+          <p>center me plez</p>
+          <div class="magic-circle" id="magic-circle-id">
+                <!-- <canvas id="about-me">
+                </canvas>
+                <canvas id="job-section">
+                </canvas>
+                <canvas id="intresst-section">
+                </canvas>
+                <canvas id="goals-section">
+                </canvas> -->
+                <div class="about-me" id="about-button">
+                </div>
+                <div class="jobs-me" id="jobs-button">
+                </div>
+                <div class="goals-me" id="goals-button">
+                </div>
+                <div class="intrest-me" id="intrest-button">
+                </div>
+                <!-- <div>
+                    <canvas id='mycanvas' width="400" height="400"></canvas>
+                </div> -->
+          </div>
+        </div>
+      </div>
+    </div>
+</div>
