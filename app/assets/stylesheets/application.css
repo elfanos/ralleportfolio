@@ -11,7 +11,17 @@
  * file per style scope.
  *
  *= require portfolio
- *= require bootstrap.min
+ *= require bootstrap.min.css
+ *= require bootstrap-theme.min.css
+ *= require jquery-ui.min.css
  *= require_tree .
  *= require_self
  */
+
+
+ body, html{
+    width: 100%;
+    height: 100%;
+    background-color: #495867;
+     overflow-x:hidden;
+ }

@@ -1,332 +1,652 @@
 <script>
- $(document).ready(function(){
-   var bodyRect = document.body.getBoundingClientRect();
-   initializeBody(bodyRect);
+$(document).ready(function(){
+  console.log("jak");
+  var procentOfScreen = 0.75;
+  var screenInterval;
+  var loadingContent = document.getElementById("load-container");
+  var resizeContainer = document.getElementById("resize-container");
+  var pageWrapper = document.getElementById("page-wrapper");
+  var resizeLetters = document.getElementById("loading-list");
+  var nodeKeeper = {};
+  var resizeLetterKeeper = {};
 
-   var aboutMe = document.getElementById("about-button");
-   var jobs = document.getElementById("jobs-button");
-   var goals = document.getElementById("goals-button");
-   var intrest = document.getElementById("intrest-button");
+  var mapArray = [
+    [0,0,0,0,0,0,0,0,0,0],
+    [0,0,0,0,0,0,0,0,0,0],
+    [0,0,0,0,0,0,0,0,0,0],
+    [0,0,0,0,0,0,0,0,0,0],
+    [0,0,0,0,0,0,0,0,0,0],
+    [0,0,0,0,0,0,0,0,0,0],
+    [0,0,0,0,0,0,0,0,0,0],
+    [0,0,0,0,0,0,0,0,0,0],
+    [0,0,0,0,0,0,0,0,0,0],
+    [0,0,0,0,0,0,0,0,0,0]
+  ]
+
+  //loading elements class/id
+  var letterClassInLoading = {
+      l: "loading-l",
+      o: "loading-o",
+      a: "loading-a",
+      d: "loading-d",
+      i: "loading-i",
+      n: "loading-n",
+      g: "loading-g"
+  };
+  //resizing elements
+  var letterClassInResize = {
+      r: 'resize-r',
+      e: 'resize-e',
+      s: 'resize-s',
+      i: 'resize-ione',
+      z: 'resize-z',
+      i2: 'resize-itwo',
+      n: 'resize-n',
+      g: 'resize-g'
+  };
+
+  var loadingAnimations = {
+    resizeLoad: 'loaded'
+  };
+  var navBars = {
+    navMusic: document.getElementById("navMusic"),
+    navAbout: document.getElementById("navAbout"),
+    navProjects: document.getElementById("navProjects"),
+    navContact: document.getElementById("navContact")
+  };
+  function init(){
+      // should be applied on resiz
+      hideDive(pageWrapper);
+    var screenHeight = $(window).height();
+    var screenWidth = $(window).width();
+
+    drawLoadingContent();
+    drawResizeAndLoadText();
+    hideOpacityResize();
+    redrawChildNodes(0,loadingContent.childNodes,  randomChild());
+    startvibrate(0);
+    lightingEffect();
 
 
-   aboutMe.addEventListener('click', function(){
-     console.log("bodyRec", bodyRect.top);
-     console.log("bodyRec", bodyRect.left);
-     console.log("bodyRec element", bodyRect);
+    $(window).on('resize', function () {
+      //resize just happened, pixels changed
+      console.log("resizing");
+      $('body').removeClass(loadingAnimations.resizeLoad);
 
-     var setLocationY = "top";
-     var setLocationX = "left";
-     moveDivToTarget(aboutMe,setLocationY,setLocationX);
+    });
+    function resizingInterval(){
+      var screenInterval = setInterval(function(){
+        $('body').addClass(loadingAnimations.resizeLoad);
+      },1500);
 
-   },false)
+      return screenInterval;
+    }
+    function setResizeInterval(screenInterval){
+        var _screen = screenInterval;
+        console.log("int intervall intervall");
+        _screen = setInterval(function () {
 
-   jobs.addEventListener('click', function(){
-      var setLocationY = "top";
-      var setLocationX = "right";
-      moveDivToTarget(jobs, setLocationY, setLocationX);
-   },false);
+            if ($('body').hasClass('state-animating'))
+                return;
 
-   goals.addEventListener('click', function(){
-      var setLocationY = "bottom";
-      var setLocationX = "left";
-      moveDivToTarget(goals, setLocationY, setLocationX);
-   },false);
+            if (screenWidth  != $(window).width() || screenHeight != $(window).height()) {
 
-   intrest.addEventListener('click', function(){
-      var setLocationY = "bottom";
-      var setLocationX = "right";
-      moveDivToTarget(intrest, setLocationY, setLocationX);
-   },false);
+                screenWidth = $(window).width();
+                screenHeight = $(window).height();
+
+                $('body').removeClass('loaded');
+//                $('.overlay-resize').removeClass('state-visible');
+            }
+            window.location.reload();
+
+        }, 3000);
+      }
+
+
+  }
+
+  function calculateScreenWidth(width, procent){
+    procentHigh = (width*procent);
+    return width - procentHigh;
+  }
+  function calculateScreenHeight(height, procent){
+    procentHigh = (height*procent);
+    return height - procentHigh;
+  }
+  function createLoadingContent(){
+    return $("<div/>")   // creates a div element
+           .attr("id", "some")  // adds the id
+           .addClass("loading-content")   // add a classöööööö
+           .html("<div></div>");
+  }
+
+
+  function drawResizeAndLoadText() {
+      for(var i = 0; i < Object.size(letterClassInResize); i++){
+          attributeForEachResizeLetter(i);
+      }
+
+  }
+  
+  /**
+   * Give each char a own class property
+   *
+   * @param val
+   * */
+  function attributeForEachResizeLetter(val) {
+      switch (val){
+          case 0:
+              var list = document.createElement('li');
+              list.className = letterClassInResize.r;
+              list.textContent = "r";
+              resizeLetters.appendChild(list);
+              resizeLetterKeeper["r"] = document.
+              getElementsByClassName(letterClassInResize.r);
+              break;
+          case 1:
+              var list = document.createElement('li');
+              list.className = letterClassInResize.e;
+              list.textContent = "e";
+              resizeLetters.appendChild(list);
+              resizeLetterKeeper["e"] = document.
+              getElementsByClassName(letterClassInResize.e);
+              break;
+          case 2:
+              var list = document.createElement('li');
+              list.className = letterClassInResize.s;
+              list.textContent = "s";
+              resizeLetters.appendChild(list);
+              resizeLetterKeeper["s"] = document.
+              getElementsByClassName(letterClassInResize.s);
+              break;
+          case 3:
+              var list = document.createElement('li');
+              list.className = letterClassInResize.i;
+              list.textContent = "i";
+              resizeLetters.appendChild(list);
+              resizeLetterKeeper["i"] = document.
+              getElementsByClassName(letterClassInResize.r);
+              break;
+          case 4:
+              var list = document.createElement('li');
+              list.className = letterClassInResize.z;
+              list.textContent = "z";
+              resizeLetters.appendChild(list);
+              resizeLetterKeeper["z"] = document.
+              getElementsByClassName(letterClassInResize.z);
+              break;
+          case 5:
+              var list = document.createElement('li');
+              list.className = letterClassInResize.i2;
+              list.textContent = "i";
+              resizeLetters.appendChild(list);
+              resizeLetterKeeper["i2"] = document.
+              getElementsByClassName(letterClassInResize.i2);
+              break;
+          case 6:
+              var list = document.createElement('li');
+              list.className = letterClassInResize.n;
+              list.textContent = "n";
+              resizeLetters.appendChild(list);
+              resizeLetterKeeper["n"] = document.
+              getElementsByClassName(letterClassInResize.n);
+              break;
+          case 7:
+              var list = document.createElement('li');
+              list.className = letterClassInResize.g;
+              list.textContent = "g";
+              resizeLetters.appendChild(list);
+              resizeLetterKeeper["g"] = document.
+              getElementsByClassName(letterClassInResize.g);
+              break;
+      }
+  }
+
+  /***
+   * Timer between each vibrating animation
+   * and how many times it should occure
+   *
+   * @param margin
+   * */
+  function startvibrate(margin) {
+      var counter = 0;
+      var interval = setInterval(function () {
+          counter++;
+          letterVibrationsRight(margin)
+          if(counter > 5){
+              clearInterval(interval);
+          }
+      },1000);
+
+  }
+  function hideOpacityResize() {
+      document.getElementsByClassName("resize-r")[0].style.opacity = 0;
+      document.getElementsByClassName("resize-e")[0].style.opacity = 0;
+      document.getElementsByClassName("resize-s")[0].style.opacity = 0;
+      document.getElementsByClassName("resize-ione")[0].style.opacity = 0;
+      document.getElementsByClassName("resize-z")[0].style.opacity = 0;
+      document.getElementsByClassName("resize-itwo")[0].style.opacity = 0;
+      document.getElementsByClassName("resize-n")[0].style.opacity = 0;
+      document.getElementsByClassName("resize-g")[0].style.opacity = 0;
+
+  }
+  /***
+   * Bouncing effect on elements
+   * in the list
+   *
+   * @param margin
+   * */
+  function letterVibrationsRight(margin) {
+      setTimeout(function () {
+
+          //console.log(document.getElementsByClassName("resize-r"));
+          //document.getElementsByClassName("resize-r")[0].style.display = "inline-block";
+          margin += 0.5;
+          if(margin < 2) {
+              document.getElementsByClassName("resize-r")[0].style.marginRight = margin + "px";
+              document.getElementsByClassName("resize-z")[0].style.marginRight = margin + "px";
+              document.getElementsByClassName("resize-s")[0].style.marginRight = margin + "px";
+              document.getElementsByClassName("resize-r")[0].style.marginBottom = margin + "px";
+              document.getElementsByClassName("resize-z")[0].style.marginBottom  = margin + "px";
+              document.getElementsByClassName("resize-s")[0].style.marginBottom  = margin + "px";
+              letterVibrationsRight(margin);
+          }else{
+              document.getElementsByClassName("resize-r")[0].style.marginRight ="0px";
+              document.getElementsByClassName("resize-z")[0].style.marginRight ="0px";
+              document.getElementsByClassName("resize-s")[0].style.marginRight = "0px";
+              document.getElementsByClassName("resize-r")[0].style.marginBottom = "0px";
+              document.getElementsByClassName("resize-z")[0].style.marginBottom  = "0px";
+              document.getElementsByClassName("resize-s")[0].style.marginBottom  = "0px";
+          }
+      },10);
+  }
+
+
+  /***
+   * Interval for how many times
+   * the light effect should take place and
+   * the time between each shine effect
+   * */
+  function lightingEffect() {
+      var counter = 0;
+      //console.log("haj?");
+      var interval = setInterval(function () {
+          counter++;
+          lightningEffectOnResize(0);
+          if(counter > 5){
+              clearInterval(interval);
+          }
+      }, 2000);
+
+  }
+
+  /***
+   * set and intervall between each element
+   * that is going to shine, which is all the letters
+   * in resize
+   *
+   * @param number
+   * */
+  function lightningEffectOnResize(number) {
+      //console.log("haj2?");
+      setTimeout(function () {
+        if(number < 9){
+            console.log(number);
+            listDifferentLightning(number,0);
+            number++;
+            lightningEffectOnResize(number);
+        }
+
+      }, 100);
+  }
+
+  /**
+   * change opacity so it feels likes it shining
+   * and call function recursive to incresse the opacity
+   *
+   * @param val
+   * @param opacity
+   * */
+  function listDifferentLightning(val, opacity) {
+     // console.log("haj?3" + val);
+      switch (val){
+          case 0:
+              setTimeout(function () {
+                  console.log("haj?");
+                  if(opacity < 1) {
+                      opacity += 0.05;
+                      console.log("haj?");
+                      document.getElementsByClassName("resize-r")[0].style.opacity = opacity;
+                      listDifferentLightning(val,opacity);
+                  }
+              },50);
+              break;
+          case 1:
+              setTimeout(function () {
+                  console.log("haj?");
+                  if(opacity < 1) {
+                      opacity += 0.05;
+                      console.log("haj?");
+                      document.getElementsByClassName("resize-e")[0].style.opacity = opacity;
+                      listDifferentLightning(val,opacity);
+                  }
+              },50);
+              break;
+          case 2:
+              setTimeout(function () {
+                  if(opacity < 1) {
+                      opacity += 0.05;
+                      document.getElementsByClassName("resize-s")[0].style.opacity = opacity;
+                      listDifferentLightning(val,opacity);
+                  }
+              },50);
+              break;
+          case 3:
+              setTimeout(function () {
+                  if(opacity < 1) {
+                      opacity += 0.05;
+                      document.getElementsByClassName("resize-ione")[0].style.opacity = opacity;
+                      listDifferentLightning(val,opacity);
+                  }
+              },50);
+              break;
+          case 4:
+              setTimeout(function () {
+                  opacity += 0.05;
+                  if(opacity < 1) {
+                      document.getElementsByClassName("resize-z")[0].style.opacity = opacity;
+                      listDifferentLightning(val,opacity);
+                  }
+              },50);
+              break;
+          case 5:
+              setTimeout(function () {
+                  opacity += 0.05;
+                  if(opacity < 1) {
+                      document.getElementsByClassName("resize-itwo")[0].style.opacity = opacity;
+                      listDifferentLightning(val,opacity);
+                  }
+              },50);
+              break;
+          case 6:
+              setTimeout(function () {
+                  opacity += 0.05;
+                  if(opacity < 1) {
+                      document.getElementsByClassName("resize-n")[0].style.opacity = opacity;
+                      listDifferentLightning(val,opacity);
+                  }
+              },50);
+              break;
+          case 7:
+              setTimeout(function () {
+                  opacity += 0.05;
+                  if(opacity < 1) {
+                      document.getElementsByClassName("resize-g")[0].style.opacity = opacity;
+                      listDifferentLightning(val,opacity);
+                  }
+              },50);
+              break;
+      }
+  }
+  /**
+   * Intialize tile map
+   * is loaded when the loading
+   * screen initializes
+   * */
+  function drawLoadingContent(){
+    for(var i = 0; i < mapArray.length; i++){
+      for(var j = 0; j < mapArray.length; j++){
+        if(parseInt(mapArray[i][j]) == 0){
+          var div = document.createElement("div");
+          div.className += " loading-content";
+          loadingContent.appendChild(div)
+        }
+        if(parseInt(mapArray[i][j]) == 1){
+          var div = document.createElement("div");
+          div.className += " point-opened";
+          loadingContent.appendChild(div)
+        }
+      }
+    }
+  }
+  /**
+   * get randomnumber
+   * between 0-100
+   * */
+  function randomChild() {
+      return Math.floor(Math.random() * 100);
+  }
+
+  /**
+   * Redraw one of the child nodes
+   * in a delay time out
+   * each nodes is access by a random number
+   * all numbers are check if they are already setted
+   * by using a hashmap to store used values
+   *
+   * @param child
+   * @param childrens
+   * @param numberUsed
+   * */
+  function redrawChildNodes(child,childrens, numberUsed){
+          setTimeout(function () {
+              if (!checkIfNodeKeeperHasValue(numberUsed)) {
+                  childrens[numberUsed].style.opacity = "1";
+                  childrens[numberUsed].style.zIndex = "1001";
+                  nodeKeeper[child] = numberUsed;
+                  animateLoadingEnd(childrens[numberUsed], 0);
+                  child++;
+                  redrawChildNodes(child, childrens, randomChild());
+              } else {
+                  if (child < childrens.length) {
+                      redrawChildNodes(child, childrens, randomChild())
+                  }else{
+                      console.log("end");
+                     // preLoadContent(document.getElementById('load-container'),1);
+                     // setMarginValuesForContent();
+                     // hideDivLoadTime(resizeContainer);
+                     // showDivLoadTime(pageWrapper);
+                     // setTimeOutBeforeTheContentMoveIn();
+
+                  }
+              }
+          }, 1)
+  }
+  /***
+   * check if number already
+   * exist in the nodeKeeper
+   * return boolean true if it does
+   * otherwise false
+   * @param numberUsed
+   * */
+  function checkIfNodeKeeperHasValue(numberUsed) {
+      for(var i = 0; i < Object.size(nodeKeeper); i++){
+          if(nodeKeeper[i] == numberUsed){
+              return true;
+          }
+      }
+      return false;
+  }
+  /***
+   *
+   * @param obj
+   * @return size of java object hashMap var new = {} :D
+   * */
+  Object.size = function(obj) {
+        var size = 0, key;
+        for (key in obj) {
+            if (obj.hasOwnProperty(key)) size++;
+        }
+        return size;
+    };
+  /***
+   * increase opacity of each
+   * childnode placed in the animation loop
+   * @param child
+   * @parama opacity
+   * */
+  function animateLoadingEnd(child, opacity) {
+      setTimeout(function () {
+          if(opacity < 1) {
+              opacity += 0.05;
+              child.style.opacity = opacity;
+              animateLoadingEnd(child, opacity)
+          }
+      },50)
+  }
+
+    /***
+     * Preload the content
+     * like a fade in function
+     * @param child
+     * @param opacity
+     */
+  function preLoadContent(child, opacity) {
+      setTimeout(function () {
+          if(opacity > 0) {
+              opacity -= 0.05;
+              child.style.opacity = opacity;
+              preLoadContent(child, opacity)
+          }
+      },50)
+  }
+
+
+
+  function setTimeOutBeforeTheContentMoveIn() {
+      setTimeout(function () {
+          moveInContentToPage(-100,navBars.navMusic,'music');
+          moveInContentToPage(-100,navBars.navContact,'contacts');
+          moveInContentToPage(-100,navBars.navAbout,'about');
+          moveInContentToPage(-100,navBars.navProjects,'projects');
+      },1100)
+  }
+    /***
+     * Move link content by using margin
+     * Apply the margin based on which content
+     * thats is going to move
+     * Increasing margin recursive to get the move
+     * animation
+     * @param margin
+     * @param element
+     * @param style
+     * */
+  function moveInContentToPage(margin, element, style) {
+      console.log("hello margin=:", margin);
+      switch (style){
+          case 'about':
+              setTimeout(function () {
+                  if(margin < 1) {
+                      console.log("hih there", margin);
+                      margin += 5;
+                      element.style.marginLeft = margin + "px";
+                      moveInContentToPage(margin, element, style);
+                  }
+              }, 10);
+              break;
+          case 'music':
+              setTimeout(function () {
+                  if(margin < 1) {
+                      margin += 5;
+                      element.style.marginTop = margin + "px";
+                      moveInContentToPage(margin, element, style);
+                  }
+              }, 10);
+              break;
+          case 'projects':
+              setTimeout(function () {
+                  if(margin < 1) {
+                      margin += 5;
+                      element.style.marginBottom = margin + "px";
+                      moveInContentToPage(margin, element, style);
+                  }
+              }, 10);
+              break;
+          case 'contacts':
+              setTimeout(function () {
+                  if(margin < 1) {
+                      margin += 5;
+                      element.style.marginRight = margin + "px";
+                      moveInContentToPage(margin, element, style);
+                  }
+              }, 10);
+              break;
+      }
+  }
+
+    /**
+     * Set dem marginvalues for drop in animation
+     */
+  function setMarginValuesForContent() {
+      //nav about init
+      navBars.navAbout.style.marginLeft = "-100px";
+      navBars.navAbout.style.overflow = "hidden";
+
+      //nav contact init
+      navBars.navContact.style.marginRight = "-100px";
+      navBars.navContact.style.overflow = "hidden";
+      navBars.navContact.style.right = "0";
+      document.getElementById('text-contacts').style.overflow = "hidden";
+
+      //nav music init
+      navBars.navMusic.style.marginTop = "-100px";
+      navBars.navMusic.style.overflow = "hidden";
+
+      //nav project init
+      navBars.navProjects.style.marginBottom = "-100px";
+      navBars.navProjects.style.overflow = "hidden";
+  }
+
+  function hideDive(div) {
+      div.style.visibility = 'hidden';
+      div.style.display = 'none';
+  }
+  function hideDivLoadTime(div) {
+      setTimeout(function () {
+          div.style.visibility = 'hidden';
+          div.style.display = 'none';
+      },1000)
+  }
+  function showDivLoadTime(div) {
+    setTimeout(function () {
+      div.style.visibility = 'visible';
+      div.style.display = 'block';          // Show
+      div.style.display = 'inline';         // Show
+      div.style.display = 'inline-block';
+    },1000)
+  }
+  init();
 });
-var bodyRect;
-var moveToTargetPosition;
-
-function initializeBody(body){
-  bodyRect = body;
-}
-
-function moveDivToTarget(element, setLocationY, setLocationX){
-  // console.log("which listener?", element);
-  //
-  // console.log("location one", setLocationY);
-  // console.log("location two", setLocationX);
-  // console.log("setLocationY", setLocationY);
-  // console.log("bodyrec", bodyRect);
-  var secs = 10 * 60;
-  var count = 0, speed = -1;
-
-  topLeftLength = Math.sqrt(
-    getOffsetFromTopleft(getCurrentPosition(element,setLocationX),setLocationX)
-   * getOffsetFromTopleft(getCurrentPosition(element,setLocationX),setLocationX)
-   + getOffsetFromTopleft(getCurrentPosition(element,setLocationY),setLocationY)
-   * getOffsetFromTopleft(getCurrentPosition(element,setLocationY),setLocationY)
-  );
 
 
-  // console.log("topleft------------", topLeftLength);
-  toTopLeftX = getOffsetFromTopleft(getCurrentPosition(element,setLocationX),setLocationX)/topLeftLength;
-  toTopLeftY = getOffsetFromTopleft(getCurrentPosition(element,setLocationY),setLocationY)/topLeftLength;
-  console.log("getcurrentpost", getCurrentPosition(element,setLocationX));
-  console.log("totopleftx-------------", toTopLeftX);
-  console.log("toTopLeftY--------------", toTopLeftY);
-    moveToTargetPosition = setInterval(function() {
-
-      // if(!checkIfMarginDivs(element)){
-      //   element.style.margin = "0px";
-      // }
-
-      element.style.position = "absolute"
-      count = count - speed;
-
-      // if(setLocationX === "left"){
-      //   if(offsetPositionX < 30 && offsetPositionY < 30){
-      //     clearInterval(moveToTargetPosition);
-      //   }
-      // }else{
-      //   if(offsetPositionX > -30 && offsetPositionY > -30){
-      //     clearInterval(moveToTargetPosition);
-      //   }
-      // }
-
-      ifDivMoveToTarget(
-        xjao = getOffsetFromTopleft(getCurrentPosition(element,setLocationX), setLocationX)/
-       yjao =  getOffsetFromTopleft(getCurrentPosition(element,setLocationY), setLocationY)
-
-
-        element.style.left = xjao*speed + "px";
-        element.style.top = yjao * speed + "px";
-      );
-      // ifDivMoveToTargetY(
-      //   getOffsetFromTopleft(getCurrentPosition(element,setLocationX), setLocationX),
-      //   setLocationX,
-      //   getOffsetFromTopleft(getCurrentPosition(element,setLocationY), setLocationY),
-      //   setLocationY
-      // );
-
-  }, secs*0.05);
-
-  // element.style = '';
-// '  console.log("moveTopRight");
-//   console.log("currentX", currentX);
-//   console.log("currentY", currentY);
-//
-//   console.log("offsetY", offsetY);
-//   console.log("offsetX", offsetX);'
-
-};
-function toTopLeftX(){
-  getOffsetFromTopleft(getCurrentPosition(element,setLocationX),setLocationX)/topLeftLength;
-};
-function toTopLeftY(){
-  getOffsetFromTopleft(getCurrentPosition(element,setLocationY),setLocationY)/topLeftLength;
-};
-function getLengthOffset(element,setLocationX,setLocationY) {
-  return Math.sqrt(
-      getOffsetFromTopleft(getCurrentPosition(element,setLocationX),setLocationX)
-     * getOffsetFromTopleft(getCurrentPosition(element,setLocationX),setLocationX)
-     + getOffsetFromTopleft(getCurrentPosition(element,setLocationY),setLocationY)
-     * getOffsetFromTopleft(getCurrentPosition(element,setLocationY),setLocationY)
-    );
-};
-function checkIfMarginDivs(element){
-  if(element.id === "jobs-button" || element.id === "intrest-button"){
-    return false;
-  }else{
-    return true;
-  }
-}
-function ifDivMoveToTargetY(offsetPositionX, setLocationX, offsetPositionY, setLocationY){
-  // console.log("ifdivx", offsetPositionX);
-  // console.log("ifdivy", offsetPositionY);
-  // console.log("");
-  // if(setLocationX === "left"){
-  //   if(offsetPositionX < 30 && offsetPositionY < 30){
-  //     clearInterval(moveToTargetPosition);
-  //   }
-  // }else{
-  //   if(offsetPositionX > -30 && offsetPositionY > -30){
-  //     clearInterval(moveToTargetPosition);
-  //   }
-  // }
-};
-function ifDivMoveToTarget(offsetPosition, setLocation){
-  //console.log("ifdiv", offsetPosition)
-  //console.log("")
-  // if(setLocation === "left"){
-  //   if(offsetPosition < 30){
-  //     clearInterval(moveToTargetPosition);
-  //   }
-  // }else{
-  //   if(offsetPosition > -30){
-  //     clearInterval(moveToTargetPosition);
-  //   }
-  // }
-};
-function getOffsetFromTopleft(currentPosition, setLocation){
-  // console.log("getofsetsa");
-  var getLocation;
-  switch (setLocation) {
-    case "top":
-      // console.log("location", setLocation);
-       console.log("top offset",window.bodyRect.top);
-      getLocation = bodyRect.top;
-      break;
-    case "bottom":
-      // console.log("location", setLocation);
-      // console.log("goals bottom offset");
-      getLocation = bodyRect.bottom;
-      break;
-    case "right":
-      // console.log("location", setLocation);
-      // console.log("right offset",bodyRect.right);
-      getLocation = bodyRect.right;
-      break;
-    case "left":
-      // console.log("location", setLocation);
-      // console.log("left offset",bodyRect.left);
-      getLocation = bodyRect.left;
-      break;
-    default:
-  }
-  // console.log("ehm lol current", currentPosition);
-  // console.log("what is return? the location?", getLocation);
-  // console.log("what is return?", currentPosition-getLocation);
-  return currentPosition - getLocation;
-};
-function getCurrentPosition(element,setLocation){
-  // console.log("getosad");
-  console.log("hmm the element", element);
-  // console.log("location", setLocation);
-  var currentPosition;
-  switch (setLocation) {
-    case "top":
-      console.log("top getCurrentPosition");
-      currentPosition = element.getBoundingClientRect().top;
-      break;
-    case "bottom":
-      // console.log("bottom getCurrentPosition");
-      currentPosition = element.getBoundingClientRect().bottom;
-      break;
-    case "right":
-      // console.log("right getCurrentPosition");
-      currentPosition = element.getBoundingClientRect().right;
-      break;
-    case "left":
-      // console.log("left getCurrentPosition");
-      currentPosition = element.getBoundingClientRect().left;
-      break;
-    default:
-  }
-  return currentPosition;
-};
-function getOffsetYFromTopLeft(currentY, setLocation){
-  return currentY - bodyRect.setLocation;
-};
-function getCurrentPositionY(element, setLocation){
-  return element.getBoundingClientRect().setLocation;
-};
-function getCurrentPositionX(element,setLocation){
-  return element.getBoundingClientRect().setLocation;
-};
-
-function drawQuarterCircle(x,y,startAngle,endAngle,canvas,radius, antiClockWise){
-  console.log("radiues", radius)
-  if(canvas.getContext){
-
-    var context = canvas.getContext("2d");
-    // var x = 300;
-    // var y = 300;
-    console.log("x: ", x);
-    console.log("y: ", y);
-    //;
-    // var startAngle = stAngle / 180 * Math.PI;
-    // var endAngle = eAngle / 180 * Math.PI;
-    // var radians = angle / 180 * Math.PI;
-    // var endX = x + length * Math.cos(radians);
-    // var endY = y - length * Math.sin(radians);
-    var radius = 100;
-    console.log(radius);
-    console.log("radius: ", radius);
-    console.log("angle", startAngle);
-    console.log("angle", endAngle);
-    // var startAngle = Math.PI;
-    // var endAngle = Math.PI*1.5;
-
-    context.fillStyle="orange";
-    context.beginPath();
-    context.arc(x,y,radius,degreesToRadians(startAngle),degreesToRadians(endAngle), antiClockWise);
-    context.lineTo(x,y);
-    context.fill();
-    console.log("yey");
-  }
-
-};
-function degreesToRadians(degrees) {
-  return (degrees * Math.PI) / 180;
-};
-// function drawCircleByThree() {
-//     var can = document.getElementById('mycanvas');
-//     if (can.getContext) {
-//         var ctx = can.getContext('2d');
-//
-//         var drawAngledLine = function(x, y, length, angle) {
-//             var radians = angle / 180 * Math.PI;
-//             var endX = x + length * Math.cos(radians);
-//             var endY = y - length * Math.sin(radians);
-//
-//             ctx.beginPath();
-//             ctx.moveTo(x, y)
-//             ctx.lineTo(endX, endY);
-//             ctx.closePath();
-//             ctx.stroke();
-//         }
-//
-//         ctx.fillStyle = "orange";
-//         ctx.beginPath();
-//         ctx.arc(200, 200, 100, 0, (Math.PI * 2)/4, true);
-//         ctx.closePath();
-//         ctx.fill();
-//
-//         ctx.strokeStyle = "#FFC8B2";
-//         ctx.lineWidth = "2";
-//
-//         drawAngledLine(200, 200, 200, 0);
-//         drawAngledLine(200, 200, 200, 120);
-//         // drawAngledLine(200, 200, 150, -120);
-//     } else {
-//         // Fallback code goes here
-//     }
-// }
 </script>
-<div id="portfolio">
-  <h1>Haj</h1>
-
-    <div class="magic-box">
-      <div class="parent">
-        <div class="child">
-          <p>center me plez</p>
-          <div class="magic-circle" id="magic-circle-id">
-                <!-- <canvas id="about-me">
-                </canvas>
-                <canvas id="job-section">
-                </canvas>
-                <canvas id="intresst-section">
-                </canvas>
-                <canvas id="goals-section">
-                </canvas> -->
-                <div class="about-me" id="about-button">
-                </div>
-                <div class="jobs-me" id="jobs-button">
-                </div>
-                <div class="goals-me" id="goals-button">
-                </div>
-                <div class="intrest-me" id="intrest-button">
-                </div>
-                <!-- <div>
-                    <canvas id='mycanvas' width="400" height="400"></canvas>
-                </div> -->
-          </div>
-        </div>
+<nav>
+</nav>
+<div id="super-container">
+  <div id="resize-container">
+    <div id="load-container"></div>
+    <div id="load-text">
+      <div class="loading-parent">
+        <ul id="loading-list">
+        </ul>
       </div>
     </div>
+  </div>
+
+   <a class="navItem navItemMusic" id="navMusic" rel="Music">
+     <span class="text" id="text-music">Music</span>
+   </a>
+   <a class="navItem navItemContact" id="navContact" rel="Contact">
+     <span class="text" id="text-contacts">
+     Contact</span>
+   </a>
+   <a class="navItem navItemProjects" id="navProjects" rel="Projects">
+     <span class="text" id="text-projects">Projects</span>
+   </a>
+   <a class="navItem navItemAbout"  id="navAbout" rel="About">
+     <span class="text">About</span>
+   </a>
+  <div id="page-wrapper">
+
+  </div>
 </div>
