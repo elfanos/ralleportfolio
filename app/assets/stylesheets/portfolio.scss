@@ -67,6 +67,35 @@ ul#loading-list li {
   color: $orange;
   background: $greyWhite;
 }
+ul#resize-list{
+  @include centerer;
+  list-style: none;
+  padding: 0px;
+  margin: 0px;
+}
+ul#resize-list li {
+  display: inline-block;
+  text-align: center;
+  font-size: 40px;
+  margin-left: 15px;
+  color: $orange;
+  background: $greyWhite;
+}
+
+#page-wrapper{
+  .pagechange-content{
+    width: 100%;
+    height: 12.5%;
+    position: relative;
+    float: left;
+    z-index: 1000;
+    .pagechange-progress{
+      width: 0%;
+      height: 100%;
+      background: $orange;
+    }
+  }
+}
 
 
 #super-container{

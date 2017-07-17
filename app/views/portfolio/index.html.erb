@@ -1,15 +1,18 @@
 <script>
+
+
 $(document).ready(function(){
-  console.log("jak");
   var procentOfScreen = 0.75;
   var screenInterval;
   var loadingContent = document.getElementById("load-container");
   var resizeContainer = document.getElementById("resize-container");
   var pageWrapper = document.getElementById("page-wrapper");
-  var resizeLetters = document.getElementById("loading-list");
+  var resizeLetters = document.getElementById("resize-list");
+  var loadingLetters = document.getElementById("loading-list");
   var nodeKeeper = {};
   var resizeLetterKeeper = {};
-
+  var loadingIntervalsArray = [];
+  var numberOfInterVals = 0;
   var mapArray = [
     [0,0,0,0,0,0,0,0,0,0],
     [0,0,0,0,0,0,0,0,0,0],
@@ -56,53 +59,186 @@ $(document).ready(function(){
   };
   function init(){
       // should be applied on resiz
-      hideDive(pageWrapper);
+    hideDive(pageWrapper);
     var screenHeight = $(window).height();
     var screenWidth = $(window).width();
-
+    console.log("windowsize :D" + $(window).width());
+    //draws
     drawLoadingContent();
+
+
+
+    drawLoadingText();
+    hideLoadingElements();
     drawResizeAndLoadText();
-    hideOpacityResize();
-    redrawChildNodes(0,loadingContent.childNodes,  randomChild());
-    startvibrate(0);
-    lightingEffect();
 
 
-    $(window).on('resize', function () {
-      //resize just happened, pixels changed
-      console.log("resizing");
-      $('body').removeClass(loadingAnimations.resizeLoad);
+    changeOpacityOnEveryLoadingElement(0);
+    changeOpacityOnEveryResizeElement(0);
 
+    //loadLoadingScreen();
+    endLoading();
+
+    /***
+     * Resizing listener
+     * */
+    window.addEventListener('resize', function () {
+        checkForLoadingIntervals();
+        loadResizeScreen();
     });
-    function resizingInterval(){
-      var screenInterval = setInterval(function(){
-        $('body').addClass(loadingAnimations.resizeLoad);
-      },1500);
 
-      return screenInterval;
-    }
-    function setResizeInterval(screenInterval){
-        var _screen = screenInterval;
-        console.log("int intervall intervall");
-        _screen = setInterval(function () {
 
-            if ($('body').hasClass('state-animating'))
-                return;
+  }
 
-            if (screenWidth  != $(window).width() || screenHeight != $(window).height()) {
+  function loadLoadingScreen() {
+      hideResizeElements();
+      showLoadingElements(document.getElementById('loading-list'));
+      setMarginValuesForContent();
+      startVibratLoading(0);
+      fadeInLoading(0);
+      lightingEffectOnLoading();
+  }
+  function endLoading() {
+      fadeAwayLoading(1);
+      fadeAwayDiv(resizeContainer);
+      setTimeOutBeforeTheContentMoveIn();
+      showDivLoadTime(pageWrapper);
 
-                screenWidth = $(window).width();
-                screenHeight = $(window).height();
+  }
+  function loadResizeScreen() {
 
-                $('body').removeClass('loaded');
-//                $('.overlay-resize').removeClass('state-visible');
-            }
-            window.location.reload();
+    /*Initalize shimmering effect on background*/
+      clearOpacityOnLoadingBackground(0,loadingContent.childNodes);
+      clearNodeKeeper();
+      redrawChildNodes(0,loadingContent.childNodes,  randomChild());
 
-        }, 3000);
+
+    /*Initalize effect on loading letters*/
+      showLoadingElements(resizeContainer);
+      showLoadingElements(document.getElementById("resize-list"));
+      if(document.getElementById("loading-list").style.display === 'inline-block'){
+          hideLoadingElements(document.getElementById("loading-list").style.display);
       }
+      fadeInResize(0);
+      startvibrate(0);
+      lightingEffect();
+      setMarginValuesForContent();
+
+  }
+
+  function clearNodeKeeper() {
+      nodeKeeper = {};
+  }
+
+  function checkForLoadingIntervals() {
+      if(loadingIntervalsArray.length > 0){
+          for(var i = 0; i < loadingIntervalsArray.length; i++){
+              clearInterval(loadingIntervalsArray[i]);
+
+          }
+      }
+  }
+
+  /***
+   * Timer between each vibrating animation
+   * and how many times it should occure´´´´
+   *
+   * @param margin
+   * */
+  function startvibrate(margin) {
+      var counter = 0;
+      numberOfInterVals++;
+      var id = numberOfInterVals-1;
+      loadingIntervalsArray.push(setInterval(function () {
+              counter++;
+              letterVibrationsRight(margin)
+              if(counter > 5){
+                  clearInterval(loadingIntervalsArray[id]);
+              }
+          },1000)
+      );
+
+  }
+  function startVibratLoading(margin) {
+      var counter = 0;
+      numberOfInterVals++;
+      var id = numberOfInterVals-1;
+      loadingIntervalsArray.push(setInterval(function () {
+              counter++;
+              letterVibrationsLoadingRight(margin)
+              if(counter > 5){
+                  clearInterval(loadingIntervalsArray[id]);
+              }
+          },1000)
+      );
+  }
+
+  function lightingEffectOnLoading() {
+      var counter = 0;
+      numberOfInterVals++;
+      var id = numberOfInterVals-1;
+      loadingIntervalsArray.push(setInterval(function () {
+              counter++;
+              shineEffectOnLoad(0);
+              if(counter > 2){
+                  clearInterval(loadingIntervalsArray[id]);
+                  setTimeout(function () {
+                      endLoading();
+                  },2500)
+              }
+          }, 2000)
+      );
+  }
+
+  function shineEffectOnLoad(number) {
+      setTimeout(function () {
+          if(number < 8){
+              listDifferentLightningLoading(number,0);
+              number++;
+              shineEffectOnLoad(number);
+          }
+
+      }, 100);
+  }
 
 
+  /***
+   * Interval for how many times
+   * the light effect should take place and
+   * the time between each shine effect
+   * */
+  function lightingEffect() {
+      var counter = 0;
+      numberOfInterVals++;
+      var id = numberOfInterVals-1;
+      loadingIntervalsArray.push(setInterval(function () {
+              counter++;
+              lightningEffectOnResize(0);
+              if(counter > 2){
+                  clearInterval(loadingIntervalsArray[id]);
+                  setTimeout(function () {
+                      fadeAwayResize(1);
+                  },2500)
+              }
+          }, 2000)
+      );
+  }
+
+  /***
+   * set and intervall between each element
+   * that is going to shine, which is all the letters
+   * in resize
+   *
+   * @param number
+   * */
+  function lightningEffectOnResize(number) {
+      setTimeout(function () {
+          if(number < 9){
+              listDifferentLightning(number,0);
+              number++;
+              lightningEffectOnResize(number);
+          }
+      }, 100);
   }
 
   function calculateScreenWidth(width, procent){
@@ -119,13 +255,61 @@ $(document).ready(function(){
            .addClass("loading-content")   // add a classöööööö
            .html("<div></div>");
   }
-
-
+  function drawLoadingText() {
+      for(var i = 0; i < Object.size(letterClassInLoading); i++){
+          attributeForEachLoadingLetter(i);
+      }
+  }
+  function attributeForEachLoadingLetter(val) {
+      switch (val){
+          case 0:
+              var list = document.createElement('li');
+              list.className = letterClassInLoading.l;
+              list.textContent = "l";
+              loadingLetters.appendChild(list);
+              break;
+          case 1:
+              var list = document.createElement('li');
+              list.className = letterClassInLoading.o;
+              list.textContent = "o";
+              loadingLetters.appendChild(list);
+              break;
+          case 2:
+              var list = document.createElement('li');
+              list.className = letterClassInLoading.a;
+              list.textContent = "a";
+              loadingLetters.appendChild(list);
+              break;
+          case 3:
+              var list = document.createElement('li');
+              list.className = letterClassInLoading.d;
+              list.textContent = "d";
+              loadingLetters.appendChild(list);
+              break;
+          case 4:
+              var list = document.createElement('li');
+              list.className = letterClassInLoading.i;
+              list.textContent = "i";
+              loadingLetters.appendChild(list);
+              break;
+          case 5:
+              var list = document.createElement('li');
+              list.className = letterClassInLoading.n;
+              list.textContent = "n";
+              loadingLetters.appendChild(list);
+              break;
+          case 6:
+              var list = document.createElement('li');
+              list.className = letterClassInLoading.g;
+              list.textContent = "g";
+              loadingLetters.appendChild(list);
+              break;
+      }
+  }
   function drawResizeAndLoadText() {
       for(var i = 0; i < Object.size(letterClassInResize); i++){
           attributeForEachResizeLetter(i);
       }
-
   }
   
   /**
@@ -202,33 +386,47 @@ $(document).ready(function(){
       }
   }
 
-  /***
-   * Timer between each vibrating animation
-   * and how many times it should occure
-   *
-   * @param margin
-   * */
-  function startvibrate(margin) {
-      var counter = 0;
-      var interval = setInterval(function () {
-          counter++;
-          letterVibrationsRight(margin)
-          if(counter > 5){
-              clearInterval(interval);
-          }
-      },1000);
 
+
+    /***
+     * Bouncing effect on elements
+     * in the list
+     *
+     * @param margin
+     * */
+    function letterVibrationsLoadingRight(margin) {
+        setTimeout(function () {
+            margin += 0.5;
+            if(margin < 2) {
+                document.getElementsByClassName("loading-l")[0].style.marginRight = margin + "px";
+                document.getElementsByClassName("loading-a")[0].style.marginRight = margin + "px";
+                document.getElementsByClassName("loading-n")[0].style.marginRight = margin + "px";
+                document.getElementsByClassName("loading-l")[0].style.marginBottom = margin + "px";
+                document.getElementsByClassName("loading-a")[0].style.marginBottom  = margin + "px";
+                document.getElementsByClassName("loading-n")[0].style.marginBottom  = margin + "px";
+                letterVibrationsLoadingRight(margin);
+            }else{
+                document.getElementsByClassName("loading-l")[0].style.marginRight = "0px";
+                document.getElementsByClassName("loading-a")[0].style.marginRight = "0px";
+                document.getElementsByClassName("loading-n")[0].style.marginRight = "0px";
+                document.getElementsByClassName("loading-l")[0].style.marginBottom = "0px";
+                document.getElementsByClassName("loading-a")[0].style.marginBottom  = "0px";
+                document.getElementsByClassName("loading-n")[0].style.marginBottom  = "0px";
+            }
+        },10);
+    }
+
+  function hideLoadingElements() {
+      document.getElementById('loading-list').style.display = "none";
   }
-  function hideOpacityResize() {
-      document.getElementsByClassName("resize-r")[0].style.opacity = 0;
-      document.getElementsByClassName("resize-e")[0].style.opacity = 0;
-      document.getElementsByClassName("resize-s")[0].style.opacity = 0;
-      document.getElementsByClassName("resize-ione")[0].style.opacity = 0;
-      document.getElementsByClassName("resize-z")[0].style.opacity = 0;
-      document.getElementsByClassName("resize-itwo")[0].style.opacity = 0;
-      document.getElementsByClassName("resize-n")[0].style.opacity = 0;
-      document.getElementsByClassName("resize-g")[0].style.opacity = 0;
-
+  function showLoadingElements(div) {
+      div.style.visibility = 'visible';
+      div.style.display = 'block';          // Show
+      div.style.display = 'inline';         // Show
+      div.style.display = 'inline-block';
+  }
+  function hideResizeElements() {
+      document.getElementById('resize-list').style.display = "none";
   }
   /***
    * Bouncing effect on elements
@@ -238,9 +436,6 @@ $(document).ready(function(){
    * */
   function letterVibrationsRight(margin) {
       setTimeout(function () {
-
-          //console.log(document.getElementsByClassName("resize-r"));
-          //document.getElementsByClassName("resize-r")[0].style.display = "inline-block";
           margin += 0.5;
           if(margin < 2) {
               document.getElementsByClassName("resize-r")[0].style.marginRight = margin + "px";
@@ -260,44 +455,72 @@ $(document).ready(function(){
           }
       },10);
   }
-
-
-  /***
-   * Interval for how many times
-   * the light effect should take place and
-   * the time between each shine effect
-   * */
-  function lightingEffect() {
-      var counter = 0;
-      //console.log("haj?");
-      var interval = setInterval(function () {
-          counter++;
-          lightningEffectOnResize(0);
-          if(counter > 5){
-              clearInterval(interval);
-          }
-      }, 2000);
-
-  }
-
-  /***
-   * set and intervall between each element
-   * that is going to shine, which is all the letters
-   * in resize
-   *
-   * @param number
-   * */
-  function lightningEffectOnResize(number) {
-      //console.log("haj2?");
-      setTimeout(function () {
-        if(number < 9){
-            console.log(number);
-            listDifferentLightning(number,0);
-            number++;
-            lightningEffectOnResize(number);
-        }
-
-      }, 100);
+  function listDifferentLightningLoading(val, opacity) {
+      switch (val){
+          case 0:
+              setTimeout(function () {
+                  if(opacity < 1) {
+                      opacity += 0.05;
+                      document.getElementsByClassName("loading-l")[0].style.opacity = opacity;
+                      listDifferentLightningLoading(val,opacity);
+                  }
+              },50);
+              break;
+          case 1:
+              setTimeout(function () {
+                  if(opacity < 1) {
+                      opacity += 0.05;
+                      document.getElementsByClassName("loading-o")[0].style.opacity = opacity;
+                      listDifferentLightningLoading(val,opacity);
+                  }
+              },50);
+              break;
+          case 2:
+              setTimeout(function () {
+                  if(opacity < 1) {
+                      opacity += 0.05;
+                      document.getElementsByClassName("loading-a")[0].style.opacity = opacity;
+                      listDifferentLightningLoading(val,opacity);
+                  }
+              },50);
+              break;
+          case 3:
+              setTimeout(function () {
+                  if(opacity < 1) {
+                      opacity += 0.05;
+                      document.getElementsByClassName("loading-d")[0].style.opacity = opacity;
+                      listDifferentLightningLoading(val,opacity);
+                  }
+              },50);
+              break;
+          case 4:
+              setTimeout(function () {
+                  if(opacity < 1) {
+                      opacity += 0.05;
+                      document.getElementsByClassName("loading-i")[0].style.opacity = opacity;
+                      listDifferentLightningLoading(val,opacity);
+                  }
+              },50);
+              break;
+          case 5:
+              setTimeout(function () {
+                  if(opacity < 1) {
+                      opacity += 0.05;
+                      document.getElementsByClassName("loading-n")[0].style.opacity = opacity;
+                      listDifferentLightningLoading(val,opacity);
+                  }
+              },50);
+              break;
+          case 6:
+              setTimeout(function () {
+                  if(opacity < 1) {
+                      opacity += 0.05;
+                      document.getElementsByClassName("loading-g")[0].style.opacity = opacity;
+                      listDifferentLightningLoading(val,opacity);
+                  }
+              },50);
+              break;
+      }
   }
 
   /**
@@ -308,14 +531,11 @@ $(document).ready(function(){
    * @param opacity
    * */
   function listDifferentLightning(val, opacity) {
-     // console.log("haj?3" + val);
       switch (val){
           case 0:
               setTimeout(function () {
-                  console.log("haj?");
                   if(opacity < 1) {
                       opacity += 0.05;
-                      console.log("haj?");
                       document.getElementsByClassName("resize-r")[0].style.opacity = opacity;
                       listDifferentLightning(val,opacity);
                   }
@@ -323,10 +543,8 @@ $(document).ready(function(){
               break;
           case 1:
               setTimeout(function () {
-                  console.log("haj?");
                   if(opacity < 1) {
                       opacity += 0.05;
-                      console.log("haj?");
                       document.getElementsByClassName("resize-e")[0].style.opacity = opacity;
                       listDifferentLightning(val,opacity);
                   }
@@ -388,6 +606,101 @@ $(document).ready(function(){
               break;
       }
   }
+  function changeOpacityOnEveryLoadingElement(opacity) {
+      document.getElementsByClassName("loading-l")[0].style.opacity = opacity;
+      document.getElementsByClassName("loading-o")[0].style.opacity = opacity;
+      document.getElementsByClassName("loading-a")[0].style.opacity = opacity;
+      document.getElementsByClassName("loading-d")[0].style.opacity = opacity;
+      document.getElementsByClassName("loading-i")[0].style.opacity = opacity;
+      document.getElementsByClassName("loading-n")[0].style.opacity = opacity;
+      document.getElementsByClassName("loading-g")[0].style.opacity = opacity;
+  }
+  
+  function changeOpacityOnEveryResizeElement(opacity) {
+      document.getElementsByClassName("resize-r")[0].style.opacity = opacity;
+      document.getElementsByClassName("resize-e")[0].style.opacity = opacity;
+      document.getElementsByClassName("resize-s")[0].style.opacity = opacity;
+      document.getElementsByClassName("resize-ione")[0].style.opacity = opacity;
+      document.getElementsByClassName("resize-z")[0].style.opacity = opacity;
+      document.getElementsByClassName("resize-itwo")[0].style.opacity = opacity;
+      document.getElementsByClassName("resize-n")[0].style.opacity = opacity;
+      document.getElementsByClassName("resize-g")[0].style.opacity = opacity;
+  }
+
+  function fadeAwayDiv(div, opacity) {
+      setTimeout(function () {
+          if(opacity > 0){
+              opacity -= 0.05;
+              div.style.opacity = opacity;
+              fadeAwayDiv(opacity)
+          }else{
+            hideDive(div);
+          }
+      },100)
+  }
+  function fadeInLoading(opacity) {
+      setTimeout(function () {
+          if(opacity < 1){
+              opacity += 0.05;
+              changeOpacityOnEveryLoadingElement(opacity);
+              fadeInLoading(opacity)
+          }else{
+
+          }
+      },10)
+  }
+  function fadeAwayLoading(opacity) {
+      setTimeout(function () {
+          if(opacity > 0){
+              opacity -= 0.05;
+              changeOpacityOnEveryLoadingElement(opacity);
+              fadeAwayLoading(opacity)
+          }else{
+
+          }
+      },10)
+  }
+  function fadeInResize(opacity){
+      setTimeout(function () {
+          if(opacity < 1){
+              opacity += 0.05;
+              changeOpacityOnEveryResizeElement(opacity);
+              fadeInResize(opacity)
+          }else{
+
+          }
+      },10)
+  }
+
+  /**
+   * End of the resize effext
+   * fade away the resize text
+   * and reload the page to enter the loading
+   * screen effect
+   *
+   * @param opacity
+   * */
+  function fadeAwayResize(opacity) {
+      setTimeout(function () {
+        if(opacity > 0){
+            opacity -= 0.05;
+            changeOpacityOnEveryResizeElement(opacity);
+            fadeAwayResize(opacity)
+        }else{
+            window.location.reload();
+        }
+      },5)
+  }
+
+
+
+  function clearOpacityOnLoadingBackground(child,childrens) {
+      if(child < childrens.length) {
+          childrens[child].style.opacity = "0";
+          child++;
+          clearOpacityOnLoadingBackground(child,childrens);
+      }
+  }
   /**
    * Intialize tile map
    * is loaded when the loading
@@ -442,11 +755,6 @@ $(document).ready(function(){
                       redrawChildNodes(child, childrens, randomChild())
                   }else{
                       console.log("end");
-                     // preLoadContent(document.getElementById('load-container'),1);
-                     // setMarginValuesForContent();
-                     // hideDivLoadTime(resizeContainer);
-                     // showDivLoadTime(pageWrapper);
-                     // setTimeOutBeforeTheContentMoveIn();
 
                   }
               }
@@ -492,7 +800,7 @@ $(document).ready(function(){
               child.style.opacity = opacity;
               animateLoadingEnd(child, opacity)
           }
-      },50)
+      },1)
   }
 
     /***
@@ -513,13 +821,18 @@ $(document).ready(function(){
 
 
 
+
+  /***
+   * content before the redraw intro
+   * of home page
+   * */
   function setTimeOutBeforeTheContentMoveIn() {
       setTimeout(function () {
           moveInContentToPage(-100,navBars.navMusic,'music');
           moveInContentToPage(-100,navBars.navContact,'contacts');
           moveInContentToPage(-100,navBars.navAbout,'about');
           moveInContentToPage(-100,navBars.navProjects,'projects');
-      },1100)
+      },400)
   }
     /***
      * Move link content by using margin
@@ -532,12 +845,10 @@ $(document).ready(function(){
      * @param style
      * */
   function moveInContentToPage(margin, element, style) {
-      console.log("hello margin=:", margin);
       switch (style){
           case 'about':
               setTimeout(function () {
                   if(margin < 1) {
-                      console.log("hih there", margin);
                       margin += 5;
                       element.style.marginLeft = margin + "px";
                       moveInContentToPage(margin, element, style);
@@ -616,8 +927,392 @@ $(document).ready(function(){
     },1000)
   }
   init();
+
+
+  navBars.navProjects.addEventListener("click",function () {
+
+  });
+  navBars.navMusic.addEventListener("click",function () {
+
+  });
+  navBars.navContact.addEventListener("click",function () {
+
+
+
+  });
+  navBars.navAbout.addEventListener("click",function () {
+    PagingEffect.container = pageWrapper;
+    PagingEffect.about = navBars.navAbout;
+    //navBars.navAbout.style.zIndex = "1001";
+    PagingEffect.applyNodes();
+    PagingEffect.setInterValOnEachNode(0, 0, pageWrapper.childNodes);
+    PagingEffect.checkIfPaginEffectIsDon(0, 0, navBars.navAbout, pageWrapper.childNodes, pageWrapper);
+
+  });
 });
 
+var PagingEffect = {
+    container: "macintosh",
+    numberOfEffect: 8,
+    interval:[],
+    intervalID: 0,
+    about: 0,
+    applyNodes: function () {
+        for(var i = 0; i < this.numberOfEffect; i++){
+            console.log("waddup?==");
+            var div = document.createElement("div");
+            div.className = "pagechange-content";
+            var progressbar = document.createElement("div");
+            progressbar.className = "pagechange-progress";
+            div.appendChild(progressbar);
+            this.container.appendChild(div);
+        }
+    },
+    setInterValOnEachNode: function (direction,child,childrens) {
+        console.log("jaja");
+        if(child < 8){
+            child++;
+            console.log("childrens", childrens[child].childNodes[0]);
+            if(direction == 0) {
+                this.startTimerForEachNode(direction, child, childrens[child].childNodes[0]);
+                this.setInterValOnEachNode(direction, child, childrens);
+            }else if(direction == 1){
+                console.log("holash");
+                this.startTimerForEachNode(direction, child, childrens[child].childNodes[0]);
+                this.setInterValOnEachNode(direction, child, childrens);
+            }
+
+        }
+        /*this.startTimerForEachNode(1,childrens[1].childNodes[0])
+        this.startTimerForEachNode(2,childrens[2].childNodes[0])*/
+    },
+    startTimerForEachNode: function (direction, child, div) {
+        switch (child){
+            case 1:
+                if(direction == 0) {
+                    width = 20;
+                    var id = PagingEffect.intervalID;
+                    this.interval.push(setInterval(function () {
+                            if (width >= 100) {
+                                clearInterval(id);
+                                PagingEffect.intervalID++;
+                            } else {
+                                width += 1;
+                                div.style.width = width + '%';
+                            }
+                        }, 10)
+                    );
+                }else if(direction == 1){
+                    d_width = 100;
+                    d_left = 0;
+                    d_id = PagingEffect.intervalID;
+                    this.interval.push(setInterval(function () {
+                            if (d_width <= 0) {
+                                clearInterval(d_id);
+                                PagingEffect.intervalID++;
+                            } else {
+                                d_width -= 1;
+                                d_left += 1;
+                                div.style.width = d_width + '%';
+                                div.style.float = "right";
+                                div.style.right =  d_left + '%';
+                            }
+                        }, 10)
+                    );
+
+                }
+                break;
+            case 2:
+                if(direction == 0) {
+                    width = 20;
+                    var id = PagingEffect.intervalID;
+                    this.interval.push(setInterval(function () {
+                            if (width >= 100) {
+                                clearInterval(id);
+                                PagingEffect.intervalID++;
+                            } else {
+                                width += 1;
+                                div.style.width = width + '%';
+                            }
+                        }, 5)
+                    );
+                }else if(direction == 1){
+                    d_width = 100;
+                    d_left = 0;
+                    d_id = PagingEffect.intervalID;
+                    this.interval.push(setInterval(function () {
+                            if (d_width <= 0) {
+                                clearInterval(d_id);
+                                PagingEffect.intervalID++;
+                            } else {
+                                d_width -= 1;
+                                d_left += 1;
+                                div.style.width = d_width + '%';
+                                div.style.float = "right";
+                                div.style.left =  d_left + '%';
+                            }
+                        }, 5)
+                    );
+                }
+                break;
+            case 3:
+                if(direction == 0) {
+                    width = 20;
+                    var id = PagingEffect.intervalID;
+                    this.interval.push(setInterval(function () {
+                            if (width >= 100) {
+                                clearInterval(id);
+                                PagingEffect.intervalID++;
+                            } else {
+                                width += 1;
+                                div.style.width = width + '%';
+                            }
+                        }, 11)
+                    );
+                }else if(direction == 1){
+                    d_width = 100;
+                    d_left = 0;
+                    d_id = PagingEffect.intervalID;
+                    this.interval.push(setInterval(function () {
+                            if (d_width <= 0) {
+                                clearInterval(d_id);
+                                PagingEffect.intervalID++;
+                            } else {
+                                d_width -= 1;
+                                d_left += 1;
+                                div.style.width = d_width + '%';
+                                div.style.float = "right";
+                                div.style.left =  d_left + '%';
+                            }
+                        }, 11)
+                    );
+                }
+                break;
+            case 4:
+                if(direction == 0) {
+                    width = 20;
+                    var id = PagingEffect.intervalID;
+                    this.interval.push(setInterval(function () {
+                            if (width >= 100) {
+                                clearInterval(id);
+                                PagingEffect.intervalID++;
+                            } else {
+                                width += 1;
+                                div.style.width = width + '%';
+                            }
+                        }, 9)
+                    );
+                }else if(direction == 1){
+                    d_width = 100;
+                    d_left = 0;
+                    d_id = PagingEffect.intervalID;
+                    this.interval.push(setInterval(function () {
+                            if (d_width <= 0) {
+                                clearInterval(d_id);
+                                PagingEffect.intervalID++;
+                            } else {
+                                d_width -= 1;
+                                d_left += 1;
+                                div.style.width = d_width + '%';
+                                div.style.float = "right";
+                                div.style.left =  d_left + '%';
+                            }
+                        }, 9)
+                    );
+                }
+                break;
+            case 5:
+                if(direction == 0) {
+                    width = 20;
+                    var id = PagingEffect.intervalID;
+                    this.interval.push(setInterval(function () {
+                            if (width >= 100) {
+                                clearInterval(id);
+                                PagingEffect.intervalID++;
+                            } else {
+                                width += 1;
+                                div.style.width = width + '%';
+                            }
+                        }, 6)
+                    );
+                }else if(direction == 1){
+                    d_width = 100;
+                    d_left = 0;
+                    d_id = PagingEffect.intervalID;
+                    this.interval.push(setInterval(function () {
+                            if (d_width <= 0) {
+                                clearInterval(d_id);
+                                PagingEffect.intervalID++;
+                            } else {
+                                d_width -= 1;
+                                d_left += 1;
+                                div.style.width = d_width + '%';
+                                div.style.float = "right";
+                                div.style.left =  d_left + '%';
+                            }
+                        }, 6)
+                    );
+                }
+                break;
+            case 6:
+                if(direction == 0) {
+                    width = 20;
+                    var id = PagingEffect.intervalID;
+                    this.interval.push(setInterval(function () {
+                            if (width >= 100) {
+                                clearInterval(id);
+                                PagingEffect.intervalID++;
+                            } else {
+                                width += 1;
+                                div.style.width = width + '%';
+                            }
+                        }, 3)
+                    );
+                }else if(direction == 1){
+                    d_width = 100;
+                    d_left = 0;
+                    d_id = PagingEffect.intervalID;
+                    this.interval.push(setInterval(function () {
+                            if (d_width <= 0) {
+                                clearInterval(d_id);
+                                PagingEffect.intervalID++;
+                            } else {
+                                d_width -= 1;
+                                d_left += 1;
+                                div.style.width = d_width + '%';
+                                div.style.float = "right";
+                                div.style.left =  d_left + '%';
+                            }
+                        }, 3)
+                    );
+                }
+                break;
+            case 7:
+                if(direction == 0) {
+                    width = 20;
+                    var id = PagingEffect.intervalID;
+                    this.interval.push(setInterval(function () {
+                            if (width >= 100) {
+                                clearInterval(id);
+                                PagingEffect.intervalID++;
+                            } else {
+                                width += 1;
+                                div.style.width = width + '%';
+                            }
+                        }, 7)
+                    );
+                }else if(direction == 1){
+                    d_width = 100;
+                    d_left = 0;
+                    d_id = PagingEffect.intervalID;
+                    this.interval.push(setInterval(function () {
+                            if (d_width <= 0) {
+                                clearInterval(d_id);
+                                PagingEffect.intervalID++;
+                            } else {
+                                d_width -= 1;
+                                d_left += 1;
+                                div.style.width = d_width + '%';
+                                div.style.float = "right";
+                                div.style.left =  d_left + '%';
+                            }
+                        }, 7)
+                    );
+
+                }
+                break;
+            case 8:
+                if(direction == 0) {
+                    var width = 20;
+                    var id = PagingEffect.intervalID;
+                    this.interval.push(setInterval(function () {
+                            if (width >= 100) {
+                                clearInterval(id);
+                                PagingEffect.intervalID++;
+                            } else {
+                                width += 1;
+                                div.style.width = width + '%';
+                            }
+                        }, 2)
+                    );
+                }else if(direction == 1){
+                    var d_width = 100;
+                    var d_left = 0;
+                    var d_id = PagingEffect.intervalID;
+                    this.interval.push(setInterval(function () {
+                            if (d_width <= 0) {
+                                clearInterval(d_id);
+                                PagingEffect.intervalID++;
+                            } else {
+                                d_width -= 1;
+                                d_left += 1;
+                                div.style.width = d_width + '%';
+                                div.style.float = "right";
+                                div.style.left =  d_left + '%';
+                            }
+                        }, 2)
+                    );
+
+                }
+                break;
+        }
+    },
+    startPagingLeftEffect: function (child, div) {
+
+    },
+    checkIfPaginEffectIsDon: function (margin,counter,navBar, childNodes, pageWrapper) {
+        var interval = setInterval(function(){
+            if(counter > 1){
+                counter++;
+                PagingEffect.checkIfPaginEffectIsDon(margin,counter,navBar, childNodes);
+            }else{
+                console.log("haj");
+                clearInterval(interval);
+
+                PagingEffect.moveNavBar(margin, navBar, childNodes);
+
+            }
+        },1500);
+    },
+    moveNavBar: function (margin, navBar, childNodes) {
+        var interval = setInterval(function () {
+            if(margin < 90){
+                console.log("le margiin",$(window).width());
+              //margin += 10;
+                margin += 1;
+                PagingEffect.checkScreenWidth(margin, navBar);
+                navBar.style.zIndex ="1001";
+                //PagingEffect.moveNavBar(margin,navBar, childNodes);
+            }else{
+                clearInterval(interval);
+                PagingEffect.setInterValOnEachNode(1, 0, childNodes);
+            }
+        },10);
+    },
+    checkScreenWidth: function (margin,navBar) {
+        if($(window).width() >  900){
+            if(margin < 90) {
+                navBar.style.left = margin + "%";
+                navBar.style.position = "relative";
+            }
+        }else if($(window).width() > 700){
+            if(margin < 85) {
+                navBar.style.left = margin + "%";
+                navBar.style.position = "relative";
+            }
+        }
+        else if($(window).width() > 500){
+            if(margin < 80) {
+                navBar.style.left = margin + "%";
+                navBar.style.position = "relative";
+            }
+        }else{
+            if(margin < 80) {
+                navBar.style.left = margin + "%";
+            }
+        }
+    }
+};
 
 </script>
 <nav>
@@ -627,6 +1322,8 @@ $(document).ready(function(){
     <div id="load-container"></div>
     <div id="load-text">
       <div class="loading-parent">
+        <ul id="resize-list">
+        </ul>
         <ul id="loading-list">
         </ul>
       </div>
@@ -647,6 +1344,5 @@ $(document).ready(function(){
      <span class="text">About</span>
    </a>
   <div id="page-wrapper">
-
   </div>
 </div>
