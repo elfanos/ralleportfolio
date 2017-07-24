@@ -1,0 +1,10 @@
+<%logger.info "shoud not be here if show - aboute"%>
+
+
+
+var new_path = "<%=about_index_path%>";
+setTimeout(function () {
+    $("#super-container").html("<%= escape_javascript(render partial: 'layouts/render_home')%>");
+}, 6000);
+
+

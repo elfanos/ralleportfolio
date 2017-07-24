@@ -11,6 +11,8 @@
 <body>
 
 <%= yield %>
-
+<div id="super-container">
+  <%= render partial: 'layouts/render_home', locals: {state: @state} %>
+</div>
 </body>
 </html>

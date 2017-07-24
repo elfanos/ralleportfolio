@@ -1,0 +1,15 @@
+// Place all the styles related to the about controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+#about{
+  .navItem.navItemAbout{
+    margin-left: 5px;
+    pointer-events: none;
+    z-index: 1001;
+    left: auto;
+    transform: matrix(1, 0, 0, 1, 0, 0);
+    right: 0px;
+    display: block;
+  }
+}

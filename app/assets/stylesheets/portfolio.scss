@@ -128,6 +128,14 @@ ul#resize-list li {
   }
 
 }
+#navigation-pages{
+  position: absolute;
+  left: 0px;
+  right: 0px;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
 #page-wrapper{
   background: $black;
   .pagechange-content{
@@ -156,6 +164,7 @@ ul#resize-list li {
 
   }
 }
+
 #content-container{
   position: absolute;
   left: 0px;
@@ -382,6 +391,8 @@ ul#resize-list li {
     width: 114px;
   }
 }
+
+
 .navItem.navItemAbout .icon-bar{
   top: 5%;
   left: 35%;

@@ -1,10 +1,18 @@
 Rails.application.routes.draw do
-
-  resources :portfolio
-
+  resources :about
+  resources :project
+  resources :music
+  resources :contact
+  ##resources :portfolio
+  get '/portfolio/home' => 'portfolio#home', as: :home
   get '/portfolio/about_me/' => 'portfolio#about_me', as: :about_me
 
-  root 'portfolio#index'
+  #ApiCalls
+  get '/portfolio/about_redirect' => 'portfolio#about_redirect', as: :about_redirect
+  get '/application/navigation' => 'application#navigation', as: :navigation
+  #get '/application/playlist_next' => 'application#playlist_next', as: :playlist_next
+
+  root 'portfolio#home'
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

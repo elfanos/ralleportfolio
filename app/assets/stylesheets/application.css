@@ -12,7 +12,6 @@
  *
  *= require portfolio
  *= require bootstrap.min.css
- *= require bootstrap-theme.min.css
  *= require jquery-ui.min.css
  *= require_tree .
  *= require_self
