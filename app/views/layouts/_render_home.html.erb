@@ -122,6 +122,11 @@
             navigationArrows.projectArrow.style.display = "none";
             navigationArrows.aboutArrow.style.display = "none";
 
+            /*initializeListeners*/
+            setTimeout(function () {
+                initializeListeners();
+            },1000);
+
 
             drawLoadingText();
             hideLoadingElements();
@@ -159,6 +164,7 @@
         }
         function endLoading() {
             fadeAwayLoading(1);
+            //setMarginValuesForContent();
             fadeAwayDiv(resizeContainer);
             setTimeOutBeforeTheContentMoveIn();
             showDivLoadTime(pageWrapper);
@@ -933,22 +939,26 @@
          */
         function setMarginValuesForContent() {
             //nav about init
+            console.log("hallå?");
             navBars.navAbout.style.marginLeft = "-100px";
             navBars.navAbout.style.overflow = "hidden";
+            document.getElementById('text-about').style.overflow = "hidden";
 
             //nav contact init
             navBars.navContact.style.marginRight = "-100px";
             navBars.navContact.style.overflow = "hidden";
             navBars.navContact.style.right = "0";
-            document.getElementById('text-contacts').style.overflow = "hidden";
+            document.getElementById('text-contact').style.overflow = "hidden";
 
             //nav music init
             navBars.navMusic.style.marginTop = "-100px";
             navBars.navMusic.style.overflow = "hidden";
+            document.getElementById('text-music').style.overflow = "hidden";
 
             //nav project init
             navBars.navProjects.style.marginBottom = "-100px";
             navBars.navProjects.style.overflow = "hidden";
+            document.getElementById('text-projects').style.overflow = "hidden";
         }
         function showDivLoadTime(div) {
             setTimeout(function () {
@@ -969,163 +979,223 @@
             },1000)
         }
         init();
-        var hoverEffectAbout = new HoverEffectOnItemSelect(
-            textAnimationAbout, document.getElementById("text-about"),
-            [],
-            "about"
-        );
-        hoverEffectAbout._instance = hoverEffectAbout;
 
-        var hoverEffectContact = new HoverEffectOnItemSelect(
-            textAnimationContact, document.getElementById("text-contact"),
-            [],
-            "contact"
-        );
-        hoverEffectContact._instance = hoverEffectContact;
 
-        var hoverEffectMusic = new HoverEffectOnItemSelect(
-            textAnimationMusic, document.getElementById("text-music"),
-            [],
-            "music"
-        );
-        hoverEffectMusic._instance = hoverEffectMusic;
-        var intervalse = [];
-        var hoverEffectProject = new HoverEffectOnItemSelect(
-            textAnimationProject, document.getElementById("text-projects"),
-            intervalse,
-            "project"
-        );
-        hoverEffectProject._instance = hoverEffectProject;
+        function initializeListeners() {
+            var hoverEffectAbout = new HoverEffectOnItemSelect(
+                textAnimationAbout, document.getElementById("text-about"),
+                [],
+                "about"
+            );
+            hoverEffectAbout._instance = hoverEffectAbout;
 
-        var hoverEffects = {
-            about: hoverEffectAbout,
-            contact: hoverEffectContact,
-            project: hoverEffectProject,
-            music: hoverEffectMusic
+            var hoverEffectContact = new HoverEffectOnItemSelect(
+                textAnimationContact, document.getElementById("text-contact"),
+                [],
+                "contact"
+            );
+            hoverEffectContact._instance = hoverEffectContact;
+
+            var hoverEffectMusic = new HoverEffectOnItemSelect(
+                textAnimationMusic, document.getElementById("text-music"),
+                [],
+                "music"
+            );
+            hoverEffectMusic._instance = hoverEffectMusic;
+            var intervalse = [];
+            var hoverEffectProject = new HoverEffectOnItemSelect(
+                textAnimationProject, document.getElementById("text-projects"),
+                intervalse,
+                "project"
+            );
+            hoverEffectProject._instance = hoverEffectProject;
+
+            var hoverEffects = {
+                about: hoverEffectAbout,
+                contact: hoverEffectContact,
+                project: hoverEffectProject,
+                music: hoverEffectMusic
+            };
+            navBars.navProjects.addEventListener("click", function () {
+                var pagingEffectProjects = new PagingEffectClass(
+                    navBars.navProjects, pageWrapper.childNodes, DivVisibleClass,
+                    textAnimationProject, 12, 'project', pageWrapper,
+                    navBars, contentContainer, navigationArrows.projectArrow,
+                    hoverEffects.project
+                );
+                pagingEffectProjects._instance = pagingEffectProjects;
+                pagingEffectProjects._clearNodes();
+                setTimeout(function () {
+                    pagingEffectProjects._pagingApplyNodes();
+                    stateOfPage.pagingEffectStarts(navBars, "project");
+                    pagingEffectProjects._pagingIntervalForEachNode(0, 0);
+                    pagingEffectProjects._waitForPagingThenMoveChar(pagingEffectProjects._instance, 0);
+                }, 100)
+
+            });
+            var tIn = null;
+
+            $("#navProjects").hover(
+                function () {
+                    (function (instance, state) {
+                        setTimeout(function () {
+                            state.clearHoverEffects(instance, 'project');
+                            instance.project._hoverEffectOn();
+                            instance.project._hovered = true;
+                        }, 100);
+
+                    })(hoverEffects, stateOfPage)
+                    },
+                    function () {
+                        if(!hoverEffects.project._dontHoverBack) {
+                            (function (instance) {
+                                setTimeout(function () {
+                                    instance.project._hoverEffectOut();
+                                    instance.project._clearIntervals(instance.project._hoverInterval)
+                                    instance.project._hovered = false;
+                                }, 200);
+
+                            })(hoverEffects);
+                        }
+                    }
+
+             );
+            navBars.navMusic. addEventListener("click",function () {
+
+                var pagingEffectMusic = new PagingEffectClass(
+                    navBars.navMusic, pageWrapper.childNodes, DivVisibleClass,
+                    textAnimationMusic, 12, 'music', pageWrapper,
+                    navBars, contentContainer, navigationArrows.musicArrow,
+                    hoverEffects.music
+                );
+                pagingEffectMusic._instance = pagingEffectMusic;
+                pagingEffectMusic._clearNodes();
+                pagingEffectMusic._pagingApplyNodes();
+                stateOfPage. pagingEffectStarts(navBars,"music");
+                pagingEffectMusic. _pagingIntervalForEachNode(0,0);
+                pagingEffectMusic._waitForPagingThenMoveChar( pagingEffectMusic._instance,
+                0);
+            });
+            $("#navMusic").hover(
+                function () {
+                    ( function (instance,state) {
+                            setTimeout(function () {
+                                state.clearHoverEffects(instance, 'music');
+                                instance.music._hoverEffectOn();
+                                instance.music._hovered = true;
+                            },100)
+
+                    })(
+                    hoverEffects,stateOfPage)
+                },
+                function () {
+                    if(!hoverEffects.music._dontHoverBack) {
+                        (function (instance) {
+                            setTimeout(function () {
+                                instance.music._hoverEffectOut();
+                                instance.music._clearIntervals(instance.music._hoverInterval)
+                                instance.music._hovered = false;
+                            }, 200)
+                        })(hoverEffects);
+                    }
+                }
+            );
+            navBars.navContact.addEventListener("click",function () {
+
+                var pagingEffectContact = new PagingEffectClass(navBars.navContact,
+                    pageWrapper. childNodes, DivVisibleClass,
+                        textAnimationContact,12,'contact',pageWrapper,
+                    navBars, contentContainer, navigationArrows.contactArrow,
+                    hoverEffects.contact
+                );
+                    pagingEffectContact._instance =
+                    pagingEffectContact;
+                pagingEffectContact.
+                    _clearNodes(); pagingEffectContact._pagingApplyNodes();
+                stateOfPage.pagingEffectStarts( navBars,"contact");
+                pagingEffectContact._pagingIntervalForEachNode(0,0);
+
+                pagingEffectContact.
+
+                _waitForPagingThenMoveChar(
+                    pagingEffectContact.
+                        _instance, 0 );
+
+            });
+
+            $("#navContact").hover(
+                function () {
+                    ( function (instance, state) {
+                                setTimeout(function () {
+                            state.
+                                clearHoverEffects(instance,'contact');
+
+                        instance.contact. _hoverEffectOn();
+                            instance
+                    .contact._hovered = true;
+                            },100)
+
+                    })(hoverEffects,stateOfPage)
+                },
+                function () {
+                    if(!hoverEffects.contact._dontHoverBack) {
+                        (function (instance) {
+                            setTimeout(function () {
+                                instance
+                                    .contact._hoverEffectOut();
+                                instance.contact._clearIntervals(instance.contact._hoverInterval);
+                                instance.contact._hovered = false;
+
+                            }, 200);
+                        })(hoverEffects);
+                    }
+                }
+            );
+
+            navBars .navAbout.addEventListener("click", function () {
+                var pagingEffectAbout= new PagingEffectClass(navBars.navAbout,
+                    pageWrapper.childNodes,DivVisibleClass,
+                    textAnimationAbout,12,'about',
+                    pageWrapper,
+                    navBars,
+                    contentContainer, navigationArrows. aboutArrow,
+                    hoverEffects.about
+                );
+                pagingEffectAbout._instance = pagingEffectAbout;
+                    pagingEffectAbout._clearNodes();
+                pagingEffectAbout._pagingApplyNodes();
+
+                stateOfPage.pagingEffectStarts(navBars,
+                    "about");pagingEffectAbout._pagingIntervalForEachNode(0,0);
+                pagingEffectAbout._waitForPagingThenMoveChar(
+                                pagingEffectAbout._instance, 0);
+
+            });
+
+            $(" #navAbout").hover(function () {
+                    ( function (instance, state) {
+                            setTimeout(function () {
+                            console.log( "yaras?");
+                            state.clearHoverEffects(instance,'about');
+                            instance.about._hoverEffectOn();
+                            instance.about._hovered = true;
+                            }, 100);
+
+                    })(hoverEffects,stateOfPage)
+                },
+                function () {
+                    if(!hoverEffects.about._dontHoverBack) {
+                        (function (instance) {
+                            setTimeout(function () {
+                                instance.about._hoverEffectOut();
+                                instance.about._clearIntervals(instance.about._hoverInterval)
+                                instance.about._hovered = false;
+                            }, 200);
+                        })(hoverEffects);
+                    }
+                }
+            );
         }
-        navBars.navProjects.addEventListener("click",function () {
-            var pagingEffectProjects = new PagingEffectClass(
-                navBars.navProjects, pageWrapper.childNodes, DivVisibleClass,
-                textAnimationProject, 12, 'project', pageWrapper,
-                navBars, contentContainer, navigationArrows.projectArrow
-            );
-            pagingEffectProjects._instance = pagingEffectProjects;
-            pagingEffectProjects._pagingApplyNodes();
-            stateOfPage.pagingEffectStarts(navBars,"projects");
-            pagingEffectProjects._pagingIntervalForEachNode(0,0);
-            pagingEffectProjects._waitForPagingThenMoveChar(pagingEffectProjects._instance, 0);
-
-        });
-        var tIn = null;
-        var tOut = null;
-        $( "#navProjects" ).mouseenter(function() {
-            ( function (instance,state) {
-                tIn = setTimeout(function () {
-                    state.clearHoverEffects(instance,'project');
-                    instance.project._hoverEffectOn();
-                }, 100);
-            })(hoverEffects,stateOfPage)
-        });
-
-        $( "#navProjects" ).mouseleave(function() {
-            ( function (instance) {
-                tIn = setTimeout(function () {
-                    instance.project._hoverEffectOut();
-                    instance.project._clearIntervals(instance.project._hoverInterval)
-                }, 100);
-            })(hoverEffects)
-        });
-        navBars.navMusic.addEventListener("click",function () {
-
-            var pagingEffectMusic = new PagingEffectClass(
-                navBars.navMusic, pageWrapper.childNodes, DivVisibleClass,
-                textAnimationMusic, 12, 'music', pageWrapper,
-                navBars, contentContainer, navigationArrows.musicArrow
-            );
-            pagingEffectMusic._instance = pagingEffectMusic;
-            pagingEffectMusic._pagingApplyNodes();
-            stateOfPage.pagingEffectStarts(navBars,"music");
-            pagingEffectMusic._pagingIntervalForEachNode(0,0);
-            pagingEffectMusic._waitForPagingThenMoveChar(pagingEffectMusic._instance,0);
-        });
-        $( "#navMusic" ).mouseenter(function() {
-            ( function (instance,state) {
-                tIn = setTimeout(function () {
-                    state.clearHoverEffects(instance,'music');
-                    instance.music._hoverEffectOn();
-                }, 1);
-            })(hoverEffects,stateOfPage)
-        });
-
-        $( "#navMusic" ).mouseleave(function() {
-            ( function (instance) {
-                tIn = setTimeout(function () {
-                    instance.music._hoverEffectOut();
-                    instance.music._clearIntervals(instance.music._hoverInterval)
-                }, 1);
-            })(hoverEffects)
-        });
-        navBars.navContact.addEventListener("click",function () {
-
-            var pagingEffectContact = new PagingEffectClass(navBars.navContact,
-                pageWrapper.childNodes,DivVisibleClass,
-                textAnimationContact,12,'contact',pageWrapper,
-                navBars, contentContainer, navigationArrows.contactArrow);
-            pagingEffectContact._instance = pagingEffectContact;
-            pagingEffectContact._pagingApplyNodes();
-            stateOfPage.pagingEffectStarts(navBars,"contact");
-            pagingEffectContact._pagingIntervalForEachNode(0,0);
-            pagingEffectContact._waitForPagingThenMoveChar(pagingEffectContact._instance, 0);
-
-        });
-        $( "#navContact" ).mouseenter(function() {
-            ( function (instance,state) {
-                tIn = setTimeout(function () {
-                    state.clearHoverEffects(instance,'contact');
-                    instance.contact._hoverEffectOn();
-                }, 100);
-            })(hoverEffects,stateOfPage)
-        });
-
-        $( "#navContact" ).mouseleave(function() {
-            ( function (instance) {
-                tIn = setTimeout(function () {
-                    instance.contact._hoverEffectOut();
-                    instance.contact._clearIntervals(instance.contact._hoverInterval)
-                }, 100);
-            })(hoverEffects)
-        });
-
-        navBars.navAbout.addEventListener("click",function () {
-
-            var pagingEffectAbout= new PagingEffectClass(navBars.navAbout,
-                pageWrapper.childNodes,DivVisibleClass,
-                textAnimationAbout,12,'about',pageWrapper,
-                navBars, contentContainer, navigationArrows.aboutArrow);
-            pagingEffectAbout._instance = pagingEffectAbout;
-            pagingEffectAbout._pagingApplyNodes();
-            stateOfPage.pagingEffectStarts(navBars,"about");
-            pagingEffectAbout._pagingIntervalForEachNode(0,0);
-            pagingEffectAbout._waitForPagingThenMoveChar(pagingEffectAbout._instance, 0);
-
-        });
-        $( "#navAbout" ).mouseenter(function() {
-            ( function (instance, state) {
-                tIn = setTimeout(function () {
-                    state.clearHoverEffects(instance,'about');
-                    instance.about._hoverEffectOn();
-                }, 1);
-            })(hoverEffects,stateOfPage)
-        });
-
-        $( "#navAbout" ).mouseleave(function() {
-            ( function (instance) {
-                tIn = setTimeout(function () {
-                    instance.about._hoverEffectOut();
-                    instance.about._clearIntervals(instance.about._hoverInterval)
-                }, 1);
-            })(hoverEffects)
-        });
 
     });
 
@@ -1173,7 +1243,7 @@
                   div.style.top = "";
                   div.style.bottom = "";
                   div.style.pointerEvents = "";
-                  div.style.marginLeft = "";
+                  div.style.marginLeft = "-100px";
                   break;
               case 'music':
                   div.style.visibility = "";
@@ -1182,7 +1252,7 @@
                   div.style.bottom = "";
                   div.style.top = "";
                   div.style.pointerEvents = "";
-                  div.style.marginTop = "";
+                  div.style.marginTop = "-100px";
 
                   break;
               case 'project':
@@ -1193,7 +1263,7 @@
                   div.style.left = "";
                   div.style.right = "";
                   div.style.top = "";
-                  div.style.marginBottom = "";
+                  div.style.marginBottom = "-100px";
                   break;
               case 'contact':
                   div.style.visibility = "";
@@ -1204,7 +1274,7 @@
                   div.style.right = "";
                   div.style.bottom = "";
                   div.style.pointerEvents = "";
-                  div.style.marginRight ="";
+                  div.style.marginRight ="-100px";
                   break;
           }
         },
@@ -1223,6 +1293,7 @@
         this._speedAnimation = 0.1;
         this._style = style;
         this._middleElement = null;
+        this._dontHoverBack = false;
         this._delayAnimation = function (child,width, i) {
             var id = i;
             (function (instance) {
@@ -1237,7 +1308,7 @@
                         }
                     }else if(instance._style == "about" || instance._style == "contact") {
                         if (width < ($(window).height() / instance._textAnimation.letters.length) - 20) {
-                            width += 4.555;
+                            width += 5;
                             child.style.width = width + "px";
                             child.style.letterSpacing = 0;
                         } else {
@@ -1248,19 +1319,41 @@
                 );
             })(this._instance);
         };
-        this._hoverEffectOn = function () {
+        this._hoverEffectOn = function (style) {
+            console.log("yaras?2");
+            this._hovered = true;
             if(this._style == "project" || this._style == "music"){
               this._context.style.width = "100%";
             }
-            if(this._hoverInterval.length == 0) {
+            if(this._hoverInterval.length == 0 && style == null) {
                 (function (instance) {
                     setTimeout(function () {
                         for (var i = 0; i < instance._context.childNodes.length; i++) {
                             instance._lowerLag(i,0,i);
                         }
-                    }, 200);
+                    }, 20);
 
                 })(this._instance);
+            }else{
+                if(style != null) {
+                    if (style == "pagingEffect") {
+                        this._dontHoverBack = true;
+                        console.log("bajs");
+                        (function (instance) {
+                            setTimeout(function () {
+                                for (var i = 0; i < instance._context.childNodes.length; i++) {
+                                    if(instance._style == "about" || instance._style == "contact") {
+                                        instance._context.childNodes[i].style.width = ($(window).height() / instance._textAnimation.letters.length) - 20 + "px";
+                                    }else if(instance._style == "project" || instance._style == "music"){
+                                        console.log("project??");
+                                        instance._context.childNodes[i].style.width = ($(window).width() / instance._textAnimation.letters.length) - 5 + "px";
+                                    }
+                                }
+                            }, 20);
+
+                        })(this._instance);
+                    }
+                }
             }
         };
         this._lowerLag = function (child, width, i) {
@@ -1273,29 +1366,55 @@
         };
         this._clearIntervals = function(hover){
             for(var i = 0; i < hover.length; i++){
+
                 clearInterval(hover[i]);
+
             }
             this._instance._hoverInterval = [];
         };
         this._hoverEffectOut = function () {
-           // console.log("hover out");
-            for(var i = 0; i < this._context.childNodes.length; i++){
-                if(this._style == "project" || this._style == "music") {
-                    this._noLagAnimation(
+            console.log("hover out");
+              for (var i = 0; i < this._context.childNodes.length; i++) {
+                  if (this._style == "project" || this._style == "music") {
+                      this._noLagAnimation(
+                          i,
+                          ($(window).width() / this._textAnimation.letters.length) - 50,
+                          i
+                      );
+                  } else if (this._style == "about" || this._style == "contact") {
+              //        console.log("hover out 2");
+                      this._noLagAnimation(
+                          i,
+                          ($(window).height() / this._textAnimation.letters.length) - 20,
+                          i
+                      );
+                     // this._setRightWidth(i,i);
+                      if(i == this._context.childNodes.length){
+                          //this._clearIntervals(this._hoverInterval);
+                          (function (instance) {
+                              setTimeout(function () {
+                                  instance._hovered = false;
+                              }, 100)
+                          })(this._instance);
+                      }
+                  }
+              }
+
+        };
+        this._setRightWidth = function (child,i) {
+           // console.log("extifunction??");
+            (function (instance) {
+
+                    instance._noLagAnimation(
                         i,
-                        ($(window).width() / this._textAnimation.letters.length) - 50,
+                        instance._context.children[child].clientWidth,
                         i
                     );
-                }else if(this._style == "about" || this._style == "contact") {
-                    this._noLagAnimation(
-                        i,
-                        ($(window).height() / this._textAnimation.letters.length) - 20,
-                        i
-                    );
-                }
-            }
+
+            })(this._instance);
         };
         this._noLagAnimation = function (child,width, i) {
+            //console.log("hover out 3");
             (function (instance) {
                 setTimeout(function () {
                     instance._delayOutAnimation(instance._context.children[child], width, child)
@@ -1315,13 +1434,14 @@
                         }
                     }else if(instance._style == "about" || instance._style == "contact"){
                         if (width > 22) {
+                            //console.log("hover out 5", width);
                             width -= 5;
                             child.style.width = width + "px";
                         } else {
                             clearInterval(test);
                         }
                     }
-                    }, 1);
+                    }, 10);
             })(this._instance);
         };
     }
@@ -1470,6 +1590,7 @@
                   navBar.navMusic.style.zIndex = "100";
                   break;
               case 'project':
+                  console.log("project");
                   navBar.navContact.style.zIndex = "100";
                   navBar.navMusic.style.zIndex = "100";
                   navBar.navAbout.style.zIndex = "100";
@@ -1484,36 +1605,64 @@
         this.clearHoverEffects = function (hoverEffects, hover) {
             switch(hover){
                 case 'about':
-                    hoverEffects.music._hoverEffectOut();
-                    hoverEffects.music._clearIntervals(hoverEffects.music._hoverInterval);
-                    hoverEffects.project._hoverEffectOut();
-                    hoverEffects.project._clearIntervals(hoverEffects.project._hoverInterval);
-                    hoverEffects.contact._hoverEffectOut();
-                    hoverEffects.contact._clearIntervals(hoverEffects.contact._hoverInterval);
+                    console.log(hoverEffects.music._hovered);
+                    console.log(hoverEffects.about._hovered);
+                    console.log(hoverEffects.contact._hovered);
+                    console.log(hoverEffects.project._hovered);
+                    if(hoverEffects.music._hovered == true) {
+                        hoverEffects.music._hoverEffectOut();
+                        hoverEffects.music._clearIntervals(hoverEffects.music._hoverInterval);
+                    }
+                    if(hoverEffects.project._hovered == true) {
+                        hoverEffects.project._hoverEffectOut();
+                        hoverEffects.project._clearIntervals(hoverEffects.project._hoverInterval);
+                    }
+                    if(hoverEffects.contact._hovered == true) {
+                        hoverEffects.contact._hoverEffectOut();
+                        hoverEffects.contact._clearIntervals(hoverEffects.contact._hoverInterval);
+                    }
                     break;
                 case 'music':
-                    hoverEffects.about._hoverEffectOut();
-                    hoverEffects.about._clearIntervals(hoverEffects.about._hoverInterval);
-                    hoverEffects.project._hoverEffectOut();
-                    hoverEffects.project._clearIntervals(hoverEffects.project._hoverInterval);
-                    hoverEffects.contact._hoverEffectOut();
-                    hoverEffects.contact._clearIntervals(hoverEffects.contact._hoverInterval);
+                    if(hoverEffects.about._hovered == true) {
+                        hoverEffects.about._hoverEffectOut();
+                        hoverEffects.about._clearIntervals(hoverEffects.about._hoverInterval);
+                    }
+                    if(hoverEffects.project._hovered == true) {
+                        hoverEffects.project._hoverEffectOut();
+                        hoverEffects.project._clearIntervals(hoverEffects.project._hoverInterval);
+                    }
+                    if(hoverEffects.contact._hovered == true) {
+                        hoverEffects.contact._hoverEffectOut();
+                        hoverEffects.contact._clearIntervals(hoverEffects.contact._hoverInterval);
+                    }
                     break;
                 case 'contact':
-                    hoverEffects.about._hoverEffectOut();
-                    hoverEffects.about._clearIntervals(hoverEffects.about._hoverInterval);
-                    hoverEffects.project._hoverEffectOut();
-                    hoverEffects.project._clearIntervals(hoverEffects.project._hoverInterval);
-                    hoverEffects.music._hoverEffectOut();
-                    hoverEffects.music._clearIntervals(hoverEffects.music._hoverInterval);
+                    if(hoverEffects.about._hovered == true) {
+                        hoverEffects.about._hoverEffectOut();
+                        hoverEffects.about._clearIntervals(hoverEffects.about._hoverInterval);
+                    }
+                    if(hoverEffects.project._hovered == true) {
+                        hoverEffects.project._hoverEffectOut();
+                        hoverEffects.project._clearIntervals(hoverEffects.project._hoverInterval);
+                    }
+                    if(hoverEffects.music._hovered == true) {
+                        hoverEffects.music._hoverEffectOut();
+                        hoverEffects.music._clearIntervals(hoverEffects.music._hoverInterval);
+                    }
                     break;
                 case 'project':
-                    hoverEffects.about._hoverEffectOut();
-                    hoverEffects.about._clearIntervals(hoverEffects.about._hoverInterval);
-                    hoverEffects.music._hoverEffectOut();
-                    hoverEffects.music._clearIntervals(hoverEffects.music._hoverInterval);
-                    hoverEffects.contact._hoverEffectOut();
-                    hoverEffects.contact._clearIntervals(hoverEffects.contact._hoverInterval);
+                    if(hoverEffects.about._hovered == true) {
+                        hoverEffects.about._hoverEffectOut();
+                        hoverEffects.about._clearIntervals(hoverEffects.about._hoverInterval);
+                    }
+                    if(hoverEffects.music._hovered == true) {
+                        hoverEffects.music._hoverEffectOut();
+                        hoverEffects.music._clearIntervals(hoverEffects.music._hoverInterval);
+                    }
+                    if(hoverEffects.contact._hovered == true) {
+                        hoverEffects.contact._hoverEffectOut();
+                        hoverEffects.contact._clearIntervals(hoverEffects.contact._hoverInterval);
+                    }
                     break;
             }
         }
@@ -1549,7 +1698,7 @@
 
         };
     };
-    function PagingEffectClass(navBar, childNodes, context, textAnimation, numberOfEffects, navigationSide, container, navBars, contentContainer, arrowDiv){
+    function PagingEffectClass(navBar, childNodes, context, textAnimation, numberOfEffects, navigationSide, container, navBars, contentContainer, arrowDiv, hoverEffect){
         this._navBar = navBar;
         this._childNodes = childNodes;
         this._context = context;
@@ -1562,13 +1711,23 @@
         this._navBars = navBars;
         this._contentContainer = contentContainer;
         this._arrowDiv = arrowDiv;
+        this._hoverEffect = hoverEffect;
         this._initalizeNavPosition = false;
         this._animationCompleted = false;
         this._setClicked = function () {
             this._navBar.style.pointerEvents = "none";
+
         };
         this._pagingApplyNodes = function () {
             this._applyNodesBaseOnSide();
+            console.log("le hover effect");
+            this._hoverEffect._hoverEffectOn("pagingEffect");
+        };
+        this._clearNodes = function () {
+            while (this._container.firstChild /*&& this._container.childNodes.length > 1*/) {
+                this._container.removeChild(this._container.firstChild);
+            }
+
         };
         this._applyNodesBaseOnSide = function () {
             console.log("length: ", this._container.childNodes.length);
@@ -1580,8 +1739,8 @@
                     div.className = "pagechange-content";
                     progressbar = document.createElement("div");
                     progressbar.className = "pagechange-progress";
-                    div.appendChild(progressbar);
                     this._container.appendChild(div);
+                    this._container.childNodes[i].appendChild(progressbar);
                 }
             }else if(navigationSide == 'music' || navigationSide == 'project'){
                 for(var j = 0; j < this._numberOfEffects; j++){
@@ -1595,20 +1754,29 @@
             }
         };
         this._pagingIntervalForEachNode = function (direction, child) {
-            this._setClicked();
-            if(child < this._numberOfEffects){
-                child++;
-                if(direction == 0){
-                    //console.log("youe", this._childNodes[child]);
-                    this._startInterValOnEachNode(direction, this._childNodes[child].childNodes[0], this._instance);
-                    this._pagingIntervalForEachNode(direction, child);
-                }else if(direction == 1){
-                    this._startInterValOnEachNode(direction, this._childNodes[child].childNodes[0], this._instance)
-                    this._pagingIntervalForEachNode(direction, child);
-                }
-            }
+            (function (instance) {
+
+                    //console.log("instance._childNodes[child]: ", instance._childNodes.length)
+                    instance._setClicked();
+                    if (child < instance._numberOfEffects) {
+                        if (direction == 0) {
+                            if(instance._childNodes[child].childNodes[0] != undefined){
+                                instance._startInterValOnEachNode(direction, instance._childNodes[child].childNodes[0], instance);
+                            }
+                            child++;
+                            instance._pagingIntervalForEachNode(direction, child);
+                        } else if (direction == 1) {
+                            if(instance._childNodes[child].childNodes[0] != undefined) {
+                                instance._startInterValOnEachNode(direction, instance._childNodes[child].childNodes[0], instance._instance)
+                            }
+                            child++;
+                            instance._pagingIntervalForEachNode(direction, child);
+                        }
+                    }
+            })(this._instance)
         };
         this._startInterValOnEachNode = function (direction, child, instance) {
+            //console.log("wat is child?", child);
             switch (this._randomSpeed){
                 case 1:
                     this._randomSpeed++;
@@ -2151,7 +2319,7 @@
             })(instance);
         };
         this._getPositionOfCharToDefault = function(marginMax){
-            console.log("hallå?", marginMax);
+           // console.log("hallå?", marginMax);
             for(var i = 0; i < this._textAnimation.textDivTags.length; i++){
                 this._textAnimation.textDivTags[i].style.top = marginMax + "px";
             }
@@ -2177,6 +2345,7 @@
                     this._navBar.style.display = "block";
                     break;
                 case 'project':
+                    console.log("yallaman??");
                     this._context.hideDiv(this._navBars.navMusic);
                     this._context.hideDiv(this._navBars.navAbout);
                     this._context.hideDiv(this._navBars.navContact);
@@ -2224,6 +2393,7 @@
                             opacity += 0.1;
                             instance._arrowDiv.style.opacity = opacity;
                         } else {
+                            hoverEffect._hoverEffectOut();
                             clearInterval(interval);
                         }
                     }, 10)
@@ -2231,7 +2401,7 @@
             })(this._instance);
         };
 
-    };
+    }
 
 
 
