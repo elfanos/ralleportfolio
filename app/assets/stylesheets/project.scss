@@ -1,3 +1,153 @@
 // Place all the styles related to the project controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+$white: #FFFFFF;
+$red: #EE6352;
+$black: #2F3031;
+$greyWhite: #EFE9E7;
+$orange: #F79D65;
+.gridContainer{
+  width:100%;
+  height:100%;
+}
+
+.gridTile
+{
+  position:absolute;
+  top:0px;
+  left:0px;
+  width:100%;
+  height:100%;
+  background-size:cover;
+  background-repeat:no-repeat;
+  background-origin:center;
+}
+#project-page{
+  overflow-y:auto;
+  .col-md-4.p-left-side{
+    margin-top: 100px;
+  }
+  .col-md-4.p-middle{
+    margin-top: 40px;
+  }
+  .col-md-4.p-right-side{
+    margin-top: 130px;
+  }
+  .col-md-12.left-side-item{
+    height: 400px;
+  }
+  .col-md-12.p-middle{
+    height: 400px;
+  }
+  .col-md-12.p-right-side{
+    height: 400px;
+  }
+  .header-text{
+    position: relative;
+    margin-top: -90px;
+    top: 0;
+    opacity: 0;
+    transition: top 1s ease-in-out;
+    h1{
+      color: $orange;
+      letter-spacing: 4px;
+      font-family: brandon-grotesque;
+
+    }
+    hr{
+      margin-top: -10px;
+      margin-bottom: 20px;
+      border: 0;
+      border-top: 2px solid $white;
+      width: 10%;
+    }
+  }
+  .under-text{
+    margin-top: 40px;
+    opacity: 0;
+    transition: margin 1s ease-in-out, opacity 0.5s ease-in;
+    p{
+      font-family: brandon-grotesque;
+      color: $white;
+      letter-spacing: 6px;
+      text-align: center;
+      margin-left: 60px;
+      width: 200px;
+    }
+  }
+  .progress {
+    position: relative;
+    bottom: 82px;
+    left: 79px;
+    height: 200px;
+    width: 200px;
+    background: linear-gradient(to right, white 99.99%, transparent), linear-gradient(to bottom, white 99.99%, transparent), linear-gradient(to right, white 99.99%, transparent), linear-gradient(to bottom, white 99.99%, transparent);
+    background-size: 100% 2px, 2px 100%, 100% 2px, 2px 100%;
+    background-repeat: no-repeat;
+    animation: out 1s linear forwards;
+    background-position: 0px 0px, 0px 0px, 200px 198px, 0px 200px;
+
+  }
+  .placeholder:hover{
+    background: linear-gradient(to right, white 99.99%, transparent), linear-gradient(to bottom, white 99.99%, transparent), linear-gradient(to right, white 99.99%, transparent), linear-gradient(to bottom, white 99.99%, transparent);
+    background-size: 100% 0px, 2px 100%, 100% 2px, 2px 100%;
+    background-repeat: no-repeat;
+    animation: in 1s linear forwards;
+    background-position: 0px 0px, 198px -200px, 200px 198px, 0px 200px;
+  }
+  .progress:first-child{
+    pointer-events: none;
+    position: absolute;
+  }
+  @keyframes in {
+    0% {
+      background-position: 0px 0px, 0px -200px, 200px 198px, 0px 200px;
+    }
+    25% {
+      background-position: 0px 0px, 0px -200px, 200px 198px, 0px 200px;
+    }
+    50% {
+      background-position: 0px 0px, 198px 0px, 200px 198px, 0px 200px;
+    }
+    75% {
+      background-position: 0px 0px, 198px 0px, 0px 198px, 0px 200px;
+    }
+    100% {
+      background-position: 0px 0px, 198px 0px, 0px 198px, 0px 200px;
+    }
+  }
+  @keyframes out {
+    0% {
+      background-position: 0px 0px, 198px 0px, 0px 198px, 0px 0px;
+    }
+    25% {
+      background-position: 0px 0px, 198px 0px, 0px 198px, 0px 200px;
+    }
+    50% {
+      background-position: 0px 0px, 198px 0px, 200px 198px, 0px 200px;
+    }
+    75% {
+      background-position: 0px 0px, 198px -200px, 200px 198px, 0px 200px;
+    }
+    100% {
+      background-position: -200px 0px, 198px -200px, 200px 198px, 0px 200px;
+    }
+  }
+  .placeholder{
+    .filler-container{
+      height: 200px;
+      width: 200px;
+    }
+    .filler{
+      height: 200px;
+      width: 0;
+      background: $orange;
+      transition: width 1s;
+      position:absolute;
+      z-index:3;
+    }
+  }
+
+
+}

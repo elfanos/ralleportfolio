@@ -1,3 +1,5 @@
 setTimeout(function () {
+    <%logger.info "inside ja here-------------------"%>
     history.pushState('project', document.title, '/' + 'project');
+    $("#content-container").html("<%= escape_javascript(render partial: 'layouts/render_project') %>").fadeIn("slow");
 }, 4000);

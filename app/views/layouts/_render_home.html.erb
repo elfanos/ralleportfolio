@@ -2,7 +2,7 @@
 
 
     $(document).ready(function(){
-
+       // $("div#content-container").css('height', 'auto');
         var currentPage = "";
         function setState(pagePath) {
             history.pushState(currentPage, document.title, '/' + currentPage);
@@ -95,6 +95,7 @@
             stateOfPage._state = currentState;
             //stateOfPage.initializeState();
             //hideDive(pageWrapper);
+            contentContainer.style.display = "block";
             drawLoadingContent();
             if(!textAnimationAbout._animationSetted) {
                 textAnimationAbout.removeLetters();
@@ -167,7 +168,7 @@
             //setMarginValuesForContent();
             fadeAwayDiv(resizeContainer);
             setTimeOutBeforeTheContentMoveIn();
-            showDivLoadTime(pageWrapper);
+            //showDivLoadTime(pageWrapper);
 
         }
         function loadResizeScreen() {
@@ -1731,6 +1732,7 @@
         };
         this._applyNodesBaseOnSide = function () {
             console.log("length: ", this._container.childNodes.length);
+            this._context.showDiv(this._container);
             var div = null;
             var progressbar = null;
             if(navigationSide == 'contact' || navigationSide == 'about'){
@@ -2439,5 +2441,17 @@
   <div id="page-wrapper">
   </div>
   <div id="content-container">
+    <% if(state == "home") %>
+        <%= render partial: 'layouts/render_home_partial'%>
+    <%end%>
+    <% if(state == "project") %>
+        <%= render partial: 'layouts/render_project'%>
+    <%end%>
+    <% if(state == "music") %>
+        <%= render partial: 'layouts/render_music'%>
+    <%end%>
+    <% if(state == "contact") %>
+        <%= render partial: 'layouts/render_contact'%>
+    <%end%>
   </div>
 </div>

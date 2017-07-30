@@ -24,3 +24,40 @@
     background-color: #2F3031;
      overflow-x:hidden;
  }
+#home-page{
+    width: 100%;
+    height: 100%;
+    left: 0;
+    right: 0;
+}
+#project-page{
+    width: 100%;
+    height: 100%;
+    left: 0;
+    right: 0;
+    text-align: center;
+}
+.placeholder{
+    display:inline-block;
+    position:relative;
+    width:200px;
+    height:200px;
+    overflow:hidden;
+    box-sizing:border-box;
+    margin-top:100px;
+}
+
+.div-center-page{
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    -moz-transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    -o-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    width: 800px;
+    height: 500px;
+    max-width: calc(100% - 100px);
+    max-height: calc(100% - 100px);
+}
