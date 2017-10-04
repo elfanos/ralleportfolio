@@ -1,0 +1,45 @@
+var partialRender = {
+    onebas: $("#info-show").html("<%= escape_javascript(render partial: 'layouts/project/info/render_one_bas', locals: {state: "onebas"}) %>"),
+    googleGlass: $("#info-show").html("<%= escape_javascript(render partial: 'layouts/project/info/render_google_glass', locals: {state: "googleglass"}) %>"),
+    livingMaps: $("#info-show").html("<%= escape_javascript(render partial: 'layouts/project/info/render_living', locals: {state: "livingmaps"}) %>"),
+    magazinos: $("#info-show").html("<%= escape_javascript(render partial: 'layouts/project/info/render_magazinos', locals: {state: "magazinos"}) %>"),
+    thirty: $("#info-show").html("<%= escape_javascript(render partial: 'layouts/project/info/render_thirty', locals: {state: "thirty"}) %>"),
+    moodify: $("#info-show").html("<%= escape_javascript(render partial: 'layouts/project/info/render_moodify', locals: {state: "moodify"}) %>")
+
+};
+
+setTimeout(function () {
+    <%logger.info "inside ja here-weaweawewaewae------------------#{params[:state]}"%>
+    history.pushState('project', document.title, '/' + 'project' + '/' + 'info');
+    <%if params[:page] === "index"%>
+        $("#content-container").html("<%= escape_javascript(render partial: 'layouts/render_project', locals: {state: @show_state}) %>").fadeIn("slow");
+    <%end%>
+    <%if params[:state].nil?%>
+    <%else%>
+        <%if params[:state] === "onebas" %>
+            <%logger.info "inside ja here-----------------in le onebas"%>
+            partialRender.googleGlass.hide();
+            partialRender.livingMaps.hide();
+            partialRender.onebas.show();
+        <%elsif params[:state] === "moodify"%>
+            partialRender.moodify.show();
+        <%elsif params[:state] === "magazinos"%>
+    <%logger.info "inside ja here-----------------in mag-------------"%>
+    console.log(partialRender.magazinos);
+           // partialRender.magazinos.show();
+            partialRender.thirty.show();
+        <%elsif params[:state] === "thirty"%>
+            partialRender.thirty.show();
+        <%elsif params[:state] === "livingmaps"%>
+            <%logger.info "inside ja here-----------------in le living"%>
+            partialRender.onebas.hide();
+            partialRender.googleGlass.hide();
+            partialRender.livingMaps.show();
+        <%elsif params[:state] === "googleglass"%>
+             <%logger.info "inside ja here-----------------in le google"%>
+            partialRender.onebas.hide();
+            partialRender.livingMaps.hide();
+            partialRender.googleGlass.show();
+        <%end%>
+    <%end%>
+}, 2000);

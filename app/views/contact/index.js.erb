@@ -1,3 +1,4 @@
 setTimeout(function () {
     history.pushState('contact', document.title, '/' + 'contact');
+    $("#content-container").html("<%= escape_javascript(render partial: 'layouts/contact/render_contact', locals: {state: @show_state}) %>").fadeIn("slow");
 }, 4000);

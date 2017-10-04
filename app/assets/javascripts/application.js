@@ -14,7 +14,9 @@
 //= require jquery_ujs
 //= require jquery-ui.min.js
 //= require bootstrap.min.js
+//= require progressbar.min.js
 //= require modernizr.min.js
 //= require text-animation.js
+//= require owl.carousel.min.js
 //= require turbolinks
 //= require_tree .

@@ -1,0 +1,182 @@
+<script>
+  $(document).ready(function () {
+/*
+      document.getElementById("content-container").style.overflow = "hidden";
+      document.getElementById("content-container").style.overflowX = "";
+      document.getElementById("right-progress").style.display ="none";
+      document.getElementById("left-progress").style.display = "none";
+
+      var mainFrame = document.getElementById("main-frame");
+
+      var mainNavigationBar = document.getElementById("navContact");
+
+      mainNavigationBar.style.zIndex = "3000";
+      mainNavigationBar.style.pointerEvents = "";
+
+      console.log("hemg", document.getElementsByClassName("under-text"));
+
+      var loadInProject = new LoadInProjects(
+          document.getElementsByClassName("under-text"),
+          null,
+          null
+      );
+      loadInProject._instance = loadInProject;
+     // loadInProject._setUpPreload();
+      setTimeout(function () {
+        //  loadInProject._initializeUnderText();
+      },500);
+      setTimeout(function () {
+          mainFrame.style.opacity = "1";
+      },1500);
+      setTimeout(function () {
+          mainFrame.style.width = "200px"
+      },2500);
+      setTimeout(function () {
+          document.getElementById("button-text").style.opacity = "1";
+          document.getElementById("git").style.opacity = "1";
+          document.getElementById("linkin").style.opacity = "1";
+      },3500);
+
+      function LoadInProjects(underText, headerText, pictureGrid) {
+          this._underText = underText;
+          this._headerText = headerText;
+          this._instance = null;
+          this._pictureGrid = pictureGrid;
+          this._allIntervals = [];
+          this._setUpPreload = function () {
+              for(var i = 0; i < this._underText.length; i++){
+                  this._underText[i].style.opacity = "0";
+                  this._underText[i].style.marginTop = "110px";
+              }
+          };
+          this._initializeUnderText = function () {
+              console.log("waddup?", this._underText.length);
+              console.log("waddup?", this._underText);
+              for(var i = 0; i < this._underText.length; i++){
+                  (function (instance,i) {
+
+                      setTimeout(function () {
+                          instance._underText[i].style.opacity = "1";
+                          instance._underText[i].style.marginTop = "";
+                      },50);
+                  })(this._instance, i)
+              }
+          };
+          this._initializeHeaderText = function () {
+              for(var i = 0; i < this._underText.length; i++){
+                  (function (instance,i) {
+
+                      setTimeout(function () {
+                          instance._headerText[i].style.top = "";
+                          instance._headerText[i].style.opacity = "1";
+                      },50);
+                  })(this._instance, i)
+              }
+          };
+          this._initalizePictureGrid = function () {
+              for(var i = 0; i < 6; i++){
+                  (function (instance,i) {
+                      setTimeout(function () {
+                          instance._loadingIntervalPicture(instance._pictureGrid[i].children[0]);
+                      }, 5);
+                  })(this._instance, i);
+              }
+              (function (instance) {
+                  setTimeout(function () {
+                      for(var i = 0; i < 6; i++){
+                          (function (instance,i) {
+                              setTimeout(function () {
+                                  instance._loadingIntervalPictureOut(instance._pictureGrid[i].children[0]);
+                              }, 5);
+                          })(instance._instance, i);
+                      }
+                  }, 2000);
+              })(this._instance)
+          };
+          this._loadingIntervalPicture = function (divLoader) {
+              var width = 0;
+              (function (instance) {
+                  var interval = setInterval(function () {
+                      if (instance._allIntervals != interval) {
+                          instance._allIntervals.push(interval);
+                      }
+                      if (width < 200) {
+                          //console.log("yalla??", width);
+                          width += 1;
+                          divLoader.style.width = width + "px";
+                      } else {
+                          clearInterval(interval);
+                      }
+                  }, 1);
+              })(this._instance);
+          };
+          this._loadingIntervalPictureOut = function (divLoader) {
+              var width = 200;
+              divLoader.style.position = "relative";
+              divLoader.style.float = "left";
+              (function (instance) {
+                  var interval = setInterval(function () {
+                      if (instance._allIntervals != interval) {
+                          instance._allIntervals.push(interval);
+                      }
+                      if (width > 0) {
+                          //console.log("yalla??", width);
+                          width -= 1;
+                          divLoader.style.width = width + "px";
+                          // divLoader.style.left = width + "px";
+                      } else {
+                          clearInterval(interval);
+                      }
+                  }, 1);
+              })(this._instance);
+          };
+      }
+      $( document ).ready(function() {
+          var imageSrc = $('.sliced-img').children( 'img' ).attr( 'src' );
+          $('.sliced-img').css("background-image","url('"+imageSrc+"')");
+      });*/
+  });
+</script>
+<div id="contact-page">
+  <div class="profile-picture">
+    <div class="img-div">
+      <div class='pageOption' id="main-frame">
+        <a href='#' class='option'>
+          <%=image_tag("https://images.unsplash.com/photo-1498168208808-4c2706938a2f?dpr=2&auto=format&fit=crop&w=1500&h=1874&q=80&cs=tinysrgb&crop=")%>
+        </a>
+        <a href='#' class='option'>
+          <%=image_tag("https://images.unsplash.com/photo-1498168208808-4c2706938a2f?dpr=2&auto=format&fit=crop&w=1500&h=1874&q=80&cs=tinysrgb&crop=")%>
+        </a>
+      </div>
+    </div>
+    <div class="contact-div" id="button-text">
+      <a class="btn-draw"href="#">
+        <span>Contact</span>
+      </a>
+    </div>
+    <div class="link-in" id="linkin">
+      <i class="fa fa-linkedin"></i>
+    </div>
+    <div class="git-hub" id="git">
+      <i class="fa fa-github"></i>
+    </div>
+  </div>
+  <div class="left-side" id="left-progress">
+    <div class="text">
+      <p>
+        If you looking for a coder or UX/designer im here.
+        Have experince working and developing fullstack in ruby on rails.
+      </p>
+    </div>
+  </div>
+  <div class="right-side" id="right-progress">
+    <div class="text">
+      <p>
+        You want help with a profolio or want to me to create a cool site. Well dont hesitate :)
+      </p>
+    </div>
+    <div class="btn-div">
+        <a class="btn-draw" href="#"><span>Contact</span></a>
+    </div>
+  </div>
+</div>

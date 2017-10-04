@@ -1,0 +1,333 @@
+<script>
+
+$(document).ready(function () {
+    var mainframe = document.getElementById("texten");
+    var siteText = document.getElementById("the-text-content");
+    var scaleRate = 1;
+    var lastScrollTop = 0;
+    var pixelRate = 0;
+    var height = 3000;
+  mainframe.addEventListener("scroll", function(){ // or window.addEventListener("scroll"....
+        var st = window.pageYOffset || mainframe.documentElement.scrollTop; // Credits: "https://github.com/qeremy/so/blob/master/so.dom.js#L426"
+        console.log(mainframe.pageYOffset);
+        if (st > lastScrollTop){
+            console.log("yalla");
+            // downscroll code
+        } else {
+             console.log("yalla up");
+            // upscroll code
+        }
+        lastScrollTop = st;
+    }, false);
+    $(".text").scroll(function() {
+        console.log("wat=");
+    });
+    $(".text-content").scroll(function() {
+        console.log("wat=");
+    });
+    $(".content-about").scroll(function() {
+        console.log("wat=");
+    });
+    var scrolltimes = 0;
+    var scrollTimer = null;
+    var extra = 5;
+    var thing = "#content-container";
+    var old = $(thing).scrollTop();
+    $("#content-container").scroll(function() {
+        var st = $(this).scrollTop() + $(this).innerHeight();
+        console.log("wat=", $(this).innerHeight());
+       console.log("jaman", $(this).scrollTop() + $(this).innerHeight());
+        checkProgress(($(this).scrollTop() + $(this).innerHeight()) - 200);
+        console.log( $(this).scrollTop());
+        if ($(thing).scrollTop() < old) {
+            $(thing).scrollTop($(thing).scrollTop()-extra);
+        } else if ($(thing).scrollTop() > old) {
+            $(thing).scrollTop($(thing).scrollTop()+extra);
+        }
+        old = $(thing).scrollTop();
+
+        if (st > lastScrollTop){
+            console.log("yalla");
+            if(scaleRate > 0.2 && $(this).scrollTop() <= 450) {
+                if (scrollTimer) {
+                    clearTimeout(scrollTimer);   // clear any previous pending timer
+                }
+                scrollTimer = setTimeout(handleScroll(), 500);
+               // checkProgress(($(this).scrollTop() + $(this).innerHeight()) - 200);
+            }
+            // downscroll code
+        } else {
+            if(scaleRate <= 1 && $(this).scrollTop() <= 450) {
+                if (scrollTimer) {
+                    clearTimeout(scrollTimer);   // clear any previous pending timer
+                }
+                scrollTimer = setTimeout(handleOtherScroll(), 500);
+                //checkProgress($(this).scrollTop() + $(this).innerHeight());
+            }
+            // upscroll code
+        }
+        if($(this).scrollTop() === 0){
+            siteText.childNodes[1].style.transform = "";
+            siteText.style.transform = "";
+            scaleRate = 1;
+            pixelRate = 0;
+        }
+        if($(this).scrollTop() > 450){
+            siteText.childNodes[1].style.transform = "scale(" + 0.2 + "," + 0.2 + ")";
+            siteText.style.transform = "translate3d(0,"+200+"px, 0)";
+            scaleRate = 0.2;
+            pixelRate = 200;
+            height = 1000;
+            mainframe.style.height = height + "px";
+        }
+        lastScrollTop = st;
+    });
+    function handleScroll() {
+        console.log("scoreelite", scrolltimes++);
+        scaleRate -= 0.02;
+        pixelRate += 4;
+        height -= 50;
+        siteText.childNodes[1].style.transform = "scale(" + scaleRate + "," + scaleRate + ")";
+        siteText.style.transform = "translate3d(0,"+pixelRate+"px, 0)";
+        if(height > 1000) {
+            mainframe.style.height = height + "px";
+        }
+    }
+    function handleOtherScroll() {
+        console.log("yalla up",scrolltimes--);
+        scaleRate += 0.02;
+        pixelRate -= 4;
+        height += 50;
+        siteText.childNodes[1].style.transform = "scale(" + scaleRate + "," + scaleRate + ")";
+        siteText.style.transform = "translate3d(0,"+pixelRate+"px, 0)";
+        if(height < 3000) {
+            mainframe.style.height = height + "px";
+        }
+    }
+    function checkProgress(scrollPos) {
+        console.log("rawr", scrollPos);
+      if(scrollPos > 800){
+          bar.animate(0.9);
+          barUX.animate(0.85);
+          barDesign.animate(0.8);
+          barFront.animate(1);
+
+      }
+      if(scrollPos < 700){
+          bar.animate(0);
+          bar.animate(0);
+          barUX.animate(0);
+          barDesign.animate(0);
+          barFront.animate(0);
+      }
+
+
+    }
+
+    var bar = new ProgressBar.Circle("#brogress", {
+        color: '#FFFFFF',
+        // This has to be the same size as the maximum width to
+        // prevent clipping
+        strokeWidth: 4,
+        trailWidth: 1,
+        easing: 'easeInOut',
+        duration: 1400,
+        text: {
+            autoStyleContainer: false
+        },
+        from: { color: '#aaa', width: 1 },
+        to: { color: '#FFFFFF', width: 4 },
+        // Set default step function for all animate calls
+        step: function(state, circle) {
+            circle.path.setAttribute('stroke', state.color);
+            circle.path.setAttribute('stroke-width', state.width);
+
+            var value = Math.round(circle.value() * 100);
+            if (value === 0) {
+                circle.setText('');
+            } else {
+                circle.setText(value + "%");
+            }
+
+        }
+    });
+    bar.text.style.fontFamily = '"Raleway", Helvetica, sans-serif';
+    bar.text.style.fontSize = '2rem';
+    var barFront = new ProgressBar.Circle("#frontend", {
+        color: '#FFFFFF',
+        // This has to be the same size as the maximum width to
+        // prevent clipping
+        strokeWidth: 4,
+        trailWidth: 1,
+        easing: 'easeInOut',
+        duration: 1400,
+        text: {
+            autoStyleContainer: false
+        },
+        from: { color: '#aaa', width: 1 },
+        to: { color: '#FFFFFF', width: 4 },
+        // Set default step function for all animate calls
+        step: function(state, circle) {
+            circle.path.setAttribute('stroke', state.color);
+            circle.path.setAttribute('stroke-width', state.width);
+
+            var value = Math.round(circle.value() * 100);
+            if (value === 0) {
+                circle.setText('');
+            } else {
+                circle.setText(value);
+            }
+
+        }
+    });
+    barFront.text.style.fontFamily = '"Raleway", Helvetica, sans-serif';
+    barFront.text.style.fontSize = '2rem';
+
+    var barUX = new ProgressBar.Circle("#ux", {
+        color: '#FFFFFF',
+        // This has to be the same size as the maximum width to
+        // prevent clipping
+        strokeWidth: 4,
+        trailWidth: 1,
+        easing: 'easeInOut',
+        duration: 1400,
+        text: {
+            autoStyleContainer: false
+        },
+        from: { color: '#aaa', width: 1 },
+        to: { color: '#FFFFFF', width: 4 },
+        // Set default step function for all animate calls
+        step: function(state, circle) {
+            circle.path.setAttribute('stroke', state.color);
+            circle.path.setAttribute('stroke-width', state.width);
+
+            var value = Math.round(circle.value() * 100);
+            if (value === 0) {
+                circle.setText('');
+            } else {
+                circle.setText(value + "%");
+            }
+
+        }
+    });
+    barUX.text.style.fontFamily = '"Raleway", Helvetica, sans-serif';
+    barUX.text.style.fontSize = '2rem';
+
+    var barDesign = new ProgressBar.Circle("#design", {
+        color: '#FFFFFF',
+        // This has to be the same size as the maximum width to
+        // prevent clipping
+        strokeWidth: 4,
+        trailWidth: 1,
+        easing: 'easeInOut',
+        duration: 1400,
+        text: {
+            autoStyleContainer: false
+        },
+        from: { color: '#aaa', width: 1 },
+        to: { color: '#FFFFFF', width: 4 },
+        // Set default step function for all animate calls
+        step: function(state, circle) {
+            circle.path.setAttribute('stroke', state.color);
+            circle.path.setAttribute('stroke-width', state.width);
+
+            var value = Math.round(circle.value() * 100);
+            if (value === 0) {
+                circle.setText('');
+            } else {
+                circle.setText(value + "%");
+            }
+
+        }
+    });
+    barDesign.text.style.fontFamily = '"Raleway", Helvetica, sans-serif';
+    barDesign.text.style.fontSize = '2rem';
+    //bar.animate(1.0);
+
+});
+</script>
+
+<div id="about-page">
+  <div class="content-about">
+    <div class="text-content" id="texten">
+      <div class="text" id="the-text-content">
+        <p>
+          Hello,
+          <br>
+          my name
+          <br>
+          is Rasmus
+          <br>
+          Dahlkvist
+          <br>
+
+          I am a coder and
+          <br>
+          interaction designer.
+          <br>
+          <br>
+          <br>
+          I love creating new cool stuff
+          <br>
+          with awesome technology. And
+          <br>
+          find new creative ways to
+          <br>
+          interact wit smart objects that
+          <br>
+          surrounds us :).
+
+          <br>
+          <br>
+          <br>
+          I current live in Umeå sweden
+          <br>
+          where Im almost done with
+          <br>
+          my master degree in interaction
+          <br>
+          deisgn, in computer science
+        </p>
+      </div>
+    </div>
+    <div class="progressCoding" id="brogress">
+      <h1>
+        Back-End
+      </h1>
+      <h2>
+        Ruby,MySQL,
+        Postgres,Heroku,
+        Java,C#,DOT.NET
+      </h2>
+    </div>
+    <div class="progressFrontend" id="frontend">
+      <h1>
+        Front-end
+      </h1>
+      <h2>
+        Android/java,
+        Javascript,css,
+        Html,C#,Unity
+      </h2>
+    </div>
+    <div class="progressDesign" id="design">
+      <h1>
+        Design
+      </h1>
+      <h2>
+        Maya,Unity,
+        Photoshop
+      </h2>
+    </div>
+    <div class="progressUx" id="ux">
+      <h1>
+        UX
+      </h1>
+      <h2>
+        Prototyping,
+        User-test,Research,
+        Wireframe,Sketching
+      </h2>
+    </div>
+  </div>
+</div>

@@ -2,6 +2,12 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
+$white: #FFFFFF;
+$red: #EE6352;
+$black: #2F3031;
+$greyWhite: #EFE9E7;
+$orange: #F79D65;
+
 #about{
   .navItem.navItemAbout{
     margin-left: 5px;
@@ -11,5 +17,86 @@
     transform: matrix(1, 0, 0, 1, 0, 0);
     right: 0px;
     display: block;
+  }
+}
+#about-page{
+  overflow: auto;
+  .content-about{
+    .text {
+      position: absolute;
+      width: 100%;
+      left: 3%;
+      transform: translate3d(0,0,0);
+      height: 1000px;
+      p{
+        color: $white;
+        font-size: 12vw;
+        line-height: 1.2em;
+        padding-top: 10vh;
+        text-transform: uppercase;
+        -ms-transform-origin: top left;
+        -webkit-transform-origin: top left;
+        -moz-transform-origin: top left;
+        transform-origin: top left;
+        white-space: nowrap;
+        font-family: brandon-grotesque;
+        font-weight: 900;
+        letter-spacing: 0.4em;
+        transform: scale(1,1) translate3d(0px, 0px, 0px);
+
+        transition: transform ease-in 0.3s;
+
+      }
+    }
+    h1{
+      font-family: brandon-grotesque;
+      color: $white;
+      font-size: 16px;
+      text-align: center;
+      letter-spacing: 0.4em;
+    }
+    h2{
+      font-family: brandon-grotesque;
+      color: $orange;
+      font-size: 10px;
+      letter-spacing: 0.4em;
+      text-align: center;
+      height: 40px;
+
+    }
+    .text-content{
+      width: 100%;
+      left: 3%;
+      height: 3000px;
+    }
+    .progressCoding{
+      position: relative;
+      width: 150px;
+      height: 300px;
+      margin-left: 100px;
+      float: left;
+    }
+    .progressFrontend{
+      position: relative;
+      width: 150px;
+      height: 300px;
+      margin-left: 100px;
+      float: left;
+    }
+    .progressUx{
+      position: relative;
+      width: 150px;
+      height: 300px;
+      margin-left: 100px;
+      float: left;
+    }
+    .progressDesign{
+      position: relative;
+      width: 150px;
+      height: 300px;
+      margin-left: 100px;
+      float: left;
+    }
+
   }
 }

@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
   resources :about
+  get '/project/info' => 'project#info'
   resources :project
   resources :music
   resources :contact
