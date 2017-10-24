@@ -1,5 +1,69 @@
 <script>
-
+function TextAnimation(context,letters, textClassName) {
+    this.context = context;
+    this.letters = letters;
+    this.interval = [];
+    this.textDivTags = [];
+    this.divArray = [];
+    this.textClassName = textClassName;
+    this.instance = null;
+    this.newInstance = function (classInstance) {
+        this.instance = classInstance;
+    }
+    this.initializeLetters = function() {
+        console.log("context", this.context);
+        console.log("letters", this.letters.length);
+        console.log("");
+        if(textClassName === 'textProject'){
+        }else {
+            this.context.style.width = $(window).height() + "px";
+        }
+        for(var i = 0; i < this.letters.length; i++){
+            var div = document.createElement("div");
+            div.className = "char chars"+i;
+            div.id = this.textClassName;
+            console.log("divish" + div.innerHTML);
+            var innerText = document.createElement("div");
+            innerText.className = "char-inner";
+            innerText.innerHTML = letters[i];
+            div.appendChild(innerText);
+            this.context.appendChild(div);
+            this.divArray.push(div);
+        }
+    };
+    this.initializeTags = function () {
+        var childs = this.context.childNodes;
+        for(var i = 0; i < Object.size(childs); i++){
+            console.log("wad it is", childs[i].childNodes[0]);
+            this.textDivTags.push(childs[i].childNodes[0]);
+        }
+    };
+    this._addTextHover = function () {
+        var childs = this.context.childNodes;
+        for(var i = 0; i < Object.size(childs); i++){
+            console.log("wad it is", childs[i]);
+            $(childs).removeClass('textHoverOut');
+            $(childs).addClass('textHover');
+            console.log(
+                ($(window).height() / this.instance.letters.length) - 20 + "px"
+            );
+            if(textClassName === 'textProject'){
+                $(childs).width(($(window).width() / this.instance.letters.length) - 5 + "px");
+            }else {
+                $(childs).width(($(window).height() / this.instance.letters.length) - 20 + "px");
+            }
+          //  childs.style.width = ($(window).height() / this.instance.letters.length) - 20 + "px";
+        }
+    }
+    this._removeTextHover = function () {
+        var childs = this.context.childNodes;
+        for(var i = 0; i < Object.size(childs); i++){
+            console.log("wad it is", childs[i]);
+            $(childs).removeClass('textHover');
+            $(childs).addClass('textHoverOut');
+        }
+    }
+}
 
 $(document).ready(function(){
   var procentOfScreen = 0.75;
@@ -52,13 +116,33 @@ $(document).ready(function(){
     resizeLoad: 'loaded'
   };
   var navBars = {
-    navMusic: document.getElementById("navMusic"),
     navAbout: document.getElementById("navAbout"),
     navProjects: document.getElementById("navProjects"),
     navContact: document.getElementById("navContact")
   };
+    var lettersContact = ['C','O','N','T','A','C','T'];
+    var lettersProject = ['P', 'R', 'O', 'J', 'E', 'C', 'T', 'S'];
+    var lettersAbout = ['A','B','O','U','T'];
+
+
+    var textAnimationAbout = new TextAnimation(navBars.navAbout.children[0], lettersAbout, 'textAbout');
+    textAnimationAbout.newInstance(textAnimationAbout);
+    var textAnimationContact = new TextAnimation(navBars.navContact.children[0], lettersContact,'textContact');
+    textAnimationContact.newInstance(textAnimationContact);
+    var textAnimationProject = new TextAnimation(navBars.navProjects.children[0], lettersProject,'textProject');
+    textAnimationProject.newInstance(textAnimationProject);
+
+
   function init(){
+
+
       // should be applied on resiz
+      textAnimationAbout.initializeLetters();
+      textAnimationAbout.initializeTags();
+      textAnimationContact.initializeLetters();
+      textAnimationContact.initializeTags();
+      textAnimationProject.initializeLetters();
+      textAnimationProject.initializeTags();
     hideDive(pageWrapper);
     var screenHeight = $(window).height();
     var screenWidth = $(window).width();
@@ -828,7 +912,6 @@ $(document).ready(function(){
    * */
   function setTimeOutBeforeTheContentMoveIn() {
       setTimeout(function () {
-          moveInContentToPage(-100,navBars.navMusic,'music');
           moveInContentToPage(-100,navBars.navContact,'contacts');
           moveInContentToPage(-100,navBars.navAbout,'about');
           moveInContentToPage(-100,navBars.navProjects,'projects');
@@ -899,9 +982,6 @@ $(document).ready(function(){
       navBars.navContact.style.right = "0";
       document.getElementById('text-contacts').style.overflow = "hidden";
 
-      //nav music init
-      navBars.navMusic.style.marginTop = "-100px";
-      navBars.navMusic.style.overflow = "hidden";
 
       //nav project init
       navBars.navProjects.style.marginBottom = "-100px";
@@ -912,12 +992,14 @@ $(document).ready(function(){
       div.style.visibility = 'hidden';
       div.style.display = 'none';
   }
+
   function hideDivLoadTime(div) {
       setTimeout(function () {
           div.style.visibility = 'hidden';
           div.style.display = 'none';
       },1000)
   }
+
   function showDivLoadTime(div) {
     setTimeout(function () {
       div.style.visibility = 'visible';
@@ -927,28 +1009,46 @@ $(document).ready(function(){
     },1000)
   }
   init();
-
-
   navBars.navProjects.addEventListener("click",function () {
 
   });
-  navBars.navMusic.addEventListener("click",function () {
-
-  });
   navBars.navContact.addEventListener("click",function () {
-
-
 
   });
   navBars.navAbout.addEventListener("click",function () {
     PagingEffect.container = pageWrapper;
     PagingEffect.about = navBars.navAbout;
-    //navBars.navAbout.style.zIndex = "1001";
+    navBars.navAbout.style.zIndex = "1001";
+    PagingEffect._instance = PagingEffect;
     PagingEffect.applyNodes();
-    PagingEffect.setInterValOnEachNode(0, 0, pageWrapper.childNodes);
     PagingEffect.checkIfPaginEffectIsDon(0, 0, navBars.navAbout, pageWrapper.childNodes, pageWrapper);
 
   });
+
+  $(navBars.navAbout).hover(
+      function () {
+          textAnimationAbout._addTextHover();
+      },
+      function () {
+          textAnimationAbout._removeTextHover();
+      }
+  )
+    $(navBars.navContact).hover(
+        function () {
+            textAnimationContact._addTextHover();
+        },
+        function () {
+            textAnimationContact._removeTextHover();
+        }
+    )
+    $(navBars.navProjects).hover(
+        function () {
+            textAnimationProject._addTextHover();
+        },
+        function () {
+            textAnimationProject._removeTextHover();
+        }
+    )
 });
 
 var PagingEffect = {
@@ -957,6 +1057,8 @@ var PagingEffect = {
     interval:[],
     intervalID: 0,
     about: 0,
+    pagingReader: false,
+    _instance: null,
     applyNodes: function () {
         for(var i = 0; i < this.numberOfEffect; i++){
             console.log("waddup?==");
@@ -967,298 +1069,6 @@ var PagingEffect = {
             div.appendChild(progressbar);
             this.container.appendChild(div);
         }
-    },
-    setInterValOnEachNode: function (direction,child,childrens) {
-        console.log("jaja");
-        if(child < 8){
-            child++;
-            console.log("childrens", childrens[child].childNodes[0]);
-            if(direction == 0) {
-                this.startTimerForEachNode(direction, child, childrens[child].childNodes[0]);
-                this.setInterValOnEachNode(direction, child, childrens);
-            }else if(direction == 1){
-                console.log("holash");
-                this.startTimerForEachNode(direction, child, childrens[child].childNodes[0]);
-                this.setInterValOnEachNode(direction, child, childrens);
-            }
-
-        }
-        /*this.startTimerForEachNode(1,childrens[1].childNodes[0])
-        this.startTimerForEachNode(2,childrens[2].childNodes[0])*/
-    },
-    startTimerForEachNode: function (direction, child, div) {
-        switch (child){
-            case 1:
-                if(direction == 0) {
-                    width = 20;
-                    var id = PagingEffect.intervalID;
-                    this.interval.push(setInterval(function () {
-                            if (width >= 100) {
-                                clearInterval(id);
-                                PagingEffect.intervalID++;
-                            } else {
-                                width += 1;
-                                div.style.width = width + '%';
-                            }
-                        }, 10)
-                    );
-                }else if(direction == 1){
-                    d_width = 100;
-                    d_left = 0;
-                    d_id = PagingEffect.intervalID;
-                    this.interval.push(setInterval(function () {
-                            if (d_width <= 0) {
-                                clearInterval(d_id);
-                                PagingEffect.intervalID++;
-                            } else {
-                                d_width -= 1;
-                                d_left += 1;
-                                div.style.width = d_width + '%';
-                                div.style.float = "right";
-                                div.style.right =  d_left + '%';
-                            }
-                        }, 10)
-                    );
-
-                }
-                break;
-            case 2:
-                if(direction == 0) {
-                    width = 20;
-                    var id = PagingEffect.intervalID;
-                    this.interval.push(setInterval(function () {
-                            if (width >= 100) {
-                                clearInterval(id);
-                                PagingEffect.intervalID++;
-                            } else {
-                                width += 1;
-                                div.style.width = width + '%';
-                            }
-                        }, 5)
-                    );
-                }else if(direction == 1){
-                    d_width = 100;
-                    d_left = 0;
-                    d_id = PagingEffect.intervalID;
-                    this.interval.push(setInterval(function () {
-                            if (d_width <= 0) {
-                                clearInterval(d_id);
-                                PagingEffect.intervalID++;
-                            } else {
-                                d_width -= 1;
-                                d_left += 1;
-                                div.style.width = d_width + '%';
-                                div.style.float = "right";
-                                div.style.left =  d_left + '%';
-                            }
-                        }, 5)
-                    );
-                }
-                break;
-            case 3:
-                if(direction == 0) {
-                    width = 20;
-                    var id = PagingEffect.intervalID;
-                    this.interval.push(setInterval(function () {
-                            if (width >= 100) {
-                                clearInterval(id);
-                                PagingEffect.intervalID++;
-                            } else {
-                                width += 1;
-                                div.style.width = width + '%';
-                            }
-                        }, 11)
-                    );
-                }else if(direction == 1){
-                    d_width = 100;
-                    d_left = 0;
-                    d_id = PagingEffect.intervalID;
-                    this.interval.push(setInterval(function () {
-                            if (d_width <= 0) {
-                                clearInterval(d_id);
-                                PagingEffect.intervalID++;
-                            } else {
-                                d_width -= 1;
-                                d_left += 1;
-                                div.style.width = d_width + '%';
-                                div.style.float = "right";
-                                div.style.left =  d_left + '%';
-                            }
-                        }, 11)
-                    );
-                }
-                break;
-            case 4:
-                if(direction == 0) {
-                    width = 20;
-                    var id = PagingEffect.intervalID;
-                    this.interval.push(setInterval(function () {
-                            if (width >= 100) {
-                                clearInterval(id);
-                                PagingEffect.intervalID++;
-                            } else {
-                                width += 1;
-                                div.style.width = width + '%';
-                            }
-                        }, 9)
-                    );
-                }else if(direction == 1){
-                    d_width = 100;
-                    d_left = 0;
-                    d_id = PagingEffect.intervalID;
-                    this.interval.push(setInterval(function () {
-                            if (d_width <= 0) {
-                                clearInterval(d_id);
-                                PagingEffect.intervalID++;
-                            } else {
-                                d_width -= 1;
-                                d_left += 1;
-                                div.style.width = d_width + '%';
-                                div.style.float = "right";
-                                div.style.left =  d_left + '%';
-                            }
-                        }, 9)
-                    );
-                }
-                break;
-            case 5:
-                if(direction == 0) {
-                    width = 20;
-                    var id = PagingEffect.intervalID;
-                    this.interval.push(setInterval(function () {
-                            if (width >= 100) {
-                                clearInterval(id);
-                                PagingEffect.intervalID++;
-                            } else {
-                                width += 1;
-                                div.style.width = width + '%';
-                            }
-                        }, 6)
-                    );
-                }else if(direction == 1){
-                    d_width = 100;
-                    d_left = 0;
-                    d_id = PagingEffect.intervalID;
-                    this.interval.push(setInterval(function () {
-                            if (d_width <= 0) {
-                                clearInterval(d_id);
-                                PagingEffect.intervalID++;
-                            } else {
-                                d_width -= 1;
-                                d_left += 1;
-                                div.style.width = d_width + '%';
-                                div.style.float = "right";
-                                div.style.left =  d_left + '%';
-                            }
-                        }, 6)
-                    );
-                }
-                break;
-            case 6:
-                if(direction == 0) {
-                    width = 20;
-                    var id = PagingEffect.intervalID;
-                    this.interval.push(setInterval(function () {
-                            if (width >= 100) {
-                                clearInterval(id);
-                                PagingEffect.intervalID++;
-                            } else {
-                                width += 1;
-                                div.style.width = width + '%';
-                            }
-                        }, 3)
-                    );
-                }else if(direction == 1){
-                    d_width = 100;
-                    d_left = 0;
-                    d_id = PagingEffect.intervalID;
-                    this.interval.push(setInterval(function () {
-                            if (d_width <= 0) {
-                                clearInterval(d_id);
-                                PagingEffect.intervalID++;
-                            } else {
-                                d_width -= 1;
-                                d_left += 1;
-                                div.style.width = d_width + '%';
-                                div.style.float = "right";
-                                div.style.left =  d_left + '%';
-                            }
-                        }, 3)
-                    );
-                }
-                break;
-            case 7:
-                if(direction == 0) {
-                    width = 20;
-                    var id = PagingEffect.intervalID;
-                    this.interval.push(setInterval(function () {
-                            if (width >= 100) {
-                                clearInterval(id);
-                                PagingEffect.intervalID++;
-                            } else {
-                                width += 1;
-                                div.style.width = width + '%';
-                            }
-                        }, 7)
-                    );
-                }else if(direction == 1){
-                    d_width = 100;
-                    d_left = 0;
-                    d_id = PagingEffect.intervalID;
-                    this.interval.push(setInterval(function () {
-                            if (d_width <= 0) {
-                                clearInterval(d_id);
-                                PagingEffect.intervalID++;
-                            } else {
-                                d_width -= 1;
-                                d_left += 1;
-                                div.style.width = d_width + '%';
-                                div.style.float = "right";
-                                div.style.left =  d_left + '%';
-                            }
-                        }, 7)
-                    );
-
-                }
-                break;
-            case 8:
-                if(direction == 0) {
-                    var width = 20;
-                    var id = PagingEffect.intervalID;
-                    this.interval.push(setInterval(function () {
-                            if (width >= 100) {
-                                clearInterval(id);
-                                PagingEffect.intervalID++;
-                            } else {
-                                width += 1;
-                                div.style.width = width + '%';
-                            }
-                        }, 2)
-                    );
-                }else if(direction == 1){
-                    var d_width = 100;
-                    var d_left = 0;
-                    var d_id = PagingEffect.intervalID;
-                    this.interval.push(setInterval(function () {
-                            if (d_width <= 0) {
-                                clearInterval(d_id);
-                                PagingEffect.intervalID++;
-                            } else {
-                                d_width -= 1;
-                                d_left += 1;
-                                div.style.width = d_width + '%';
-                                div.style.float = "right";
-                                div.style.left =  d_left + '%';
-                            }
-                        }, 2)
-                    );
-
-                }
-                break;
-        }
-    },
-    startPagingLeftEffect: function (child, div) {
-
     },
     checkIfPaginEffectIsDon: function (margin,counter,navBar, childNodes, pageWrapper) {
         var interval = setInterval(function(){
@@ -1272,45 +1082,124 @@ var PagingEffect = {
                 PagingEffect.moveNavBar(margin, navBar, childNodes);
 
             }
-        },1500);
+        },400);
     },
     moveNavBar: function (margin, navBar, childNodes) {
-        var interval = setInterval(function () {
-            if(margin < 90){
-                console.log("le margiin",$(window).width());
-              //margin += 10;
-                margin += 1;
-                PagingEffect.checkScreenWidth(margin, navBar);
-                navBar.style.zIndex ="1001";
-                //PagingEffect.moveNavBar(margin,navBar, childNodes);
-            }else{
-                clearInterval(interval);
-                PagingEffect.setInterValOnEachNode(1, 0, childNodes);
-            }
-        },10);
+        PagingEffect.startEffect(navBar);
+        setTimeout(function () {
+           PagingEffect.moveEffect(navBar);
+        },500)
+
+    },
+    startEffect: function (navBar) {
+        navBar.style.zIndex ="1001";
+        navBar.style.marginLeft = "-20px";
+        navBar.classList.add("startTransition");
+    },
+    moveEffect: function (navBar) {
+        navBar.style.marginLeft = "";
+        navBar.style.zIndex ="1001";
+        navBar.style.left = "90%";
+        navBar.classList.add("transitionLeft");
     },
     checkScreenWidth: function (margin,navBar) {
         if($(window).width() >  900){
             if(margin < 90) {
                 navBar.style.left = margin + "%";
-                navBar.style.position = "relative";
+                navBar.style.position = "";
             }
         }else if($(window).width() > 700){
             if(margin < 85) {
                 navBar.style.left = margin + "%";
-                navBar.style.position = "relative";
+                navBar.style.position = "";
             }
         }
         else if($(window).width() > 500){
             if(margin < 80) {
                 navBar.style.left = margin + "%";
-                navBar.style.position = "relative";
+                navBar.style.position = "";
             }
         }else{
             if(margin < 80) {
                 navBar.style.left = margin + "%";
             }
         }
+    }
+};
+
+
+/***
+ * Class which holding all function for
+ * hiding and show divs
+ * @type {{showDivLoadTime: DivVisibleClass.showDivLoadTime, showDiv: DivVisibleClass.showDiv, hideDivLoadTime: DivVisibleClass.hideDivLoadTime, hideDiv: DivVisibleClass.hideDiv}}
+ */
+var DivVisibleClass = {
+    showDivLoadTime: function (div) {
+        setTimeout(function () {
+            div.style.visibility = 'visible';
+            div.style.display = 'block';          // Show
+        },1000)
+    },
+    showDiv: function (div) {
+        div.style.visibility = 'visible';
+        div.style.display = 'block';          // Show
+        // div.style.display = 'inline';         // Show
+        // div.style.display = 'inline-block';
+    },
+    hideDivLoadTime: function (div) {
+        setTimeout(function () {
+            div.style.visibility = 'hidden';
+            div.style.display = 'none';
+        },1000)
+    },
+    hideDiv: function(div){
+        div.style.visibility = 'hidden';
+        div.style.display = 'none';
+    },
+    hidePageWrapper: function (div) {
+        console.log("====", div);
+        div.style.visibility = "";
+        div.style.display = "none";
+    },
+    showDivHome: function (div, navBar) {
+        switch (navBar){
+            case 'about':
+                div.style.visibility = "";
+                div.style.display = "";
+                div.style.zIndex = "1001";
+                div.style.left = "";
+                div.style.top = "";
+                div.style.bottom = "";
+                div.style.pointerEvents = "";
+                div.style.marginLeft = "-100px";
+                break;
+            case 'project':
+                div.style.visibility = "";
+                div.style.display = "";
+                div.style.pointerEvents = "";
+                div.style.zIndex ="1001";
+                div.style.left = "";
+                div.style.right = "";
+                div.style.top = "";
+                div.style.marginBottom = "-100px";
+                break;
+            case 'contact':
+                div.style.visibility = "";
+                div.style.display = "";
+                div.style.zIndex = "1001";
+                div.style.left = "";
+                div.style.top = "";
+                div.style.right = "";
+                div.style.bottom = "";
+                div.style.pointerEvents = "";
+                div.style.marginRight ="-100px";
+                break;
+        }
+    },
+    setPointer: function (div) {
+      /*div.style.pointerEvents = "inherit";
+       div.style.pointerEvents = "initial";
+       div.style.pointerEvents = "unset";*/
     }
 };
 
@@ -1330,18 +1219,14 @@ var PagingEffect = {
     </div>
   </div>
 
-   <a class="navItem navItemMusic" id="navMusic" rel="Music">
-     <span class="text" id="text-music">Music</span>
-   </a>
    <a class="navItem navItemContact" id="navContact" rel="Contact">
-     <span class="text" id="text-contacts">
-     Contact</span>
+     <span class="text" id="text-contacts"></span>
    </a>
    <a class="navItem navItemProjects" id="navProjects" rel="Projects">
-     <span class="text" id="text-projects">Projects</span>
+     <span class="text" id="text-projects"></span>
    </a>
    <a class="navItem navItemAbout"  id="navAbout" rel="About">
-     <span class="text">About</span>
+     <span class="text" id="text-about"></span>
    </a>
   <div id="page-wrapper">
   </div>
