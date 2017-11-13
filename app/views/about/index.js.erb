@@ -1,0 +1,6 @@
+setTimeout(function () {
+    history.pushState('about', document.title, '/' + 'about');
+    $("#content-container").
+    html("<%= escape_javascript(render partial: 'layouts/about/render_about', locals: { state: "alla?" }) %>");
+    localStorage.previousState = "about";
+}, 4000);

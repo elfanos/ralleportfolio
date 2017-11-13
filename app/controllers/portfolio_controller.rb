@@ -10,6 +10,8 @@ class PortfolioController < ApplicationController
     #   end
     # end
 
+    @state = "home"
+
   end
   def about_me
 

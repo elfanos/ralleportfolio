@@ -202,6 +202,30 @@ ul#resize-list li {
   -o-transition: 0.5s ease-in-out;
   width: 30px !important;
 }
+.testclassOne{
+  -webkit-transition: 2s ease-in-out;
+  -moz-transition: 2s ease-in-out;
+  -ms-transition: 2s ease-in-out;
+  -o-transition: 2s ease-in-out;
+}
+.testclass{
+  -webkit-transition: 2s ease-in-out;
+  -moz-transition: 2s ease-in-out;
+  -ms-transition: 2s ease-in-out;
+  -o-transition: 2s ease-in-out;
+}
+#textAbout{
+  .char-inner{
+    position: absolute;
+  }
+  .moveCharSmooth{
+    -webkit-transition: 0.5s ease-in-out;
+    -moz-transition: 0.5s ease-in-out;
+    -ms-transition: 0.5s ease-in-out;
+    -o-transition: 0.5s ease-in-out;
+    bottom: 1000px !important;
+  }
+}
 @media (min-width: 480px) {
   .navItem span.text .char {
     width: 22px;

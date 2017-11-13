@@ -1,10 +1,15 @@
 Rails.application.routes.draw do
 
   resources :portfolio
+  resources :about
+  resources :home
+  resources :projects
+
 
   get '/portfolio/about_me/' => 'portfolio#about_me', as: :about_me
 
-  root 'portfolio#index'
+ # root 'portfolio#index'
+  root :to => 'home#index'
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

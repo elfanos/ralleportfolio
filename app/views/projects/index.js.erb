@@ -1,0 +1,6 @@
+setTimeout(function () {
+    history.pushState('projects', document.title, '/' + 'projects');
+    $("#content-container").
+    html("<%= escape_javascript(render partial: 'layouts/projects/render_projects', locals: { state: "alla?" }) %>");
+    localStorage.previousState = "about";
+}, 4000);
