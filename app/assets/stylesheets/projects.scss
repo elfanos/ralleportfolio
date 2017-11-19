@@ -1,3 +1,280 @@
 // Place all the styles related to the projects controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+$white: #FFFFFF;
+$red: #EE6352;
+$black: #2F3031;
+$greyWhite: #EFE9E7;
+$orange: #F79D65;
+.gridContainer{
+  width:100%;
+  height:100%;
+}
+
+.gridTile
+{
+  position:absolute;
+  top:0px;
+  left:0px;
+  width:100%;
+  height:100%;
+  background-size:cover;
+  background-repeat:no-repeat;
+  background-origin:center;
+}
+#project-page{
+  overflow: scroll;
+  overflow-x: hidden;
+  a{
+    text-decoration: none;
+  }
+  .col-md-4.p-left-side{
+    margin-top: 100px;
+  }
+  .col-md-4.p-middle{
+    margin-top: 200px;
+  }
+  .col-md-4.p-right-side{
+    margin-top: 130px;
+  }
+  .col-md-12.left-side-item{
+    height: 400px;
+  }
+  .col-md-12.p-middle{
+    height: 400px;
+  }
+  .col-md-12.p-right-side{
+    height: 400px;
+  }
+  .header-text{
+    position: relative;
+    margin-top: -90px;
+    top: 0;
+    opacity: 0;
+    transition: top 1s ease-in-out;
+    h1{
+      color: $orange;
+      letter-spacing: 4px;
+      font-family: brandon-grotesque;
+
+    }
+    hr{
+      margin-top: -10px;
+      margin-bottom: 20px;
+      border: 0;
+      border-top: 2px solid $white;
+      width: 10%;
+    }
+  }
+  .under-text{
+    margin-top: 40px;
+    opacity: 0;
+    transition: margin 1s ease-in-out, opacity 0.5s ease-in;
+    p{
+      font-family: brandon-grotesque;
+      color: $white;
+      letter-spacing: 6px;
+      text-align: center;
+      margin-left: 60px;
+      width: 200px;
+    }
+  }
+  .progress {
+    position: relative;
+    bottom: 82px;
+    left: 79px;
+    height: 200px;
+    width: 200px;
+    background: linear-gradient(to right, white 99.99%, transparent), linear-gradient(to bottom, white 99.99%, transparent), linear-gradient(to right, white 99.99%, transparent), linear-gradient(to bottom, white 99.99%, transparent);
+    background-size: 100% 2px, 2px 100%, 100% 2px, 2px 100%;
+    background-repeat: no-repeat;
+    animation: out 1s linear forwards;
+    background-position: 0px 0px, 0px 0px, 200px 198px, 0px 200px;
+
+  }
+  .placeholder:hover{
+    background: linear-gradient(to right, white 99.99%, transparent), linear-gradient(to bottom, white 99.99%, transparent), linear-gradient(to right, white 99.99%, transparent), linear-gradient(to bottom, white 99.99%, transparent);
+    background-size: 100% 0px, 2px 100%, 100% 2px, 2px 100%;
+    background-repeat: no-repeat;
+    animation: in 1s linear forwards;
+    background-position: 0px 0px, 198px -200px, 200px 198px, 0px 200px;
+  }
+  .progress:first-child{
+    pointer-events: none;
+    position: absolute;
+  }
+  @keyframes in {
+    0% {
+      background-position: 0px 0px, 0px -200px, 200px 198px, 0px 200px;
+    }
+    25% {
+      background-position: 0px 0px, 0px -200px, 200px 198px, 0px 200px;
+    }
+    50% {
+      background-position: 0px 0px, 198px 0px, 200px 198px, 0px 200px;
+    }
+    75% {
+      background-position: 0px 0px, 198px 0px, 0px 198px, 0px 200px;
+    }
+    100% {
+      background-position: 0px 0px, 198px 0px, 0px 198px, 0px 200px;
+    }
+  }
+  @keyframes out {
+    0% {
+      background-position: 0px 0px, 198px 0px, 0px 198px, 0px 0px;
+    }
+    25% {
+      background-position: 0px 0px, 198px 0px, 0px 198px, 0px 200px;
+    }
+    50% {
+      background-position: 0px 0px, 198px 0px, 200px 198px, 0px 200px;
+    }
+    75% {
+      background-position: 0px 0px, 198px -200px, 200px 198px, 0px 200px;
+    }
+    100% {
+      background-position: -200px 0px, 198px -200px, 200px 198px, 0px 200px;
+    }
+  }
+  .placeholder{
+    .filler-container{
+      height: 200px;
+      width: 200px;
+    }
+    .filler{
+      height: 200px;
+      width: 0;
+      background: $orange;
+      transition: width 1s;
+      position:absolute;
+      z-index:3;
+    }
+  }
+
+
+}
+.info-content{
+  h1{
+    color: $orange;
+    letter-spacing: 4px;
+    font-family: brandon-grotesque;
+
+  }
+  p{
+    font-family: brandon-grotesque;
+    color: $white;
+    letter-spacing: 3px;
+    font-size: 14px
+  }
+  p.more-info{
+    background-color: $orange;
+  }
+
+  img {
+    min-width: 100%;
+    -webkit-filter: brightness(3);
+    filter: brightness(3);
+  }
+  .picture-holder{
+    margin-top: 100px;
+    height: 0;
+    overflow:hidden;
+    transition: height 1s ease-in-out;
+  }
+  .header-holder{
+    top: 100px;
+    opacity: 0;
+    left: 0;
+    transition: top 1s ease-in, opacity 1s ease;
+    text-align: center;
+    position: absolute;
+  }
+  .text-content-holder{
+    opacity: 0;
+    transition: opacity 1s ease;
+    margin-top: 50px;
+  }
+  #holder-header-id{
+    .header-text{
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      -webkit-transform: translate(-50%, -50%);
+      -moz-transform: translate(-50%, -50%);
+      -ms-transform: translate(-50%, -50%);
+      -o-transform: translate(-50%, -50%);
+      transform: translate(-50%, -50%);
+      display: block;
+      font-size: 20px;
+      font-family: brandon-grotesque;
+      font-weight: 900;
+      color: $orange;
+      text-transform: uppercase;
+      text-align: center;
+      font-size: 15px;
+    }
+    .header-text.char{
+      opacity: 0;
+      margin-bottom: 20px;
+      -webkit-transition: opacity 0.1s ease-out, margin 0.1s ease-in;
+      transition: opacity 0.1s ease-out, margin 0.1s ease-in;
+    }
+  }
+}
+.jumbotron.vertical-center.project-show {
+  position: relative;
+  overflow: scroll;
+  overflow-x: hidden;
+  height: 700px;
+  .back-nav-project {
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    #crossBox {
+      color: #fff;
+      font-family: 'Helvetica', 'Arial', sans-serif;
+      font-size: 2em;
+      font-weight: bold;
+      text-align: center;
+      width: 40px;
+      height: 40px;
+      margin-left: 50px;
+      margin-top: 30px;
+    }
+  }
+  .bottom-navigation {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    #back-nav {
+      .col-md-3.back-navigation {
+        .arrow-bar {
+          .arrow.left {
+            height: 40px;
+            width: 40px;
+            margin-bottom: 20px;
+            border-width: 0 2px 2px 0;
+          }
+        }
+      }
+    }
+    #next-nav {
+      .col-md-3.next-navigation {
+        float: right;
+        .arrow-bar {
+          .arrow.right {
+            height: 40px;
+            width: 40px;
+            border-width: 0 2px 2px 0;
+            margin-bottom: 20px;
+            float: right;
+          }
+        }
+      }
+    }
+  }
+  #info-show {
+    width: 100%;
+  }
+}

@@ -1,0 +1,111 @@
+<script>
+
+    $(document).ready(function() {
+        var partialRender = {
+            onebas: $("#info-show").html("<%= escape_javascript(render partial: 'layouts/project/info/render_one_bas', locals: {state: "onebas"}) %>"),
+            googleGlass: $("#info-show").html("<%= escape_javascript(render partial: 'layouts/project/info/render_google_glass', locals: {state: "googleglass"}) %>"),
+            livingMaps: $("#info-show").html("<%= escape_javascript(render partial: 'layouts/project/info/render_living', locals: {state: "livingmaps"}) %>"),
+            magazinos: $("#info-show").html("<%= escape_javascript(render partial: 'layouts/project/info/render_magazinos', locals: {state: "magazinos"}) %>"),
+            thirty: $("#info-show").html("<%= escape_javascript(render partial: 'layouts/project/info/render_thirty', locals: {state: "thirty"}) %>"),
+            moodify: $("#info-show").html("<%= escape_javascript(render partial: 'layouts/project/info/render_moodify', locals: {state: "moodify"}) %>")
+
+        };
+        var mainNavigationBar = document.getElementById("navProjects");
+        mainNavigationBar.style.display = "none";
+        function initializeValues(state, refresh) {
+            if(refresh === true){
+                if(state === "onebas"){
+                    // partialRender.googleGlass.hide();
+                    //partialRender.livingMaps.hide();
+                    partialRender.onebas.show();
+                }else if(state === "googleglass"){
+                    //partialRender.onebas.hide();
+                    //partialRender.livingMaps.hide();
+                    partialRender.googleGlass.show();
+                }else if(state === "livingmaps"){
+                    // partialRender.onebas.hide();
+                    // partialRender.googleGlass.hide();
+                    partialRender.livingMaps.show();
+                }else if(state === "magazinos"){
+                    //partialRender.onebas.hide();
+                    //partialRender.livingMaps.hide();
+                    partialRender.magazinos.show();
+                }else if(state === "thirty"){
+                    //partialRender.onebas.hide();
+                    //partialRender.livingMaps.hide();
+                    partialRender.thirty.show();
+                }else if(state === "moodify"){
+                    //partialRender.onebas.hide();
+                    //partialRender.livingMaps.hide();
+                    partialRender.moodify.show();
+                }
+
+            }
+        }
+        initializeValues("<%=@session%>", <%=@refresh%>);
+        var owl = $("#owl-demo");
+
+        owl.owlCarousel({
+            navigation : true,
+            singleItem : true,
+            dots: false,
+            transitionStyle : "fade"
+        });
+
+    });
+
+    jQuery(document.documentElement).keyup(function (event) {
+
+        var owl = jQuery(".owl-carousel");
+
+        if (event.keyCode == 32){
+            owl.trigger('owl.next');
+        }
+
+        // handle cursor keys
+        if (event.keyCode == 37) {
+            // go left
+            owl.trigger('owl.prev');
+        } else if (event.keyCode == 39) {
+            // go right
+            owl.trigger('owl.next');
+        }
+
+    });
+
+</script>
+<div class="jumbotron vertical-center project-show">
+  <div class="back-nav-project">
+    <%=link_to(project_index_path({state:'project', page: 'info'}), remote:true) do%>
+        <div id="crossBox">
+          <span id="x">X</span>
+        </div>
+    <%end%>
+  </div>
+  <div id="info-show">
+  </div>
+</div>
+
+
+
+<div class="bottom-navigation">
+  <div class = "container">
+    <div class="row">
+      <div id="back-nav">
+        <div class="col-md-3 back-navigation">
+          <%=link_to(project_info_path(:state => "#{@info_object[:prev]}"), remote:true) do%>
+              <span class="arrow-bar"><i class="arrow left"></i></span>
+          <%end%>
+        </div>
+      </div>
+      <div id="next-nav">
+        <div class="col-md-3 next-navigation">
+          <%=link_to(project_info_path(:state => "#{@info_object[:next]}"), remote:true) do%>
+              <span class="arrow-bar"><i class="arrow right"></i></span>
+          <%end%>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
