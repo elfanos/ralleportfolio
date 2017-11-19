@@ -1,6 +1,6 @@
 class ProjectsController < ApplicationController
 
   def index
-    @state = "about"
+    @state = "projects"
   end
 end

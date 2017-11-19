@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   resources :about
   resources :home
   resources :projects
+  resources :contact
 
 
   get '/portfolio/about_me/' => 'portfolio#about_me', as: :about_me

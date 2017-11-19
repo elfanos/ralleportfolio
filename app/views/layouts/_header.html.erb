@@ -1,11 +1,25 @@
 <script>
-    var stateManager = null;
-    localStorage.previousState = "home";
-
+    var stateManager = {
+        aboutForward: null,
+        aboutBack: null,
+        projectForward: null,
+        projectBack: null,
+        contactForward: null,
+        contactBack: null
+    };
+    var stateOfButtons = {
+        contactState: false,
+        aboutState: false,
+        projectState: false
+    };
+    var hoverStates = {
+        contact: false,
+        about: false,
+        project: false
+    };
     var stateKeeper = new StateKeeper();
     stateKeeper._instance = stateKeeper;
     window.addEventListener('popstate', function(e) {
-        console.log("well hello there? in my fucking headeR???");
         var character = e.state;
 
         if (character == null) {
@@ -14,34 +28,32 @@
             console.log("what is charcater? " + character);
             console.log("what is charcater back nav? " + localStorage.previousState);
             stateKeeper._setSate(character);
+            stateKeeper._setPreviousState(localStorage.previousState);
             if(stateManager != undefined){
-                stateManager();
+               // stateManager();
                 stateKeeper._initializeState();
             }else{
-                console.log("bajs");
 
             }
         }
     });
 
-    function TextAnimation(context,letters, textClassName) {
+    function TextAnimation(context,letters, textClassName,
+                           backButton) {
         this.context = context;
+        this.backButton = backButton;
         this.letters = letters;
         this.interval = [];
         this.textDivTags = [];
         this.divArray = [];
         this.textClassName = textClassName;
         this.instance = null;
-        var intervalIds = [];
         this.alreadyCreated = false;
         this.newInstance = function (classInstance) {
             this.instance = classInstance;
             alreadyCreated = true;
         };
         this.initializeLetters = function() {
-           // console.log("context", this.context);
-           // console.log("letters", this.letters.length);
-           // console.log("");
             if(textClassName === 'textProject'){
             }else {
                 this.context.style.width = $(window).height() + "px";
@@ -62,19 +74,19 @@
         this.initializeTags = function () {
             var childs = this.context.childNodes;
             for(var i = 0; i < Object.size(childs); i++){
-              //  console.log("wad it is", childs[i].childNodes[0]);
                 this.textDivTags.push(childs[i].childNodes[0]);
             }
         };
         this._addTextHover = function () {
             var childs = this.context.childNodes;
+            //charanimation
+            if(this.backButton != undefined){
+                $(this.backButton).removeClass("hoverClassOut");
+                $(this.backButton).addClass("hoverClass");
+            }
             for(var i = 0; i < Object.size(childs); i++){
-               // console.log("wad it is", childs[i]);
-                $(childs).removeClass('textHoverOut');
                 $(childs).addClass('textHover');
-                console.log(
-                    ($(window).height() / this.instance.letters.length) - 20 + "px"
-                );
+                $(childs).removeClass('textHoverOut');
                 if(textClassName === 'textProject'){
                     $(childs).width(($(window).width() / this.instance.letters.length) - 5 + "px");
                 }else {
@@ -85,66 +97,121 @@
         };
         this._removeTextHover = function () {
             var childs = this.context.childNodes;
+            if(this.backButton != undefined){
+                $(this.backButton).removeClass("hoverClass");
+                $(this.backButton).addClass("hoverClassOut");
+            }
             for(var i = 0; i < Object.size(childs); i++){
-                console.log("wad it is", childs[i].children[0]);
                 $(childs).removeClass('textHover');
                 $(childs).addClass('textHoverOut');
             }
         };
-        this._moveCharOnTimeOut = function (textAnimation, navBar) {
+        this._moveCharOnTimeOut = function (textAnimation,
+                                            navBar, backPressed, state) {
                 var childs = this.context.childNodes;
+               // textAnimation._addTextHover();
                 for(var i = 0; i < Object.size(childs); i++){
+                //    console.log("childe?" + childs[i].children[0].innerHTML);
                    (function(j, instance) {
                      setTimeout(function () {
                          if(j === (Object.size(childs))){
-                             instance._moveChar(childs[j].children[0],true);
+                             instance._moveChar(childs[j].children[0], backPressed, state);
                          }else{
-                             instance._moveChar(childs[j].children[0],false);
+                             instance._moveChar(childs[j].children[0], backPressed, state);
                          }
                      }, j*250);
-                     })(i, this);
+                     })(i, textAnimation);
                 }
                 (function(instance, navBar) {
                     setTimeout(function () {
-                        console.log("eyo?");
-                        instance._normalizePosition(navBar);
+                       // console.log("eyo?");
+                        instance._normalizePosition(navBar,
+                            backPressed, textAnimation, state);
                     },2000)
-                })(this, navBar);
+                })(this, navBar, backPressed);
         };
-        this._moveChar = function (bar, lastElement) {
+
+        /**
+         * Moving the char of bar into a new position
+         * the new position is bottom but the amount
+         * of pixels is based on which position the chars
+         * have, if its a vertical char it will take height
+         * in consideration if horizontal it will take width in
+         * consideration.
+         *
+         * @param bar the given char
+         * @param backButtonPressed, check if the web back button is
+         *                          pressed
+         * @param state, check which navbar thats being clicked
+         * */
+        this._moveChar = function (bar, backButtonPressed, state) {
             var position = 0;
             var width = document.body.clientWidth;
-            var interval = setInterval(function (lastElement) {
-                position += 10;
-                if(position < (width - 130)) {
-                    bar.style.bottom = position + "px";
-                }else{
-                    if(lastElement == true){
-                        console.log("eta gg");
+            var height = document.body.clientHeight;
+            if(!backButtonPressed) {
+             //   console.log("yolo?");
+                var interval = setInterval(function () {
+                    position += 10;
+                    if(state == "about") {
+                        if (position < (width - 70)) {
+                            bar.style.bottom = position + "px";
+                            //  console.log("le element " + bar.innerHTML);
+                        } else {
+                            clearInterval(interval);
+                        }
+                    }else if(state == "contact"){
+                        if (position < (width - 70)) {
+                            bar.style.bottom = position + "px";
+                            //  console.log("le element " + bar.innerHTML);
+                        } else {
+                            clearInterval(interval);
+                        }
+                    }else{
+                        if (position < (height - 80)) {
+                            bar.style.bottom = position + "px";
+                            //  console.log("le element " + bar.innerHTML);
+                        } else {
+                            clearInterval(interval);
+                        }
                     }
-                    clearInterval(interval);
-                }
-            },1);
+                }, 1);
+            }else{
+                var intervalBack = setInterval(function () {
+                    position -= 10;
+                    if(state == "about" || state == "contact") {
+                        if (position > (70 - width)) {
+                            bar.style.bottom = position + "px";
+                        } else {
+                            clearInterval(intervalBack);
+                        }
+                    }else{
+                        if (position > (50 - height)) {
+                            bar.style.bottom = position + "px";
+                        } else {
+                            clearInterval(intervalBack);
+                        }
+                    }
+                }, 1);
+            }
         };
         /**
          * normalize position on each char in the navbar
          *
          * @param navBar the current navigation bar that being normalized
          * */
-        this._normalizePosition = function (navBar) {
+        this._normalizePosition = function (navBar,backpressed,
+                                            textAnimation, state) {
             this._charFadeOut();
-            (function (navBar,instance) {
+            (function (navBar,instance,state) {
                 setTimeout(function () {
-                    navBar.style.marginLeft = "";
-                    navBar.style.zIndex = "1001";
-                    navBar.style.left = "90%";
-                    (function (instance) {
+                    instance._navBarNormalizedPosition(navBar,state,backpressed);
+                    (function (instance, navBar,backpressed) {
                         setTimeout(function () {
-                            instance._charFadeIn();
+                            instance._charFadeIn(navBar, textAnimation, backpressed);
                         },500)
-                    })(instance);
+                    })(instance, navBar,backpressed);
                 }, 500);
-            })(navBar,this);
+            })(navBar,this,state);
         };
         this._charFadeOut = function () {
             var childs = this.context.childNodes;
@@ -152,23 +219,107 @@
                 $(childs[i].childNodes[0]).fadeOut();
             }
         };
-        this._charFadeIn = function () {
+        this._charFadeIn = function (navBar, textAnimation,backpressed) {
+            console.log("char fadeish?");
+            /**
+             * Reset hover states
+             * */
+            hoverStates.project = false;
+            hoverStates.contact = false;
+            hoverStates.about = false;
+
+            $(navBar).removeClass("startTransition");
+
+            textAnimation._removeTextHover();
+            navBar.style.pointerEvents = "";
             var childs = this.context.childNodes;
             for(var i = 0; i < Object.size(childs); i++){
                 $(childs[i].childNodes[0]).fadeIn("slow");
                 childs[i].childNodes[0].style.bottom = "";
             }
+            (function (backButton) {
+                setTimeout(function () {
+                    if(!backpressed) {
+                        $(backButton).fadeIn('slow')
+                    }else{
+                        $(backButton).hide();
+                    }
+                }, 500)
+            }(this.backButton, backpressed));
+        };
+
+        /**
+         * Gets the normal position when a navbar is clicked after
+         * the transition effect.
+         *
+         * @param navBar, the navbar whom is clicked
+         * @param state, which name of the navbar that is clicked
+         * @param if it backpressed on the browser.
+         * */
+        this._navBarNormalizedPosition = function (navBar, state, backPressed) {
+            switch (state){
+                case "about":
+                    if(!backPressed) {
+                        navBar.style.marginLeft = "";
+                        navBar.style.zIndex = "1001";
+                        navBar.style.right = "-30px";
+                        navBar.style.left = "auto";
+                    }
+                    //home normal values
+                    else{
+                        navBar.style.marginLeft = "";
+                        navBar.style.zIndex = "";
+                        navBar.style.right = "";
+                        navBar.style.left = "";
+                    }
+                    break;
+                case "projects":
+                    console.log("inside projects?");
+                    if(!backPressed) {
+                        navBar.style.marginLeft = "";
+                        navBar.style.zIndex = "1001";
+                        navBar.style.top = "-40px";
+                    }
+                    else{
+                        navBar.style.marginLeft = "";
+                        navBar.style.zIndex = "";
+                        navBar.style.top = "";
+                    }
+                    break;
+                case "contact":
+                    if(!backPressed) {
+                        navBar.style.marginLeft = "";
+                        navBar.style.zIndex = "1001";
+                        navBar.style.left = "-30px";
+                    }
+                    else{
+                        navBar.style.marginLeft = "";
+                        navBar.style.zIndex = "";
+                        navBar.style.left = "";
+                    }
+                    break;
+            }
         }
     }
     function StateKeeper (){
         this._state = null;
+        this.__previousState = null;
+        this._backNavButtons = null;
         this._instance = null;
         this._setSate = function (state) {
             this._state = state;
-        }
+        };
+        this._setPreviousState = function(state){
+            this.__previousState = state;
+        };
         this._initializeState = function () {
           switch (this._state){
               case "home":
+                  this._animationBackState(this.__previousState);
+                  //hide backnavbuttons on home page
+                  $(this._backNavButtons.buttonAbout).hide();
+                  $(this._backNavButtons.buttonProject).hide();
+                  $(this._backNavButtons.buttonContact).hide();
                   setTimeout(function () {
                       //Do some cool animation
                       $("#content-container").
@@ -177,15 +328,19 @@
                   //normal position of nav
                   break;
               case "about":
-                  setTimeout(function () {
-                     // history.pushState('about', document.title, '/' + 'about');
-                      //Do some cool animation
-                      $("#content-container").
-                      html("<%= escape_javascript(render partial: 'layouts/about/render_about', locals: { state: "alla?" }) %>");
-                  }, 4000);
+                  this._animationForwardState('about');
+                  (function (backNavAbout) {
+                      setTimeout(function () {
+                          // history.pushState('about', document.title, '/' + 'about');
+                          //Do some cool animation
+                          $("#content-container").html("<%= escape_javascript(render partial: 'layouts/about/render_about', locals: { state: "alla?" }) %>");
+                          $(backNavAbout).fadeIn("slow");
+                      }, 4000);
+                  }(this._backNavButtons.buttonAbout));
                   //about position of nav
                   break;
               case "projects":
+                  this._animationForwardState('projects');
                   setTimeout(function () {
                       // history.pushState('about', document.title, '/' + 'about');
                       //Do some cool animation
@@ -195,34 +350,95 @@
                   //project position of nav
                   break;
               case "contact":
+                  this._animationForwardState('contact');
+                  setTimeout(function () {
+                      // history.pushState('about', document.title, '/' + 'about');
+                      //Do some cool animation
+                      $("#content-container").
+                      html("<%= escape_javascript(render partial: 'layouts/contact/render_contact', locals: { state: "alla?" }) %>");
+                  }, 4000);
                   //contact position of nav
                   break;
             }
           };
-
+        this._animationForwardState = function(state){
+            switch (state){
+                case 'about':
+                    stateManager.aboutForward();
+                    break;
+                case 'projects':
+                    stateManager.projectForward();
+                    break;
+                case 'contact':
+                    stateManager.contactForward();
+                    break;
+            }
+        };
+        this._animationBackState = function(state){
+            switch (state){
+                case 'about':
+                    stateManager.aboutBack();
+                    break;
+                case 'projects':
+                    stateManager.projectBack();
+                    break;
+                case 'contact':
+                    stateManager.contactBack();
+                    break;
+                case 'home':
+                    break;
+            }
+        };
     }
-
-    function StateOnPage (state, navBar) {
+    function StateOnPage (state, navBar, backNavButtons) {
         this._state = state;
         this._navBar = navBar;
+        this._backNavButtons = backNavButtons;
         this._initializeHeader = function () {
           switch (this._state){
               case 'about':
                   this._navBar.navAbout.style.zIndex = "1001";
-                  this._navBar.navAbout.style.left = "90%";
+                  this._navBar.navAbout.style.right = "-30px";
+                  this._navBar.navAbout.style.left = "auto";
+                  console.log("aboute??? ");
+                  $(this._backNavButtons.buttonAbout).show();
+                  stateOfButtons.aboutState = true;
 
                   this._navBar.navProjects.style.zIndex = "0";
                   this._navBar.navContact.style.zIndex = "0";
                   break;
               case 'home':
+                  stateOfButtons.contactState = false;
+                  stateOfButtons.aboutState = false;
+                  stateOfButtons.projectState = false;
+                  this._navBar.navProjects.style.zIndex = "1001";
+                  this._navBar.navContact.style.zIndex = "1001";
+                  this._navBar.navAbout.style.zIndex = "1001";
+                  break;
+              case 'projects':
+                  console.log("eyoo?? home??");
+                  this._navBar.navProjects.style.zIndex = "1001";
+                  this._navBar.navProjects.style.top = "-40px";
+                  $(this._backNavButtons.buttonProject).show();
+                  stateOfButtons.projectState = true;
+
+                  this._navBar.navAbout.style.zIndex = "0";
+                  this._navBar.navContact.style.zIndex = "0";
+                  break;
+              case 'contact':
+                  this._navBar.navContact.style.zIndex = "1001";
+                  this._navBar.navContact.style.left = "-30px";
+                  $(this._backNavButtons.buttonContact).show();
+                  stateOfButtons.contactState = true;
+
+                  this._navBar.navProjects.style.zIndex = "0";
+                  this._navBar.navAbout.style.zIndex = "0";
                   break;
           }
         };
     };
 
     $(document).ready(function(){
-        var procentOfScreen = 0.75;
-        var screenInterval;
         var loadingContent = document.getElementById("load-container");
         var resizeContainer = document.getElementById("resize-container");
         var pageWrapper = document.getElementById("page-wrapper");
@@ -243,7 +459,7 @@
             [0,0,0,0,0,0,0,0,0,0],
             [0,0,0,0,0,0,0,0,0,0],
             [0,0,0,0,0,0,0,0,0,0]
-        ]
+        ];
 
         //loading elements class/id
         var letterClassInLoading = {
@@ -275,19 +491,38 @@
             navProjects: document.getElementById("navProjects"),
             navContact: document.getElementById("navContact")
         };
+        var backNavButtons = {
+            buttonAbout: document.getElementById("backNavAbout"),
+            buttonProject: document.getElementById("backNavProjects"),
+            buttonContact: document.getElementById("backNavContact")
+        };
         var lettersContact = ['C','O','N','T','A','C','T'];
         var lettersProject = ['P', 'R', 'O', 'J', 'E', 'C', 'T', 'S'];
         var lettersAbout = ['A','B','O','U','T'];
-        console.log("arraT==" + lettersContact.length);
 
-        var textAnimationAbout = new TextAnimation(navBars.navAbout.children[0], lettersAbout, 'textAbout');
+        /**
+         * Check if object is stored otherwise
+         * create new instance of textanimation
+         *
+         * */
+        var textAnimationAbout =
+            new TextAnimation(navBars.navAbout.children[0],
+                lettersAbout, 'textAbout', backNavButtons.buttonAbout
+            );
         textAnimationAbout.newInstance(textAnimationAbout);
-        var textAnimationContact = new TextAnimation(navBars.navContact.children[0], lettersContact,'textContact');
+        var textAnimationContact = new TextAnimation(
+            navBars.navContact.children[0],
+            lettersContact,'textContact', backNavButtons.buttonContact
+        );
         textAnimationContact.newInstance(textAnimationContact);
-        var textAnimationProject = new TextAnimation(navBars.navProjects.children[0], lettersProject,'textProject');
+        var textAnimationProject = new TextAnimation(
+            navBars.navProjects.children[0],
+            lettersProject,'textProject', backNavButtons.buttonProject
+        );
         textAnimationProject.newInstance(textAnimationProject);
 
-        var stateOfPage = new StateOnPage("<%= @state %>",navBars);
+        console.log("lestate?? " + "<%= @state %>")
+        var stateOfPage = new StateOnPage("<%= @state %>",navBars, backNavButtons);
         function initializeAllLetters() {
             if(!textAnimationProject.alreadyCreated){
                 textAnimationProject.initializeLetters();
@@ -298,17 +533,17 @@
         function init(){
 
 
-            // should be applied on resiz
-
+            // should be applied on resize
+            $(backNavButtons.buttonAbout).hide();
+            $(backNavButtons.buttonContact).hide();
+            $(backNavButtons.buttonProject).hide();
+            stateKeeper._backNavButtons = backNavButtons;
             textAnimationAbout.initializeLetters();
             textAnimationAbout.initializeTags();
             textAnimationContact.initializeLetters();
             textAnimationContact.initializeTags();
             initializeAllLetters();
             hideDive(pageWrapper);
-            var screenHeight = $(window).height();
-            var screenWidth = $(window).width();
-            console.log("windowsize :D" + $(window).width());
             //draws
             drawLoadingContent();
 
@@ -325,13 +560,102 @@
             //loadLoadingScreen();
             endLoading();
 
-            stateManager = function () {
+            /***
+             * Back browser navigation between
+             * links and stuff.
+             * */
+            stateManager.aboutBack = function () {
+                /**
+                 * previous state keeps track on
+                 * which view from home that is being visualize
+                 * */
+                localStorage.previousState = 'about';
+                $(backNavButtons.buttonAbout).fadeOut('slow');
+                navBars.navAbout.style.pointerEvents = "none";
+                textAnimationAbout._addTextHover();
                 PagingEffect.container = pageWrapper;
                 PagingEffect.about = navBars.navAbout;
                 navBars.navAbout.style.zIndex = "1001";
                 PagingEffect._instance = PagingEffect;
+                PagingEffect._backButton = true;
                 PagingEffect.applyNodes();
-                PagingEffect.checkIfPaginEffectIsDon(0, 0, navBars.navAbout, pageWrapper.childNodes, pageWrapper);
+                PagingEffect.checkIfPaginEffectIsDon(0, 0, navBars.navAbout,
+                    pageWrapper.childNodes, navBars, 'about',
+                    textAnimationAbout, true);
+                stateOfButtons.aboutState = false;
+            };
+            stateManager.aboutForward = function () {
+                localStorage.previousState = 'about';
+                navBars.navAbout.style.pointerEvents = "none";
+                textAnimationAbout._addTextHover();
+                PagingEffect.container = pageWrapper;
+                PagingEffect.about = navBars.navAbout;
+                navBars.navAbout.style.zIndex = "1001";
+                PagingEffect._instance = PagingEffect;
+                PagingEffect._backButton = true;
+                PagingEffect.applyNodes();
+                PagingEffect.checkIfPaginEffectIsDon(0, 0, navBars.navAbout,
+                    pageWrapper.childNodes, navBars, 'about',
+                    textAnimationAbout, false);
+                stateOfButtons.aboutState = true;
+            };
+            stateManager.projectBack = function () {
+                localStorage.previousState = 'projects';
+                $(backNavButtons.buttonProject).hide();
+                navBars.navProjects.style.pointerEvents = "none";
+                textAnimationProject._addTextHover();
+                PagingEffect.container = pageWrapper;
+                PagingEffect.about = navBars.navAbout;
+                navBars.navProjects.style.zIndex = "1001";
+                PagingEffect._instance = PagingEffect;
+                PagingEffect.applyNodes();
+                PagingEffect.checkIfPaginEffectIsDon(0, 0, navBars.navProjects,
+                    pageWrapper.childNodes, navBars, 'projects',
+                    textAnimationProject, true);
+                stateOfButtons.projectState = false;
+            };
+            stateManager.projectForward = function () {
+                navBars.navProjects.style.pointerEvents = "none";
+                localStorage.previousState = 'projects';
+                textAnimationProject._addTextHover();
+                PagingEffect.container = pageWrapper;
+                PagingEffect.about = navBars.navAbout;
+                navBars.navProjects.style.zIndex = "1001";
+                PagingEffect._instance = PagingEffect;
+                PagingEffect.applyNodes();
+                PagingEffect.checkIfPaginEffectIsDon(0, 0, navBars.navProjects,
+                    pageWrapper.childNodes, navBars, 'projects',
+                    textAnimationProject, false);
+                stateOfButtons.projectState = true;
+            };
+            stateManager.contactBack = function () {
+                $(backNavButtons.buttonContact).hide();
+                localStorage.previousState = 'contact';
+                navBars.navContact.style.pointerEvents = "none";
+                textAnimationContact._addTextHover();
+                PagingEffect.container = pageWrapper;
+                PagingEffect.about = navBars.navAbout;
+                navBars.navContact.style.zIndex = "1001";
+                PagingEffect._instance = PagingEffect;
+                PagingEffect.applyNodes();
+                PagingEffect.checkIfPaginEffectIsDon(0, 0, navBars.navContact,
+                    pageWrapper.childNodes, navBars, 'contact',
+                    textAnimationContact, true);
+                stateOfButtons.contactState = false;
+            };
+            stateManager.contactForward = function () {
+                navBars.navContact.style.pointerEvents = "none";
+                localStorage.previousState = 'contact';
+                textAnimationContact._addTextHover();
+                PagingEffect.container = pageWrapper;
+                PagingEffect.about = navBars.navAbout;
+                navBars.navContact.style.zIndex = "1001";
+                PagingEffect._instance = PagingEffect;
+                PagingEffect.applyNodes();
+                PagingEffect.checkIfPaginEffectIsDon(0, 0, navBars.navContact,
+                    pageWrapper.childNodes, navBars, 'contact',
+                    textAnimationContact, false);
+                stateOfButtons.contactState = true;
             };
 
             /***
@@ -344,7 +668,6 @@
 
 
         }
-
         function loadLoadingScreen() {
             hideResizeElements();
             showLoadingElements(document.getElementById('loading-list'));
@@ -494,21 +817,6 @@
                     lightningEffectOnResize(number);
                 }
             }, 100);
-        }
-
-        function calculateScreenWidth(width, procent){
-            procentHigh = (width*procent);
-            return width - procentHigh;
-        }
-        function calculateScreenHeight(height, procent){
-            procentHigh = (height*procent);
-            return height - procentHigh;
-        }
-        function createLoadingContent(){
-            return $("<div/>")   // creates a div element
-                .attr("id", "some")  // adds the id
-                .addClass("loading-content")   // add a classöööööö
-                .html("<div></div>");
         }
         function drawLoadingText() {
             for(var i = 0; i < Object.size(letterClassInLoading); i++){
@@ -1074,9 +1382,6 @@
             },50)
         }
 
-
-
-
         /***
          * content before the redraw intro
          * of home page
@@ -1180,48 +1485,103 @@
             },1000)
         }
         init();
-        navBars.navProjects.addEventListener("click",function () {
 
+        navBars.navProjects.addEventListener("click",function () {
+            hoverStates.project = true;
+            if(!stateOfButtons.projectState) {
+                stateManager.projectForward();
+                /**
+                 * Ajax calls
+                 * */
+                setTimeout(function () {
+                    history.pushState('projects', document.title, '/' + 'projects');
+                    $("#content-container").
+                    html("<%= escape_javascript(render partial: 'layouts/projects/render_projects', locals: { state: "alla?" }) %>");
+                    localStorage.previousState = "projects";
+                }, 4000);
+            }else{
+                stateKeeper._setSate('home');
+                stateKeeper._setPreviousState('projects');
+                stateKeeper._initializeState();
+                history.pushState('home', document.title, '/' + 'home');
+                localStorage.previousState = "projects";
+                stateOfButtons.projectState = false;
+            }
         });
         navBars.navContact.addEventListener("click",function () {
+            hoverStates.contact = true;
+            if(!stateOfButtons.contactState) {
+                stateManager.contactForward();
+                /**
+                 * Ajax calls
+                 * */
+                setTimeout(function () {
+                    history.pushState('contact', document.title, '/' + 'contact');
+                    $("#content-container").
+                    html("<%= escape_javascript(render partial: 'layouts/contact/render_contact', locals: { state: "alla?" }) %>");
+                    localStorage.previousState = "contact";
+                }, 4000);
+            }else{
+                stateKeeper._setSate('home');
+                stateKeeper._setPreviousState('contact');
+                stateKeeper._initializeState();
+                history.pushState('home', document.title, '/' + 'home');
+                localStorage.previousState = "contact";
+                stateOfButtons.contactState = false;
+            }
 
         });
         navBars.navAbout.addEventListener("click",function () {
-            PagingEffect.container = pageWrapper;
-            PagingEffect.about = navBars.navAbout;
-            navBars.navAbout.style.zIndex = "1001";
-            PagingEffect._instance = PagingEffect;
-            PagingEffect.applyNodes();
-            PagingEffect.checkIfPaginEffectIsDon(0, 0, navBars.navAbout,
-                pageWrapper.childNodes, navBars, 'about',textAnimationAbout);
-           // PagingEffect.moveBarEffect(navBars.navAbout);
-
+            hoverStates.about = true;
+            if(!stateOfButtons.aboutState) {
+                stateManager.aboutForward();
+                /**
+                 * Ajax calls
+                 * */
+                setTimeout(function () {
+                    history.pushState('about', document.title, '/' + 'about');
+                    $("#content-container").
+                    html("<%= escape_javascript(render partial: 'layouts/about/render_about', locals: { state: "alla?" }) %>");
+                    localStorage.previousState = "about";
+                }, 4000);
+            }else{
+                stateKeeper._setSate('home');
+                stateKeeper._setPreviousState('about');
+                stateKeeper._initializeState();
+                history.pushState('home', document.title, '/' + 'home');
+                localStorage.previousState = "about";
+                stateOfButtons.aboutState = false;
+            }
         });
 
         $(navBars.navAbout).hover(
             function () {
                 textAnimationAbout._addTextHover();
             },
-            function () {
-                textAnimationAbout._removeTextHover();
+            function (e) {
+                if(!hoverStates.about)
+                    textAnimationAbout._removeTextHover();
             }
-        )
+        );
         $(navBars.navContact).hover(
             function () {
                 textAnimationContact._addTextHover();
             },
             function () {
-                textAnimationContact._removeTextHover();
+                if(!hoverStates.contact)
+                    textAnimationContact._removeTextHover();
             }
-        )
+        );
         $(navBars.navProjects).hover(
             function () {
                 textAnimationProject._addTextHover();
             },
             function () {
-                textAnimationProject._removeTextHover();
+                if(!hoverStates.project) {
+                    textAnimationProject._removeTextHover();
+                }
             }
-        )
+        );
     });
 
     var PagingEffect = {
@@ -1232,6 +1592,7 @@
         about: 0,
         pagingReader: false,
         _instance: null,
+        _backButton: false,
         applyNodes: function () {
             for(var i = 0; i < this.numberOfEffect; i++){
                 console.log("waddup?==");
@@ -1244,135 +1605,106 @@
             }
         },
         checkIfPaginEffectIsDon: function (margin,counter,navBar,
-                                           childNodes,navBars, state,textAnimation) {
+                                           childNodes, navBars,
+                                           state,textAnimation, backButton) {
             var interval = setInterval(function(){
                 if(counter > 1){
                     counter++;
                     PagingEffect.checkIfPaginEffectIsDon(margin,
-                        counter,navBar, childNodes, navBars, state,textAnimation);
+                        counter,navBar, childNodes,
+                        navBars, state,textAnimation, backButton);
                 }else{
                     console.log("haj");
                     clearInterval(interval);
                     PagingEffect.moveNavBar(margin,
-                        navBar, childNodes, navBars, state,textAnimation);
+                        navBar, childNodes, navBars, state,
+                        textAnimation, backButton);
 
                 }
             },400);
         },
-        moveNavBar: function (margin, navBar,
-                              childNodes, navBars, state, textAnimation) {
-            PagingEffect.startEffect(navBar, navBars, state);
-            PagingEffect.moveCharEffect(textAnimation,navBar);
-         /*   setTimeout(function () {
-                PagingEffect.moveBarEffect(navBar);
-            },1000)*/
+        moveNavBar: function (margin, navBar, childNodes, navBars,
+                              state, textAnimation, backButton) {
+            if(!backButton) {
+                PagingEffect.startEffect(navBar,
+                    navBars, state, textAnimation);
+            }
+            else {
+                PagingEffect.startHomeEffect(navBar, navBars, state);
+            }
+
+            textAnimation._addTextHover();
+            (function (textAnimation,navBar,backButton) {
+                setTimeout(function () {
+                    textAnimation._moveCharOnTimeOut(
+                        textAnimation, navBar, backButton, state);
+                },1000)
+            }(textAnimation,navBar,backButton));
 
         },
-        startEffect: function (navBar, navBars, state) {
-            navBar.style.zIndex ="1001";
-            navBar.style.marginLeft = "-50px";
-            navBar.classList.add("startTransition");
+        startHomeEffect: function (navBar, navBars, state) {
+            navBar.style.zIndex ="";
+            navBar.style.marginLeft = "";
+            navBar.classList.remove("startTransition");
 
+            /**
+             * temporary pageWrapper hide!!!!!
+             * */
+            $("#page-wrapper").hide();
+            switch (state){
+                case 'about':
+                    setTimeout(function () {
+                        $(navBars.navContact).fadeIn("slow");
+                        $(navBars.navProjects).fadeIn("slow");
+                        navBars.navContact.style.zIndex = "1001";
+                        navBars.navProjects.style.zIndex = "1001";
+                    },3000);
+                    break;
+                case 'projects':
+                    setTimeout(function () {
+                        $(navBars.navContact).fadeIn("slow");
+                        $(navBars.navAbout).fadeIn("slow");
+                        navBars.navContact.style.zIndex = "1001";
+                        navBars.navAbout.style.zIndex = "1001";
+                    },3000);
+                    break;
+                case 'contact':
+                    setTimeout(function () {
+                        $(navBars.navProjects).fadeIn("slow");
+                        $(navBars.navAbout).fadeIn("slow");
+                        navBars.navAbout.style.zIndex = "1001";
+                        navBars.navProjects.style.zIndex = "1001";
+                    },3000);
+                    break;
+            }
+        },
+        /**
+         * Begin the paging effect by fading out the other
+         * navbars and only keeping the clicked one,
+         * Setting a new position for bounce animation
+         * */
+        startEffect: function (navBar, navBars, state, textAnimation) {
+            navBar.style.zIndex ="1001";
+            //navBar.style.marginLeft = "-50px";
+            //navBar.style.marginBottom = "-50px";
+            navBar.classList.add("startTransition");
             switch (state){
                 case 'about':
                     $(navBars.navContact).fadeOut("slow");
                     $(navBars.navProjects).fadeOut("slow");
                     break;
                 case 'projects':
-                    break
+                    $(navBars.navContact).fadeOut("slow");
+                    $(navBars.navAbout).fadeOut("slow");
+                    break;
                 case 'contact':
-                    break
+                    $(navBars.navProjects).fadeOut("slow");
+                    $(navBars.navAbout).fadeOut("slow");
+                    break;
             }
-
-
-        },
-        moveCharEffect: function (textAnimation,navBar) {
-            textAnimation._moveCharOnTimeOut(textAnimation, navBar);
-        },
-        moveBarEffect: function (navBar) {
-
-            navBar.style.marginLeft = "";
-            navBar.style.zIndex ="1001";
-            navBar.style.left = "90%";
-            //navBar.classList.add("transitionLeft");
         }
     };
 
-
-    /***
-     * Class which holding all function for
-     * hiding and show divs
-     * @type {{showDivLoadTime: DivVisibleClass.showDivLoadTime, showDiv: DivVisibleClass.showDiv, hideDivLoadTime: DivVisibleClass.hideDivLoadTime, hideDiv: DivVisibleClass.hideDiv}}
-     */
-    var DivVisibleClass = {
-        showDivLoadTime: function (div) {
-            setTimeout(function () {
-                div.style.visibility = 'visible';
-                div.style.display = 'block';          // Show
-            },1000)
-        },
-        showDiv: function (div) {
-            div.style.visibility = 'visible';
-            div.style.display = 'block';          // Show
-            // div.style.display = 'inline';         // Show
-            // div.style.display = 'inline-block';
-        },
-        hideDivLoadTime: function (div) {
-            setTimeout(function () {
-                div.style.visibility = 'hidden';
-                div.style.display = 'none';
-            },1000)
-        },
-        hideDiv: function(div){
-            div.style.visibility = 'hidden';
-            div.style.display = 'none';
-        },
-        hidePageWrapper: function (div) {
-            console.log("====", div);
-            div.style.visibility = "";
-            div.style.display = "none";
-        },
-        showDivHome: function (div, navBar) {
-            switch (navBar){
-                case 'about':
-                    div.style.visibility = "";
-                    div.style.display = "";
-                    div.style.zIndex = "1001";
-                    div.style.left = "";
-                    div.style.top = "";
-                    div.style.bottom = "";
-                    div.style.pointerEvents = "";
-                    div.style.marginLeft = "-100px";
-                    break;
-                case 'project':
-                    div.style.visibility = "";
-                    div.style.display = "";
-                    div.style.pointerEvents = "";
-                    div.style.zIndex ="1001";
-                    div.style.left = "";
-                    div.style.right = "";
-                    div.style.top = "";
-                    div.style.marginBottom = "-100px";
-                    break;
-                case 'contact':
-                    div.style.visibility = "";
-                    div.style.display = "";
-                    div.style.zIndex = "1001";
-                    div.style.left = "";
-                    div.style.top = "";
-                    div.style.right = "";
-                    div.style.bottom = "";
-                    div.style.pointerEvents = "";
-                    div.style.marginRight ="-100px";
-                    break;
-            }
-        },
-        setPointer: function (div) {
-          /*div.style.pointerEvents = "inherit";
-           div.style.pointerEvents = "initial";
-           div.style.pointerEvents = "unset";*/
-        }
-    };
 
 
 
@@ -1392,14 +1724,18 @@
     </div>
   </div>
 
-  <a class="navItem navItemContact" id="navContact" rel="Contact">
-    <span class="text" id="text-contacts"></span>
-  </a>
+  <%=link_to(contact_index_path({state:'contact'}), data: "eon",class: "navItem navItemContact", rel: "Contact", id: "navContact", remote:true) do%>
+      <span class="text" id="text-contacts"></span>
+      <span class="navigationBackContact" id="backNavContact"/>
+  <%end%>
   <%=link_to(projects_path({state:'projects'}), data: "eon",class: "navItem navItemProjects", rel: "Projects", id: "navProjects", remote:true) do%>
       <span class="text" id="text-projects"></span>
+      <span class="navigationBackProjects" id="backNavProjects"/>
   <%end%>
   <%=link_to(about_index_path({state:'about'}), data: "eon",class: "navItem navItemAbout", rel: "About", id: "navAbout", remote:true) do%>
       <span class="text" id="text-about"></span>
+      <span class="navigationBack" id="backNavAbout">
+      </span>
   <%end%>
   <div id="page-wrapper">
   </div>
@@ -1416,7 +1752,10 @@
             <%= render partial: 'layouts/about/render_about'%>
         <%end%>
         <% if(@state == "projects") %>
-            <%= render partial: 'layouts/about/render_projects'%>
+            <%= render partial: 'layouts/projects/render_projects'%>
+        <%end%>
+        <% if(@state == "contact") %>
+            <%= render partial: 'layouts/contact/render_contact'%>
         <%end%>
     <%end%>
   </div>

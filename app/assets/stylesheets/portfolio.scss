@@ -214,6 +214,16 @@ ul#resize-list li {
   -ms-transition: 2s ease-in-out;
   -o-transition: 2s ease-in-out;
 }
+#textContact{
+  .char-inner{
+    position: absolute;
+  }
+}
+#textProject{
+  .char-inner{
+    position: absolute;
+  }
+}
 #textAbout{
   .char-inner{
     position: absolute;
@@ -342,6 +352,7 @@ ul#resize-list li {
   }
 }
 #text-projects{
+  margin-left: 50px;
   width: 100%;
 }
 .navItem.navItemProjects span.text {
@@ -360,12 +371,321 @@ ul#resize-list li {
   -o-transition: 2s ease-in-out;
   left: 90% !important;
 }
+/**
+* Tranisition before char moving to end of page
+* using transition for animation
+*/
 .navItem.navItemAbout.startTransition{
   -webkit-transition: 0.5s ease-in-out;
   -moz-transition: 0.5s ease-in-out;
   -ms-transition: 0.5s ease-in-out;
   -o-transition: 0.5s ease-in-out;
   margin-left: -20px !important;
+}
+.navItem.navItemProjects.startTransition{
+  -webkit-transition: 0.5s ease-in-out;
+  -moz-transition: 0.5s ease-in-out;
+  -ms-transition: 0.5s ease-in-out;
+  -o-transition: 0.5s ease-in-out;
+  margin-bottom: -20px !important;
+}
+.navItem.navItemContact.startTransition{
+  -webkit-transition: 0.5s ease-in-out;
+  -moz-transition: 0.5s ease-in-out;
+  -ms-transition: 0.5s ease-in-out;
+  -o-transition: 0.5s ease-in-out;
+  margin-right: -20px !important;
+}
+
+.navigationBack {
+  position: absolute;
+  right: 32px;
+  top: 10px;
+  width: 32px;
+  height: 32px;
+  opacity: 0.3;
+  margin-right: 25px;
+}
+.navigationBack.hoverClass{
+  -webkit-transition:0.5s ease-in-out;
+  -moz-transition:0.5s ease-in-out;
+  -ms-transition:0.5s ease-in-out;
+  -o-transition:0.5s ease-in-out;
+  transition:0.5s ease-in-out;
+}
+.navigationBack:hover {
+  opacity: 1;
+}
+.navigationBack:before, .navigationBack:after {
+  position: absolute;
+  left: 15px;
+  content: ' ';
+  height: 33px;
+  width: 2px;
+  background-color: #333;
+}
+.navigationBack.hoverClass:before, .navigationBack.hoverClass:after {
+  -webkit-transition:0.5s ease-in-out;
+  -moz-transition:0.5s ease-in-out;
+  -ms-transition:0.5s ease-in-out;
+  -o-transition:0.5s ease-in-out;
+  transition:0.5s ease-in-out;
+  position: absolute;
+  left: 15px;
+  content: ' ';
+  height: 20px;
+  width: 2px;
+  background-color: #333;
+}
+.navigationBack.hoverClassOut:before, .navigationBack.hoverClassOut:after {
+  -webkit-transition:0.5s ease-in-out;
+  -moz-transition:0.5s ease-in-out;
+  -ms-transition:0.5s ease-in-out;
+  -o-transition:0.5s ease-in-out;
+  transition:0.5s ease-in-out;
+  position: absolute;
+  left: 15px;
+  content: ' ';
+  height: 33px;
+  width: 2px;
+  background-color: #333;
+}
+.navigationBack:before {
+  transform: rotate(45deg);
+}
+.navigationBack.hoverClass:before{
+  -webkit-transition:0.5s ease-in-out;
+  -moz-transition:0.5s ease-in-out;
+  -ms-transition:0.5s ease-in-out;
+  -o-transition:0.5s ease-in-out;
+  transition:0.5s ease-in-out;
+  top:12px;
+  transform: rotate(50deg);
+}
+.navigationBack.hoverClassOut:before{
+  -webkit-transition:0.5s ease-in-out;
+  -moz-transition:0.5s ease-in-out;
+  -ms-transition:0.5s ease-in-out;
+  -o-transition:0.5s ease-in-out;
+  transition:0.5s ease-in-out;
+  top:0;
+  transform: rotate(45deg);
+}
+.navigationBack:after{
+  transform: rotate(-45deg);
+}
+.navigationBack.hoverClass:after{
+  -webkit-transition:0.5s ease-in-out;
+  -moz-transition:0.5s ease-in-out;
+  -ms-transition:0.5s ease-in-out;
+  -o-transition:0.5s ease-in-out;
+  transition:0.5s ease-in-out;
+  transform: rotate(130deg);
+}
+.navigationBack.hoverClassOut:after{
+  -webkit-transition:0.5s ease-in-out;
+  -moz-transition:0.5s ease-in-out;
+  -ms-transition:0.5s ease-in-out;
+  -o-transition:0.5s ease-in-out;
+  transition:0.5s ease-in-out;
+  transform: rotate(-45deg);
+}
+.navigationBackProjects {
+  position: absolute;
+  right: 0;
+  top: 60px;
+  width: 32px;
+  height: 32px;
+  opacity: 0.3;
+  margin-right: 25px;
+}
+.navigationBackProjects.hoverClass{
+  -webkit-transition:0.5s ease-in-out;
+  -moz-transition:0.5s ease-in-out;
+  -ms-transition:0.5s ease-in-out;
+  -o-transition:0.5s ease-in-out;
+  transition:0.5s ease-in-out;
+}
+.navigationBackProjects:hover {
+  opacity: 1;
+}
+.navigationBackProjects:before, .navigationBackProjects:after {
+  position: absolute;
+  left: 15px;
+  content: ' ';
+  height: 33px;
+  width: 2px;
+  background-color: #333;
+}
+.navigationBackProjects.hoverClass:before, .navigationBackProjects.hoverClass:after {
+  -webkit-transition:0.5s ease-in-out;
+  -moz-transition:0.5s ease-in-out;
+  -ms-transition:0.5s ease-in-out;
+  -o-transition:0.5s ease-in-out;
+  transition:0.5s ease-in-out;
+  position: absolute;
+  left: 15px;
+  content: ' ';
+  height: 20px;
+  width: 2px;
+  background-color: #333;
+}
+.navigationBackProjects.hoverClassOut:before, .navigationBackProjects.hoverClassOut:after {
+  -webkit-transition:0.5s ease-in-out;
+  -moz-transition:0.5s ease-in-out;
+  -ms-transition:0.5s ease-in-out;
+  -o-transition:0.5s ease-in-out;
+  transition:0.5s ease-in-out;
+  position: absolute;
+  left: 15px;
+  content: ' ';
+  height: 33px;
+  width: 2px;
+  background-color: #333;
+}
+.navigationBackProjects:before {
+  transform: rotate(45deg);
+}
+.navigationBackProjects.hoverClass:before{
+  -webkit-transition:0.5s ease-in-out;
+  -moz-transition:0.5s ease-in-out;
+  -ms-transition:0.5s ease-in-out;
+  -o-transition:0.5s ease-in-out;
+  transition:0.5s ease-in-out;
+  top:0;
+  left: 28px;
+  transform: rotate(135deg);
+}
+.navigationBackProjects.hoverClassOut:before{
+  -webkit-transition:0.5s ease-in-out;
+  -moz-transition:0.5s ease-in-out;
+  -ms-transition:0.5s ease-in-out;
+  -o-transition:0.5s ease-in-out;
+  transition:0.5s ease-in-out;
+  top:0;
+  transform: rotate(45deg);
+}
+.navigationBackProjects:after{
+  transform: rotate(-45deg);
+}
+.navigationBackProjects.hoverClass:after{
+  -webkit-transition:0.5s ease-in-out;
+  -moz-transition:0.5s ease-in-out;
+  -ms-transition:0.5s ease-in-out;
+  -o-transition:0.5s ease-in-out;
+  transition:0.5s ease-in-out;
+  transform: rotate(225deg);
+}
+.navigationBackProjects.hoverClassOut:after{
+  -webkit-transition:0.5s ease-in-out;
+  -moz-transition:0.5s ease-in-out;
+  -ms-transition:0.5s ease-in-out;
+  -o-transition:0.5s ease-in-out;
+  transition:0.5s ease-in-out;
+  transform: rotate(-45deg);
+}
+.navigationBackContact {
+  position: absolute;
+  right: 0;
+  top: 12px;
+  width: 32px;
+  height: 32px;
+  opacity: 0.3;
+  margin-right: 25px;
+}
+.navigationBackContact.hoverClass{
+  -webkit-transition:0.5s ease-in-out;
+  -moz-transition:0.5s ease-in-out;
+  -ms-transition:0.5s ease-in-out;
+  -o-transition:0.5s ease-in-out;
+  transition:0.5s ease-in-out;
+  right: -13px;
+}
+.navigationBackContact.hoverClassOut{
+  -webkit-transition:0.5s ease-in-out;
+  -moz-transition:0.5s ease-in-out;
+  -ms-transition:0.5s ease-in-out;
+  -o-transition:0.5s ease-in-out;
+  transition:0.5s ease-in-out;
+  right: 0;
+}
+.navigationBackContact:hover {
+  opacity: 1;
+}
+.navigationBackContact:before, .navigationBackContact:after {
+  position: absolute;
+  left: 15px;
+  content: ' ';
+  height: 33px;
+  width: 2px;
+  background-color: #333;
+}
+.navigationBackContact.hoverClass:before, .navigationBackContact.hoverClass:after {
+  -webkit-transition:0.5s ease-in-out;
+  -moz-transition:0.5s ease-in-out;
+  -ms-transition:0.5s ease-in-out;
+  -o-transition:0.5s ease-in-out;
+  transition:0.5s ease-in-out;
+  position: absolute;
+  left: 0;
+  content: ' ';
+  height: 20px;
+  width: 2px;
+  background-color: #333;
+}
+.navigationBackContact.hoverClassOut:before, .navigationBackContact.hoverClassOut:after {
+  -webkit-transition:0.5s ease-in-out;
+  -moz-transition:0.5s ease-in-out;
+  -ms-transition:0.5s ease-in-out;
+  -o-transition:0.5s ease-in-out;
+  transition:0.5s ease-in-out;
+  position: absolute;
+  left: 15px;
+  content: ' ';
+  height: 33px;
+  width: 2px;
+  background-color: #333;
+}
+.navigationBackContact:before {
+  transform: rotate(45deg);
+}
+.navigationBackContact.hoverClass:before{
+  -webkit-transition:0.5s ease-in-out;
+  -moz-transition:0.5s ease-in-out;
+  -ms-transition:0.5s ease-in-out;
+  -o-transition:0.5s ease-in-out;
+  transition:0.5s ease-in-out;
+  top:13px;
+  left: 0;
+  transform: rotate(135deg);
+}
+.navigationBackContact.hoverClassOut:before{
+  -webkit-transition:0.5s ease-in-out;
+  -moz-transition:0.5s ease-in-out;
+  -ms-transition:0.5s ease-in-out;
+  -o-transition:0.5s ease-in-out;
+  transition:0.5s ease-in-out;
+  top:0;
+  transform: rotate(45deg);
+}
+.navigationBackContact:after{
+  transform: rotate(-45deg);
+}
+.navigationBackContact.hoverClass:after{
+  -webkit-transition:0.5s ease-in-out;
+  -moz-transition:0.5s ease-in-out;
+  -ms-transition:0.5s ease-in-out;
+  -o-transition:0.5s ease-in-out;
+  transition:0.5s ease-in-out;
+  transform: rotate(225deg);
+}
+.navigationBackContact.hoverClassOut:after{
+  -webkit-transition:0.5s ease-in-out;
+  -moz-transition:0.5s ease-in-out;
+  -ms-transition:0.5s ease-in-out;
+  -o-transition:0.5s ease-in-out;
+  transition:0.5s ease-in-out;
+  transform: rotate(-45deg);
 }
 
 @media (min-width: 480px) {

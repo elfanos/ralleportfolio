@@ -1,0 +1,9 @@
+setTimeout(function () {
+    history.pushState('home', document.title, '/' + 'home');
+    $("#content-container").
+    html("<%= escape_javascript(render partial: 'layouts/home/render_home', locals: { state: "alla?" }) %>");
+    //Keep track of previous
+    //state for animation
+    //on back button pressed
+    localStorage.previousState = "home";
+}, 4000);
