@@ -10,8 +10,7 @@ class ProjectsController < ApplicationController
   end
 
   def info
-    logger.info "watt="
-    logger.info "watt= #{params[:state]}"
+    logger.info "watt states?= #{params[:state]}"
     @refresh = false
     if params[:state].nil?
       @refresh = true;

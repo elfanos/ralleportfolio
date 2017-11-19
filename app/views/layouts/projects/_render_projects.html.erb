@@ -9,3 +9,18 @@
     });
 </script>
 <h1>le project</h1>
+<%=link_to(projects_info_path(:state => "livingmaps", page: "index"), id: "project-tag", remote:true) do%>
+    <div id="drone">
+      <div class="header-text">
+        <h1>
+          LivingMap
+        </h1>
+        <hr>
+        </hr>
+      </div>
+      <div class="under-text">
+        <p>Interface and drone to help harvest the forest</p>
+      </div>
+    </div>
+    </div>
+<%end%>
