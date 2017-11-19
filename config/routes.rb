@@ -3,6 +3,7 @@ Rails.application.routes.draw do
   resources :portfolio
   resources :about
   resources :home
+  get '/projects/info' => 'projects#info'
   resources :projects
   resources :contact
 
