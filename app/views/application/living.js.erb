@@ -1,0 +1,5 @@
+document.addEventListener("DOMContentLoaded", function(event) {
+    $("#projectPage").
+    html("<%= escape_javascript(render partial: 'layouts/projects/info/render_living',locals: { state: "livingmaps" }) %>").show();
+    //do work with $
+});

@@ -1,116 +1,128 @@
 <script>
-  $(document).ready(function () {
-      var charArray = <%= raw @info_object[:header]%>;
-      var headerTextContainer = document.getElementById("holder-header-id").children[0];
-      var textAnimation = new TextAnimation(document.getElementById("holder-header-id").children[0], charArray);
-      textAnimation.removeLetters();
-      textAnimation.initializeLetters();
+    window.history.replaceState('onebas',null,'/' + 'projects' + '/onebas');
+    insideProjects = false;
+    window.addEventListener('popstate', function(e) {
 
-      setTimeout(function () {
-          document.getElementById("holder-picture-id").style.height = "300px";
-      },500);
-      setTimeout(function () {
-        document.getElementById("holder-header-id").style.top = "220px";
-        document.getElementById("holder-header-id").style.opacity = "1";
-          document.getElementById("holder-text-id").style.opacity = "1";
-      },2500);
+    });
+    var test = document.getElementsByClassName("back-nav-project");
+    $(test).hover(function () {
+            $("#projectBackID").addClass("hoverClass");
+            $("#projectBackID").removeClass("hoverClassOut");
+        },
+        function () {
+            $("#projectBackID").removeClass("hoverClass");
+            $("#projectBackID").addClass("hoverClassOut");
+        }
+    );
+    $(document).ready(function () {
+        var charArray = ['o','n','e','B','A','S','.','c','o','m']
+        var headerTextContainer = document.getElementById("holder-header-id").children[0];
+        var textAnimation = new TextAnimationProject(document.getElementById("holder-header-id").children[0], charArray);
+        var mainNavigationBar = document.getElementById("navProjects");
+        $(mainNavigationBar).hide();
+        textAnimation.removeLetters();
+        textAnimation.initializeLetters();
+        setTimeout(function () {
+            document.getElementById("holder-picture-id").style.height = "300px";
+        },500);
+        setTimeout(function () {
+            document.getElementById("holder-header-id").style.top = "220px";
+            document.getElementById("holder-header-id").style.opacity = "1";
+            document.getElementById("holder-text-id").style.opacity = "1";
+        },2500);
 
-      function loadInHeader(div, numbOfChars, start){
-          setTimeout(function () {
-              if(start < numbOfChars ) {
-                  start +=0.1;
-                  div.style.opacity = start;
-                  loadInHeader(div)
-              }
-          },100);
-      }
+        function loadInHeader(div, numbOfChars, start){
+            setTimeout(function () {
+                if(start < numbOfChars ) {
+                    start +=0.1;
+                    div.style.opacity = start;
+                    loadInHeader(div)
+                }
+            },100);
+        }
 
-  });
-  function TextAnimation(context,letters) {
-      this.context = context;
-      this.letters = letters;
-      this.interval = [];
-      this.textDivTags = [];
-      this._animationSetted = false;
-      this.removeLetters = function () {
-          while(this.context.firstChild){
-              this.context.removeChild(this.context.firstChild);
-          }
-      };
-      this.initializeLetters = function() {
-          this.context.style.width = $(window).height() + "px";
-          for(var i = 0; i < this.letters.length; i++){
-              var div = document.createElement("div");
-              div.className = "char chars"+i;
-              div.id = "id-chars"+i;
-              //div.style.float = "left";
-              var innerText = document.createElement("div");
-              innerText.className = "char-inner";
-              innerText.innerHTML = letters[i];
-              div.appendChild(innerText);
-              var hasChild = this.context.querySelector(div.id) != null;
+    });
+    function TextAnimationProject(context, letters) {
+        this.context = context;
+        this.letters = letters;
+        this.interval = [];
+        this.textDivTags = [];
+        this._animationSetted = false;
+        this.removeLetters = function () {
+            while(this.context.firstChild){
+                this.context.removeChild(this.context.firstChild);
+            }
+        };
+        this.initializeLetters = function() {
+            this.context.style.width = $(window).height() + "px";
+            for(var i = 0; i < this.letters.length; i++){
+                var div = document.createElement("div");
+                div.className = "char chars"+i;
+                div.id = "id-chars"+i;
+                var checkDiv = "id-chars"+i;
+                //div.style.float = "left";
+                var innerText = document.createElement("div");
+                innerText.className = "char-inner";
+                innerText.innerHTML = letters[i];
+                div.appendChild(innerText);
+                var hasChild = this.context.querySelector(div.id) != null;
 
-              this.context.appendChild(div);
+                this.context.appendChild(div);
 
-          }
-      };
-      this.initializeTags = function () {
-          var childs = this.context.childNodes;
-          for(var i = 0; i < Object.size(childs); i++){
-              this.textDivTags.push(childs[i].childNodes[0]);
-          }
-          this._animationSetted = true;
-      }
-      this._checkIfIfCharAlreadyExist = function (childNodes) {
-          console.log(childNodes.length);
-          for(var i = 0; i < childNodes.length; i++) {
-              console.log(childNodes[i].id);
-              if (childNodes[i].id == "id-chars"+i) {
-                  this._animationSetted = true;
-              } else {
-                  console.log("in else duplicates");
-                  this._animationSetted = false;
-              }
-          }
+            }
+        };
+        this.initializeTags = function () {
+            var childs = this.context.childNodes;
+            for(var i = 0; i < Object.size(childs); i++){
+                this.textDivTags.push(childs[i].childNodes[0]);
+            }
+            this._animationSetted = true;
+        }
+        this._checkIfIfCharAlreadyExist = function (childNodes) {
+            console.log(childNodes.length);
+            for(var i = 0; i < childNodes.length; i++) {
+                console.log(childNodes[i].id);
+                if (childNodes[i].id == "id-chars"+i) {
+                    this._animationSetted = true;
+                } else {
+                    console.log("in else duplicates");
+                    this._animationSetted = false;
+                }
+            }
 
-      };
-  }
+        };
+    }
 
 </script>
-<div class="container">
-  <div class="row">
-    <div class="col-md-6 col-centered info-content">
-        <div class="picture-holder" id="holder-picture-id">
-          <%=image_tag(@info_object[:url])%>
+<div class="jumbotron vertical-center project-show">
+  <div class="back-nav-project">
+    <%=link_to(projects_path({state:'project', page: 'info'}), remote:true) do%>
+        <div id="crossBox">
+          <span class="projectBack" id="projectBackID"/>
         </div>
-        <div class="header-holder" id="holder-header-id">
-          <span class="header-text" id="header-textID">
-          </span>
-        </div>
-        <div class="text-content-holder" id="holder-text-id">
-          <p>
-          <%=@info_object[:description]%>
-          </p>
-        </div>
-    </div>
+    <%end%>
   </div>
-</div>
-<div class="bottom-navigation">
-  <div class="container">
-    <div class="row">
-      <div id="back-nav">
-        <div class="col-md-3 back-navigation">
-          <%logger.info "wadda #{@info_object[:prev]}"%>
-          <%=link_to(project_info_path(:state => "#{@info_object[:prev]}"), remote:true) do%>
-              <span class="arrow-bar"><i class="arrow left"></i></span>
-          <%end%>
+  <div id="info-show">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6 col-centered info-content">
+          <div class="picture-holder" id="holder-picture-id">
+            <%=image_tag("https://images.unsplash.com/photo-1477233534935-f5e6fe7c1159?dpr=2&auto=format&fit=crop&w=1500&h=1000&q=80&cs=tinysrgb&crop=")%>
+          </div>
+          <div class="header-holder" id="holder-header-id">
+              <span class="header-text" id="header-textID">
+              </span>
+          </div>
         </div>
-      </div>
-      <div id="next-nav">
-        <div class="col-md-3 next-navigation">
-          <%=link_to(project_info_path(:state => "#{@info_object[:next]}"), remote:true) do%>
-              <span class="arrow-bar"><i class="arrow right"></i></span>
-          <%end%>
+        <div class="col-md-6 col-centered info-content">
+          <div class="text-content-holder" id="holder-text-id">
+            <p>
+              This was my first ruby on rails project from start to finish.
+              I developed the site with a friend during a summer internship. The site is for artist that
+              can upload music, a lot like soundcloud. I did mostly front-end and developed a global
+              music player that wasnt realsed on the site
+            </p>
+          </div>
         </div>
       </div>
     </div>

@@ -1,0 +1,72 @@
+<div id="link-to">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6">
+        <%=link_to(projects_living_path(:state => "livingmaps", page: "index"), id: "project-tag", remote:true) do%>
+            <div id="drone">
+              <div class="header-text">
+                <h1>
+                  LivingMap
+                </h1>
+                <hr>
+                </hr>
+              </div>
+              <div class="under-text">
+                <p>Interface and drone to help harvest the forest</p>
+              </div>
+            </div>
+        <%end%>
+      </div>
+      <div class="col-md-3">
+        <%=link_to(projects_onebas_path(:state => "onebas", page: "index"), id: "project-tag", remote:true) do%>
+            <div id="drone">
+              <div class="header-text">
+                <h1>
+                  oneBAS.com
+                </h1>
+                <hr>
+                </hr>
+              </div>
+              <div class="under-text">
+                <p>Music application</p>
+              </div>
+            </div>
+            </div>
+        <%end%>
+        </div>
+  </div>
+  <div class="row">
+    <div class="col-md-6">
+      <%=link_to(projects_magazinos_path(:state => "magazinos", page: "index"), id: "project-tag", remote:true) do%>
+          <div id="drone">
+            <div class="header-text">
+              <h1>
+                Magazinos
+              </h1>
+              <hr>
+              </hr>
+            </div>
+            <div class="under-text">
+              <p>Magazines online</p>
+            </div>
+          </div>
+      <%end%>
+    </div>
+    <div class="col-md-6">
+      <%=link_to(projects_lag_path(:state => "googleglass"), remote:true) do%>
+          <div id="drone">
+            <div class="header-text">
+              <h1>
+                LAGG
+              </h1>
+              <hr>
+              </hr>
+            </div>
+            <div class="under-text">
+              <p>Location assistance for google glass</p>
+            </div>
+          </div>
+          </div>
+      <%end%>
+      </div>
+</div>

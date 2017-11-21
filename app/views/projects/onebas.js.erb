@@ -1,0 +1,7 @@
+console.log("lole? onebase---------");
+setTimeout(function () {
+    history.pushState('onebas', document.title, '/' + 'projects' + '/onebas');
+    //Do some cool animation
+    $("#projectPage").
+    html("<%= escape_javascript(render partial: 'layouts/projects/info/render_one_bas',locals: { state: "onebas" }) %>");
+}, 1000);

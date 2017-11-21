@@ -1,0 +1,9 @@
+console.log("lole? onebase---------");
+setTimeout(function () {
+    insideProjects = true;
+    history.pushState('projects', document.title, '/' + 'projects');
+    //Do some cool animation
+    $("#navProjects").show();
+    $("#projectPage").
+    html("<%= escape_javascript(render partial: 'layouts/projects/info/render_index_view',locals: { state: "index" }) %>");
+}, 1000);

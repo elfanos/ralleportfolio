@@ -1,48 +1,49 @@
 class ProjectsController < ApplicationController
+  respond_to  :js, :html, :json
   include ProjectInfo
-
   def index
+    logger.info "in index lolol?"
+    @state_info = false
     @state = "projects"
-    @stateTwo = "project"
-    @project_state = "index"
-    @numberOfProjects = 7
-    logger.info "watt="
+    @stateProject = "projects"
+   # @info_object = get_values("onebas")
   end
+  def living
+    logger.info "in lalala living?"
+    @state = "projects"
+    @stateProject = "living"
+    @info_object = get_values(params[:state])
+    if @info_object.nil?
+      logger.info "in lalala living? infoobjec nille-----"
+      @info_object = get_values("livingmaps")
+    end
 
-  def info
-    logger.info "watt states?= #{params[:state]}"
-    @refresh = false
-    if params[:state].nil?
-      @refresh = true;
-      logger.info "session= #{session[:state]}"
-      if session[:state].nil?
-        logger.info "inside stateishhhh nil --------------"
-        @render_state = "onebas"
-        @info_object = get_values("onebas")
-        @next = @info_object[:next]
-        @state = "project"
-        @project_state = "show"
-      else
-        logger.info "inside session refresh!!! --------------"
-        #@render_state = params[:state]
-        @render_state = session[:state]
-        @info_object = get_values(session[:state])
-        logger.info "inside session refresh!!! --------------#{@info_object[:header]}"
-        @session = session[:state]
-        @state = "project"
-        @project_state = "show"
-      end
-    else
-      session[:state] = params[:state]
-      @render_state = params[:state]
-      logger.info "inside param --------------"
-      @info_object = get_values(params[:state])
-      logger.info "inside param --------------#{@info_object[:header]}"
-      #@render_state = params[:state]
-      @session = session[:state]
-      @state = "project"
-      @project_state = "show"
+  end
+  def onebas
+    @stateProject = "onebas"
+    logger.info "in onebas==??...."
+    @state = "projects"
+    @info_object = get_values(params[:state])
+    @info_object = get_values("onebas")
+    if @info_object.nil?
+      @info_object = get_values("onebas")
+    end
+
+  end
+  def magazinos
+    @stateProject = "magazinos"
+    @state = "projects"
+    @info_object = get_values(params[:state])
+    if @info_object.nil?
+      @info_object = get_values("magazinos")
     end
   end
-
+  def lag
+    @stateProject = "googleglass"
+    @state = "projects"
+    @info_object = get_values(params[:state])
+    if @info_object.nil?
+      @info_object = get_values("googleglass")
+    end
+  end
 end

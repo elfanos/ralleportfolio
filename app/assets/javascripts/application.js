@@ -12,9 +12,10 @@
 //
 //= require jquery
 //= require jquery_ujs
-//= require bootstrap
-//= require bootstrap.min.js
 //= require progressbar.min.js
 //= require modernizr.min.js
+//= require owl.carousel.min.js
 //= require turbolinks
 //= require_tree .
+//= require bootstrap
+//= require bootstrap.min.js

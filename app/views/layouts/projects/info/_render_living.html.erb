@@ -1,9 +1,28 @@
+
 <script>
+
+    window.history.replaceState('living',null,'/' + 'projects' + '/living');
+    insideProjects = false;
+    console.log("jamramrwrawrawin dadawdjgaw?? living jounry?????");
+    window.addEventListener('popstate', function(e) {
+
+    });
+    var test = document.getElementsByClassName("back-nav-project");
+    $(test).hover(function () {
+            $("#projectBackID").addClass("hoverClass");
+            $("#projectBackID").removeClass("hoverClassOut");
+        },
+        function () {
+            $("#projectBackID").removeClass("hoverClass");
+            $("#projectBackID").addClass("hoverClassOut");
+        }
+    );
     $(document).ready(function () {
-        var charArray = <%= raw @info_object[:header]%>;
-        console.log("wat is array: ", <%= raw @info_object[:header]%>);
+        var charArray = ['L','i','v','i','n','g','M','a','p','s'];
         var headerTextContainer = document.getElementById("holder-header-id").children[0];
-        var textAnimation = new TextAnimation(document.getElementById("holder-header-id").children[0], charArray);
+        var textAnimation = new TextAnimationProject(document.getElementById("holder-header-id").children[0], charArray);
+        var mainNavigationBar = document.getElementById("navProjects");
+        $(mainNavigationBar).hide();
         textAnimation.removeLetters();
         textAnimation.initializeLetters();
         setTimeout(function () {
@@ -26,7 +45,7 @@
         }
 
     });
-    function TextAnimation(context,letters) {
+    function TextAnimationProject(context, letters) {
         this.context = context;
         this.letters = letters;
         this.interval = [];
@@ -78,39 +97,37 @@
     }
 
 </script>
-<div class="container">
-  <div class="row">
-    <div class="col-md-6 col-centered info-content">
-      <div class="picture-holder" id="holder-picture-id">
-        <%=image_tag(@info_object[:url])%>
-      </div>
-      <div class="header-holder" id="holder-header-id">
-          <span class="header-text" id="header-textID">
-          </span>
-      </div>
-      <div class="text-content-holder" id="holder-text-id">
-        <p>
-          <%=@info_object[:description]%>
-        </p>
-      </div>
-    </div>
-  </div>
-</div>
-<div class="bottom-navigation">
-  <div class="container">
-    <div class="row">
-      <div id="back-nav">
-        <div class="col-md-3 back-navigation">
-          <%=link_to(project_info_path(:state => "#{@info_object[:prev]}"), remote:true) do%>
-              <span class="arrow-bar"><i class="arrow left"></i></span>
-          <%end%>
+<div class="jumbotron vertical-center project-show">
+  <div class="back-nav-project">
+    <%=link_to(projects_path({state:'project', page: 'info'}), remote:true) do%>
+        <div id="crossBox">
+          <span class="projectBack" id="projectBackID"/>
         </div>
-      </div>
-      <div id="next-nav">
-        <div class="col-md-3 next-navigation">
-          <%=link_to(project_info_path(:state => "#{@info_object[:next]}"), remote:true) do%>
-              <span class="arrow-bar"><i class="arrow right"></i></span>
-          <%end%>
+    <%end%>
+  </div>
+  <div id="info-show">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6 col-centered info-content">
+          <div class="picture-holder" id="holder-picture-id">
+            <%=image_tag("https://images.unsplash.com/photo-1498168208808-4c2706938a2f?dpr=2&auto=format&fit=crop&w=1500&h=1874&q=80&cs=tinysrgb&crop=")%>
+          </div>
+          <div class="header-holder" id="holder-header-id">
+              <span class="header-text" id="header-textID">
+              </span>
+          </div>
+        </div>
+        <div class="col-md-6 col-centered info-content">
+          <div class="text-content-holder" id="holder-text-id">
+            <p>
+              LivingMaps is an interface and drone, that was developed with a team
+              containing designers and one interface designer me for skogforsk. It was ment
+              to help harvester gather information about the forest. With the purpose of
+              making the work more attractive in the labour marke. The drone was design for the reason
+              of gather information to complete a map in the interface therefore the name living map.
+              The map is designed for helping the harvester track forest which is suposed to be gathered
+            </p>
+          </div>
         </div>
       </div>
     </div>

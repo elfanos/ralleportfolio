@@ -1,0 +1,7 @@
+setTimeout(function () {
+    history.pushState('living', document.title, '/' + 'projects' + '/living');
+    console.log("lole?");
+    //Do some cool animation
+    $("#projectPage").
+    html("<%= escape_javascript(render partial: 'layouts/projects/info/render_living',locals: { state: "livingmaps" }) %>");
+}, 1000);

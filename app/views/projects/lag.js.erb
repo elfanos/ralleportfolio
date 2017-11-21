@@ -1,0 +1,8 @@
+
+<%logger.info "in lag"%>
+setTimeout(function () {
+    history.pushState('lag', document.title, '/' + 'projects' + '/lag');
+    //Do some cool animation
+    $("#projectPage").
+    html("<%= escape_javascript(render partial: 'layouts/projects/info/render_google_glass',locals: { state: "googleglass" }) %>");
+}, 1000);

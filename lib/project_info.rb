@@ -1,5 +1,6 @@
 module ProjectInfo
   def get_values(param)
+    logger.info "le params  #{param}"
     if param === "onebas"
       get_onebas_content
     elsif param === "magazinos"

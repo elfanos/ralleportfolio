@@ -1,26 +1,128 @@
 
 <script>
-    window.history.replaceState('projects',null,'/' + 'projects');
-    window.addEventListener('popstate', function(e) {
-
-    });
+  var insideProjects;
     $(document).ready(function () {
         console.log("watta fuckawerwerwerwerwerwetwsfdfww?");
+        $("#page-wrapper").hide();
+    var stateKeeperProject = new StateKeeper();
+    if(insideProjects == true || insideProjects == undefined) {
+            window.history.replaceState('projects', null, '/' + 'projects');
+    }
+    window.addEventListener('popstate', function(e) {
+        var character = e.state;
+
+        if (character == null) {
+            console.log("char in projects" + window.location.lastHash)
+        } else {
+            console.log("what is char? " + character);
+            console.log("what is charcater back nav? " + localStorage.infoState);
+            stateKeeperProject._setSate(character);
+            stateKeeperProject._setPreviousState(localStorage.infoState);
+            stateKeeperProject._initializeState();
+
+        }
     });
+function StateKeeper (){
+    this._state = null;
+    this.__previousState = null;
+    this._backNavButtons = null;
+    this._instance = null;
+    this._setSate = function (state) {
+        console.log("hola vista?" + state);
+        this._state = state;
+    };
+    this._setPreviousState = function(state){
+        this.__previousState = state;
+    };
+    this._initializeState = function () {
+        console.log("hola vista???" + this._state);
+        switch (this._state){
+            case "projects":
+                insideProjects = true;
+                console.log("projects???");
+                setTimeout(function () {
+                    $("#projectPage").
+                    html("<%= escape_javascript(render partial: 'layouts/projects/info/render_index_view',locals: { state: "projects" }) %>");
+                    $("#navProjects").show();
+                    window.history.replaceState('projects', null, '/' + 'projects');
+                },4000);
+                //normal position of nav
+                break;
+            case "living":
+                insideProjects = false;
+                setTimeout(function () {
+                    console.log("lole?");
+                    //Do some cool animation
+                    $("#projectPage").
+                    html("<%= escape_javascript(render partial: 'layouts/projects/info/render_living',locals: { state: "livingmaps" }) %>");
+                }, 1000);
+                console.log("well hello in living");
+                //about position of nav
+                break;
+            case "onebas":
+                insideProjects = false;
+                console.log("one base??  ");
+                setTimeout(function () {
+                    //Do some cool animation
+                    $("#projectPage").
+                    html("<%= escape_javascript(render partial: 'layouts/projects/info/render_one_bas',locals: { state: "onebas" }) %>")
+                }, 1000);
+                break;
+            case "magazinos":
+                insideProjects = false;
+                setTimeout(function () {
+                    //Do some cool animation
+                    $("#projectPage").
+                    html("<%= escape_javascript(render partial: 'layouts/projects/info/render_magazinos',locals: { state: "magazinos" }) %>");
+                }, 1000);
+                break;
+            case "lag":
+                insideProjects = false;
+                console.log("lagge?  ");
+                setTimeout(function () {
+                    //Do some cool animation
+                    $("#projectPage").
+                    html("<%= escape_javascript(render partial: 'layouts/projects/info/render_google_glass',locals: { state: "googleglass" }) %>");
+                }, 1000);
+                break;
+        }
+    };
+    this._animationForwardState = function(state){
+        switch (state){
+        }
+    };
+    this._animationBackState = function(state){
+        switch (state){
+        }
+    };
+}
+
+
+
+});
+
 </script>
-<h1>le project</h1>
-<%=link_to(projects_info_path(:state => "livingmaps", page: "index"), id: "project-tag", remote:true) do%>
-    <div id="drone">
-      <div class="header-text">
-        <h1>
-          LivingMap
-        </h1>
-        <hr>
-        </hr>
-      </div>
-      <div class="under-text">
-        <p>Interface and drone to help harvest the forest</p>
-      </div>
-    </div>
-    </div>
-<%end%>
+
+<div id="projectPage">
+  <%logger.info "state of project:   #{@stateProject}" %>
+  <%if(@stateProject.nil?) %>
+      <%= render partial: 'layouts/projects/info/render_index_view'%>
+  <%else%>
+      <% if(@stateProject == "projects") %>
+          <%= render partial: 'layouts/projects/info/render_index_view'%>
+      <%end%>
+
+      <% if(@stateProject == "onebas") %>
+          <%= render partial: 'layouts/projects/info/render_one_bas'%>
+      <%end%>
+      <% if(@stateProject == "magazinos") %>
+          <%= render partial: 'layouts/projects/info/render_magazinos'%>
+      <%end%>
+      <% if(@stateProject == "googleglass") %>
+          <%= render partial: 'layouts/projects/info/render_google_glass'%>
+      <%end%>
+      <% if(@stateProject == "living") %>
+          <%= render partial: 'layouts/projects/info/render_living'%>
+      <%end%>
+  <%end%>
+</div>

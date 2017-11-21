@@ -78,39 +78,32 @@
     }
 
 </script>
-<div class="container">
-  <div class="row">
-    <div class="col-md-6 col-centered info-content">
-      <div class="picture-holder" id="holder-picture-id">
-        <%=image_tag(@info_object[:url])%>
-      </div>
-      <div class="header-holder" id="holder-header-id">
-          <span class="header-text" id="header-textID">
-          </span>
-      </div>
-      <div class="text-content-holder" id="holder-text-id">
-        <p>
-          <%=@info_object[:description]%>
-        </p>
-      </div>
-    </div>
-  </div>
-</div>
-<div class="bottom-navigation">
-  <div class="container">
-    <div class="row">
-      <div id="back-nav">
-        <div class="col-md-3 back-navigation">
-          <%=link_to(project_info_path(:state => "#{@info_object[:prev]}"), remote:true) do%>
-              <span class="arrow-bar"><i class="arrow left"></i></span>
-          <%end%>
+<div class="jumbotron vertical-center project-show">
+  <div class="back-nav-project">
+    <%=link_to(projects_path({state:'project', page: 'info'}), remote:true) do%>
+        <div id="crossBox">
+          <span id="x">X</span>
         </div>
-      </div>
-      <div id="next-nav">
-        <div class="col-md-3 next-navigation">
-          <%=link_to(project_info_path(:state => "#{@info_object[:next]}"), remote:true) do%>
-              <span class="arrow-bar"><i class="arrow right"></i></span>
-          <%end%>
+    <%end%>
+  </div>
+  <div id="info-show">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6 col-centered info-content">
+          <div class="picture-holder" id="holder-picture-id">
+            <%=image_tag(@info_object[:url])%>
+          </div>
+          <div class="header-holder" id="holder-header-id">
+              <span class="header-text" id="header-textID">
+              </span>
+          </div>
+        </div>
+        <div class="col-md-6 col-centered info-content">
+          <div class="text-content-holder" id="holder-text-id">
+            <p>
+              <%=@info_object[:description]%>
+            </p>
+          </div>
         </div>
       </div>
     </div>

@@ -101,14 +101,14 @@
     <div class="row">
       <div id="back-nav">
         <div class="col-md-3 back-navigation">
-          <%=link_to(project_info_path(:state => "#{@info_object[:prev]}"), remote:true) do%>
+          <%=link_to(projects_info_path(:state => "#{@info_object[:prev]}"), remote:true) do%>
               <span class="arrow-bar"><i class="arrow left"></i></span>
           <%end%>
         </div>
       </div>
       <div id="next-nav">
         <div class="col-md-3 next-navigation">
-          <%=link_to(project_info_path(:state => "#{@info_object[:next]}"), remote:true) do%>
+          <%=link_to(projects_info_path(:state => "#{@info_object[:next]}"), remote:true) do%>
               <span class="arrow-bar"><i class="arrow right"></i></span>
           <%end%>
         </div>

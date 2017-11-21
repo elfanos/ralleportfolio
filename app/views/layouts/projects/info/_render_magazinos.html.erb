@@ -1,12 +1,27 @@
 <script>
+    window.history.replaceState('magazinos',null,'/' + 'projects' + '/magazinos');
+    insideProjects = false;
+    window.addEventListener('popstate', function(e) {
+
+    });
     $(document).ready(function () {
-        var charArray = <%= raw @info_object[:header]%>;
+        var test = document.getElementsByClassName("back-nav-project");
+        $(test).hover(function () {
+             $("#projectBackID").addClass("hoverClass");
+             $("#projectBackID").removeClass("hoverClassOut");
+            },
+            function () {
+                $("#projectBackID").removeClass("hoverClass");
+                $("#projectBackID").addClass("hoverClassOut");
+            }
+        );
+        var charArray = ['m','a','g','a','z','i','n','o','s','.','c','o','m']
         var headerTextContainer = document.getElementById("holder-header-id").children[0];
-        var textAnimation = new TextAnimation(document.getElementById("holder-header-id").children[0], charArray);
+        var textAnimation = new TextAnimationAbout(document.getElementById("holder-header-id").children[0], charArray);
         var mainNavigationBar = document.getElementById("navProjects");
+        $(mainNavigationBar).hide();
         textAnimation.removeLetters();
         textAnimation.initializeLetters();
-        mainNavigationBar.style.display = "none";
         setTimeout(function () {
             document.getElementById("holder-picture-id").style.height = "300px";
         },500);
@@ -27,7 +42,7 @@
         }
 
     });
-    function TextAnimation(context,letters) {
+    function TextAnimationAbout(context, letters) {
         this.context = context;
         this.letters = letters;
         this.interval = [];
@@ -78,42 +93,38 @@
     }
 
 </script>
-<div class="container">
-  <div class="row">
-    <div class="col-md-6 col-centered info-content">
-      <div class="picture-holder" id="holder-picture-id">
-        <%=image_tag(@info_object[:url])%>
-      </div>
-      <div class="header-holder" id="holder-header-id">
-         <span class="header-text" id="header-textID">
-         </span>
-      </div>
-      <div class="text-content-holder" id="holder-text-id">
-        <p>
-          <%=@info_object[:description]%>
-        </p>
-        <p>
-          <%=@info_object[:git]%>
-        </p>
-      </div>
-    </div>
-  </div>
-</div>
-<div class="bottom-navigation">
-  <div class="container">
-    <div class="row">
-      <div id="back-nav">
-        <div class="col-md-3 back-navigation">
-          <%=link_to(project_info_path(:state => "#{@info_object[:prev]}"), remote:true) do%>
-              <span class="arrow-bar"><i class="arrow left"></i></span>
-          <%end%>
+<div class="jumbotron vertical-center project-show">
+  <div class="back-nav-project" id="backNavProjects">
+    <%=link_to(projects_path({state:'project', page: 'info'}), remote:true) do%>
+        <div id="crossBox">
+          <span class="projectBack" id="projectBackID"/>
         </div>
-      </div>
-      <div id="next-nav">
-        <div class="col-md-3 next-navigation">
-          <%=link_to(project_info_path(:state => "#{@info_object[:next]}"), remote:true) do%>
-              <span class="arrow-bar"><i class="arrow right"></i></span>
-          <%end%>
+    <%end%>
+  </div>
+  <div id="info-show">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6 col-centered info-content">
+          <div class="picture-holder" id="holder-picture-id">
+            <%=image_tag("https://images.unsplash.com/photo-1415769177894-634a98172336?dpr=2&auto=format&fit=crop&w=1500&h=1000&q=80&cs=tinysrgb&crop=")%>
+          </div>
+          <div class="header-holder" id="holder-header-id">
+              <span class="header-text" id="header-textID">
+              </span>
+          </div>
+        </div>
+        <div class="col-md-6 col-centered info-content">
+          <div class="text-content-holder" id="holder-text-id">
+            <p>
+              In this project I was assigned to fetch a e-book api. In the project
+              I learned a lot about coding in ruby and rails. Also how to
+              structure a project involving a group of engineers. I worked during
+              this project only in the back-end section. It was about 1 month
+              of work and with my friend we managed to achive a good interface
+              as well as a good api code for retrive all information necessary
+              from the api
+            </p>
+          </div>
         </div>
       </div>
     </div>

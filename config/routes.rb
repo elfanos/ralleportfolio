@@ -4,9 +4,16 @@ Rails.application.routes.draw do
   resources :about
   resources :home
   get '/projects/info' => 'projects#info'
+  get '/projects/living' => 'projects#living'
+  get '/projects/lag' => 'projects#lag'
+  get '/projects/onebas' => 'projects#onebas'
+  get '/projects/magazinos' => 'projects#magazinos'
+  get '/projects/living' => 'projects#living'
   resources :projects
   resources :contact
 
+
+  get '/application/living' => 'application#living', as: :living
 
   get '/portfolio/about_me/' => 'portfolio#about_me', as: :about_me
 

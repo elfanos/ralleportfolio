@@ -22,6 +22,9 @@ $orange: #F79D65;
   background-repeat:no-repeat;
   background-origin:center;
 }
+#projectPage{
+  margin-top: 80px;
+}
 #project-page{
   overflow: scroll;
   overflow-x: hidden;
@@ -240,7 +243,7 @@ $orange: #F79D65;
       width: 40px;
       height: 40px;
       margin-left: 50px;
-      margin-top: 30px;
+      margin-top: 10px;
     }
   }
   .bottom-navigation {
@@ -277,4 +280,83 @@ $orange: #F79D65;
   #info-show {
     width: 100%;
   }
+}
+.projectBack:hover {
+  opacity: 1;
+}
+.projectBack:before, .projectBack:after {
+  position: absolute;
+  left: 50px;
+  content: ' ';
+  height: 44px;
+  width: 2px;
+  background-color: #333;
+}
+.projectBack.hoverClass:before, .projectBack.hoverClass:after {
+  -webkit-transition:0.5s ease-in-out;
+  -moz-transition:0.5s ease-in-out;
+  -ms-transition:0.5s ease-in-out;
+  -o-transition:0.5s ease-in-out;
+  transition:0.5s ease-in-out;
+  position: absolute;
+  left: 40px;
+  content: ' ';
+  height: 33px;
+  width: 2px;
+  background-color: #333;
+}
+.projectBack.hoverClassOut:before, .projectBack.hoverClassOut:after {
+  -webkit-transition:0.5s ease-in-out;
+  -moz-transition:0.5s ease-in-out;
+  -ms-transition:0.5s ease-in-out;
+  -o-transition:0.5s ease-in-out;
+  transition:0.5s ease-in-out;
+  position: absolute;
+  left: 50px;
+  content: ' ';
+  height: 44px;
+  width: 2px;
+  background-color: #333;
+}
+.projectBack:before {
+  transform: rotate(45deg);
+}
+.projectBack.hoverClass:before{
+  -webkit-transition:0.5s ease-in-out;
+  -moz-transition:0.5s ease-in-out;
+  -ms-transition:0.5s ease-in-out;
+  -o-transition:0.5s ease-in-out;
+  transition:0.5s ease-in-out;
+  top:10px;
+  left: 40px;
+  transform: rotate(225deg);
+}
+.projectBack.hoverClassOut:before{
+  -webkit-transition:0.5s ease-in-out;
+  -moz-transition:0.5s ease-in-out;
+  -ms-transition:0.5s ease-in-out;
+  -o-transition:0.5s ease-in-out;
+  transition:0.5s ease-in-out;
+  top:10px;
+  transform: rotate(45deg);
+}
+.projectBack:after{
+  transform: rotate(-45deg);
+}
+.projectBack.hoverClass:after{
+  -webkit-transition:0.5s ease-in-out;
+  -moz-transition:0.5s ease-in-out;
+  -ms-transition:0.5s ease-in-out;
+  -o-transition:0.5s ease-in-out;
+  transition:0.5s ease-in-out;
+  top: 32px;
+  transform: rotate(310deg);
+}
+.projectBack.hoverClassOut:after{
+  -webkit-transition:0.5s ease-in-out;
+  -moz-transition:0.5s ease-in-out;
+  -ms-transition:0.5s ease-in-out;
+  -o-transition:0.5s ease-in-out;
+  transition:0.5s ease-in-out;
+  transform: rotate(-45deg);
 }

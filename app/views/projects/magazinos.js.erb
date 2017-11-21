@@ -1,0 +1,6 @@
+setTimeout(function () {
+    history.pushState('magazinos', document.title, '/' + 'projects' + '/magazinos');
+    //Do some cool animation
+    $("#projectPage").
+    html("<%= escape_javascript(render partial: 'layouts/projects/info/render_magazinos',locals: { state: "magazinos" }) %>");
+}, 1000);
