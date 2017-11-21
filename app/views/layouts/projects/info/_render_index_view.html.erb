@@ -8,6 +8,30 @@
       "https://images.unsplash.com/photo-1415769177894-634a98172336?dpr=2&auto=format&fit=crop&w=1500&h=1000&q=80&cs=tinysrgb&crop=", //magazinos pic
       "https://images.unsplash.com/photo-1498168208808-4c2706938a2f?dpr=2&auto=format&fit=crop&w=1500&h=1874&q=80&cs=tinysrgb&crop=" //drone pic
   ];
+  var projectClassName = [
+      document.getElementById("onebas").children[1],//onebas pic
+      document.getElementById("thirty").children[1], //thirty pic
+      document.getElementById("googleglass").children[1], //google glass pic
+      document.getElementById("moodify").children[1], //moodify pic
+      document.getElementById("magazinos").children[1], //magazinos pic
+      document.getElementById("drone").children[1] //drone pic
+  ];
+  var projectHeader = [
+      document.getElementById("onebas").children[2],//onebas pic
+      document.getElementById("thirty").children[2], //thirty pic
+      document.getElementById("googleglass").children[2], //google glass pic
+      document.getElementById("moodify").children[2], //moodify pic
+      document.getElementById("magazinos").children[2], //magazinos pic
+      document.getElementById("drone").children[2] //drone pic
+  ];
+  var projectUnderText = [
+      document.getElementById("onebas").children[3],//onebas pic
+      document.getElementById("thirty").children[3], //thirty pic
+      document.getElementById("googleglass").children[3], //google glass pic
+      document.getElementById("moodify").children[3], //moodify pic
+      document.getElementById("magazinos").children[3], //magazinos pic
+      document.getElementById("drone").children[3] //drone pic
+  ];
 
   function ImageGrid(defaults, position) {
       //console.log(defaults._rows);
@@ -38,7 +62,7 @@
               (h + margin) * Math.floor(i / c), ((w + margin) * (i % c) + w - margin), ((h + margin) * Math.floor(i / c) + h - margin),
               (w + margin) * (i % c), ((h + margin) * Math.floor(i / c) + h - margin)];
 
-          //console.log(i + " ====>>> " + arr + " ||||| " + i%c  + " |||||| " + i/c);
+          console.log(i + " ====>>> " + arr + " ||||| " + i%c  + " |||||| " + i/c);
 
 
           TweenMax.set(gridTile, {
@@ -105,15 +129,15 @@
   }
   var imageGrids= [];
   var item = new ProjectListItem(
-      projectPictureUrl[5],
-      projectClassName[i],
+      projectPictureUrl[4],
+      projectClassName[4],
       5,
       5,
       1.5,
       0.3
   );
   //ImageGrid(item);
-  imageGrids.push(ImageGrid(item, i));
+  imageGrids.push(ImageGrid(item, 4));
 
 
 
