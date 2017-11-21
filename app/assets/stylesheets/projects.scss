@@ -360,3 +360,66 @@ $orange: #F79D65;
   transition:0.5s ease-in-out;
   transform: rotate(-45deg);
 }
+
+/*.sliced {
+  position: relative;
+  width: 640px;
+  height: 400px;
+}
+.tile { float: left; }*/
+
+.sliced {
+  position: relative;
+  width: 200px;
+  height: 200px;
+  margin-left: 20px;
+}
+.sliced img{
+ // width: 100%;
+  max-width: 100%; /* or any custom size */
+  max-height: 100%;
+  object-fit: contain;
+}
+
+.tile{
+  float: left;
+  opacity: 1;
+  -webkit-transition: all .3s ease-in-out;
+  -moz-transition: all .3s ease-in-out;
+  -ms-transition: all .3s ease-in-out;
+  -o-transition: all .3s ease-in-out;
+}
+.tile img{
+  width: 100%;
+}
+.tile.hoverClassImg{
+
+}
+.tile-animated {
+  opacity: 0;
+}
+.css3-preload .sliced * {
+  -webkit-transition: none !important;
+  -moz-transition: none !important;
+  -ms-transition: none !important;
+  -o-transition: none !important;
+  transition: none !important;
+}
+#tile0{
+  margin-top: 10px;
+}
+#tile0 img{
+  max-width: 100%; /* or any custom size */
+  max-height: 100%;
+  object-fit: contain;
+}
+#tile1{
+  margin-top: 20px;
+}
+#tile2{
+  margin-top: -20px;
+  margin-left: -20px;
+}
+#tile3{
+  margin-left: -20px;
+}
