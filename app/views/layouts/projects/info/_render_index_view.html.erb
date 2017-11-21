@@ -1,113 +1,123 @@
 <script>
-    ;(function( $, window ) {
+  var linkButton = document.getElementById("project-tag");
+  var projectPictureUrl = [
+      "https://images.unsplash.com/photo-1477233534935-f5e6fe7c1159?dpr=2&auto=format&fit=crop&w=1500&h=1000&q=80&cs=tinysrgb&crop=",//onebas pic
+      "http://marcianosmx.com/wp-content/uploads/2015/03/dados.jpg", //thirty pic
+      "https://images.unsplash.com/photo-1478826160983-e6db8c7d537a?dpr=2&auto=format&fit=crop&w=1500&h=1000&q=80&cs=tinysrgb&crop=", //google glass pic
+      "https://images.unsplash.com/photo-1423068657086-889315a2eba8?dpr=2&auto=format&fit=crop&w=1500&h=1000&q=80&cs=tinysrgb&crop=", //moodify pic
+      "https://images.unsplash.com/photo-1415769177894-634a98172336?dpr=2&auto=format&fit=crop&w=1500&h=1000&q=80&cs=tinysrgb&crop=", //magazinos pic
+      "https://images.unsplash.com/photo-1498168208808-4c2706938a2f?dpr=2&auto=format&fit=crop&w=1500&h=1874&q=80&cs=tinysrgb&crop=" //drone pic
+  ];
 
-        var _defaults = {
-            x      : 2, // number of tiles in x axis
-            y      : 2, // number of tiles in y axis
-            random : true, // animate tiles in random order
-            speed  : 2000 // time to clear all times
-        };
+  function ImageGrid(defaults, position) {
+      //console.log(defaults._rows);
+      var r = defaults.rows;
+      var c = defaults.columns;
+      var margin = defaults.margin;
 
-        /**
-         * range Get an array of numbers within a range
-         * @param min {number} Lowest number in array
-         * @param max {number} Highest number in array
-         * @param rand {bool} Shuffle array
-         * @return {array}
-         */
-        function range( min, max, rand ) {
-            var arr = ( new Array( ++max - min ) )
-                .join('.').split('.')
-                .map(function( v,i ){ return min + i })
-            return rand
-                ? arr.map(function( v ) { return [ Math.random(), v ] })
-                    .sort().map(function( v ) { return v[ 1 ] })
-                : arr
-        }
+      var placeholder = defaults.containerName;
+      var container = document.createElement('div');
+      container.className = "gridContainer";
+      container.id = "gridTileID"+position;
+      placeholder.appendChild(container);
 
-        // Prevent css3 transitions on load
-        $('body').addClass('css3-preload')
-        $( window ).load(function(){ $('body').removeClass('css3-preload') })
+      var gridTile;
+      var w = (container.offsetWidth / c) - margin;
+      var h = (container.offsetHeight / r) - margin;
+      var arr = [];
 
-        $.fn.sliced = function( options ) {
+      for (var i = 0, l = r * c; i < l; i++) {
+          gridTile = document.createElement('div');
+          gridTile.className = "gridTile";
+          gridTile.style.backgroundImage = "url(" + defaults.imgSrc + ")";
+          gridTile.style.webkitFilter = 'grayscale(100%)';
+          gridTile.style.filter = 'grayscale(100%)';
 
-            var o = $.extend( {}, _defaults, options );
 
-            return this.each(function() {
+          arr = [(w + margin) * (i % c), (h + margin) * Math.floor(i / c), ((w + margin) * (i % c) + w - margin),
+              (h + margin) * Math.floor(i / c), ((w + margin) * (i % c) + w - margin), ((h + margin) * Math.floor(i / c) + h - margin),
+              (w + margin) * (i % c), ((h + margin) * Math.floor(i / c) + h - margin)];
 
-                var $container = $(this);
+          //console.log(i + " ====>>> " + arr + " ||||| " + i%c  + " |||||| " + i/c);
 
-              /*---------------------------------
-               * Make the tiles:
-               ---------------------------------*/
 
-                var width = $container.width(),
-                    height = $container.height(),
-                    $img = $container.find('img'),
-                    n_tiles = o.x * o.y,
-                    tiles = [], $tiles;
+          TweenMax.set(gridTile, {
+              webkitClipPath: 'polygon(' + arr[0] + 'px ' + arr[1] + 'px,' + arr[2] + 'px ' + arr[3] + 'px, ' + arr[4] + 'px ' + arr[5] + 'px, ' + arr[6] + 'px ' + arr[7] + 'px)',
+              clipPath: 'polygon(' + arr[0] + 'px ' + arr[1] + 'px,' + arr[2] + 'px ' + arr[3] + 'px, ' + arr[4] + 'px ' + arr[5] + 'px, ' + arr[6] + 'px ' + arr[7] + 'px)'
+          });
+          container.appendChild(gridTile);
 
-                for ( var i = 0; i < n_tiles; i++ ) {
-                    tiles.push('<div class="tile" id="tile'+i+'"/>');
-                }
+          fixTilePosition(gridTile, i);
+      }
+      linkButton.addEventListener("click", function () {
+          setTimeout(function () {
+              for(var i = 0; i < 6; i++) {
+                  loadInProject._pictureGrid[i].children[0].children[0].style.width = "200px";
+                  loadInProject._setUpPreload();
+              }
+          },500);
+      });
+      placeholder.addEventListener("mouseover", function (e) {
+          var allTiles = e.currentTarget.querySelectorAll(".gridTile");
+          for (var t = 0, le = allTiles.length; t < le; t++) {
+              TweenMax.to(allTiles[t], defaults.animTime, {
+                  css: {backgroundPosition: "0px 0px"},
+                  ease: Power1.easeOut
+              });
+              allTiles[t].style.webkitFilter = 'grayscale(0%)';
+              allTiles[t].style.filter = 'grayscale(0%)';
+          }
+      });
 
-                $tiles = $( tiles.join('') );
+      placeholder.addEventListener("mouseleave", function (e) {
+          var allTiles = e.currentTarget.querySelectorAll(".gridTile");
+          for (var ti = 0, len = allTiles.length; ti < len; ti++) {
+              fixTilePosition(allTiles[ti], ti, defaults.animTime);
+              allTiles[ti].style.webkitFilter = 'grayscale(100%)';
+              allTiles[ti].style.filter = 'grayscale(100%)';
+          }
+      });
 
-                // Hide original image and insert tiles in DOM
-                $img.hide().after( $tiles );
+      function fixTilePosition(tile, ind, time) {
+          if (time == null) time = 0;
+          var centr, centrCol, centrRow, offsetW, offsetH, left, top;
 
-                // Set background
-                $tiles.css({
-                    width: width / o.x,
-                    height: height / o.y,
-                    backgroundImage: 'url('+ $img.attr('src') +')'
-                });
-                $img.css({
-                    width: "100%",
-                    height: "100%"
-                });
-               /* $tiles.getElementsByTagName("img").style.width = "100%";
-                $tiles.getElementsByTagName("img").style.height = "100%";*/
+          centr = Math.floor(c * r / 2);
+          centrCol = Math.ceil(centr / c);
+          centrRow = Math.ceil(centr / r);
 
-                // Adjust position
-                $tiles.each(function() {
-                    var pos = $(this).position();
-                    $(this).css( 'backgroundPosition', -pos.left +'px '+ -pos.top +'px' );
-                });
+          offsetW = w / centrCol;
+          offsetH = h / centrRow;
 
-              /*---------------------------------
-               * Animate the tiles:
-               ---------------------------------*/
+          left = (Math.round((ind % c - centrCol + 1) * offsetW));
+          top = (Math.round((Math.floor(ind / c) - centrRow + 1) * offsetH));
+          TweenMax.to(tile, time, {css: {backgroundPosition: left + "px " + top + "px"}, ease: Power1.easeOut});
+      }
 
-                var tilesArr = range( 0, n_tiles, o.random ),
-                    tileSpeed = o.speed / n_tiles; // time to clear a single tile
+  }
+  function ProjectListItem(imgSrc, containerName, row, column, margin, animTime) {
+      this.imgSrc = imgSrc;
+      this.containerName = containerName;
+      this.rows = row;
+      this.columns = column;
+      this.margin = margin;
+      this.animTime = animTime;
+  }
+  var imageGrids= [];
+  var item = new ProjectListItem(
+      projectPictureUrl[5],
+      projectClassName[i],
+      5,
+      5,
+      1.5,
+      0.3
+  );
+  //ImageGrid(item);
+  imageGrids.push(ImageGrid(item, i));
 
-                // Public method
-                $container.on( 'animate', function() {
 
-                    tilesArr.forEach(function( tile, i ) {
-                        setTimeout(function(){
-                            $tiles.eq( tile ).toggleClass( 'tile-animated' );
-                        }, i * tileSpeed );
-                    });
 
-                });
 
-            });
-
-        };
-
-    }( jQuery, window ));
-
-    $(document).ready(function () {
-        setTimeout(function () {
-            $('.sliced').sliced({ x: 2, y: 2, speed: 1000 });
-
-            $('#project-tag').click(function() {
-                $('.sliced').trigger('animate');
-            });
-        },600);
-    });
 </script>
 
 
@@ -151,10 +161,14 @@
   <div class="row">
     <div class="col-md-6">
       <%=link_to(projects_magazinos_path(:state => "magazinos", page: "index"), id: "project-tag", remote:true) do%>
-          <div class="sliced">
-            <%=image_tag("https://images.unsplash.com/photo-1415769177894-634a98172336?dpr=2&auto=format&fit=crop&w=1500&h=1000&q=80&cs=tinysrgb&crop=")%>
+          <div class="progress"></div>
+          <div class="placeholder">
+            <div class="filler-container">
+              <div class="filler">
+              </div>
+            </div>
           </div>
-      <%end%>
+    <%end%>
     </div>
     <div class="col-md-6">
       <%=link_to(projects_lag_path(:state => "googleglass"), remote:true) do%>

@@ -1,81 +1,113 @@
 <script>
+    /*;(function( $, window ) {
+
+        var _defaults = {
+            x      : 2, // number of tiles in x axis
+            y      : 2, // number of tiles in y axis
+            random : true, // animate tiles in random order
+            speed  : 2000 // time to clear all times
+        };
+
+        /**
+         * range Get an array of numbers within a range
+         * @param min {number} Lowest number in array
+         * @param max {number} Highest number in array
+         * @param rand {bool} Shuffle array
+         * @return {array}
+         */
+     /*   function range( min, max, rand ) {
+            var arr = ( new Array( ++max - min ) )
+                .join('.').split('.')
+                .map(function( v,i ){ return min + i })
+            return rand
+                ? arr.map(function( v ) { return [ Math.random(), v ] })
+                    .sort().map(function( v ) { return v[ 1 ] })
+                : arr
+        }
+
+        // Prevent css3 transitions on load
+        $('body').addClass('css3-preload')
+        $( window ).load(function(){ $('body').removeClass('css3-preload') })
+
+        $.fn.sliced = function( options ) {
+
+            var o = $.extend( {}, _defaults, options );
+
+            return this.each(function() {
+
+                var $container = $(this);
+
+                /*---------------------------------
+                 * Make the tiles:
+                 ---------------------------------*/
+
+       /*         var width = $container.width(),
+                    height = $container.height(),
+                    $img = $container.find('img'),
+                    n_tiles = o.x * o.y,
+                    tiles = [], $tiles;
+
+                for ( var i = 0; i < n_tiles; i++ ) {
+                    tiles.push('<div class="tile" id="tile'+i+'"/>');
+                }
+
+                $tiles = $( tiles.join('') );
+
+                // Hide original image and insert tiles in DOM
+                $img.hide().after( $tiles );
+
+                // Set background
+                $tiles.css({
+                    width: width / o.x,
+                    height: height / o.y,
+                    backgroundImage: 'url('+ $img.attr('src') +')'
+                });
+                $img.css({
+                    width: "100%",
+                    height: "100%"
+                });
+                /* $tiles.getElementsByTagName("img").style.width = "100%";
+                 $tiles.getElementsByTagName("img").style.height = "100%";*/
+
+                // Adjust position
+   /*             $tiles.each(function() {
+                    var pos = $(this).position();
+                    $(this).css( 'backgroundPosition', -pos.left +'px '+ -pos.top +'px' );
+                });
+
+                /*---------------------------------
+                 * Animate the tiles:
+                 ---------------------------------*/
+
+     /*           var tilesArr = range( 0, n_tiles, o.random ),
+                    tileSpeed = o.speed / n_tiles; // time to clear a single tile
+
+                // Public method
+                $container.on( 'animate', function() {
+
+                    tilesArr.forEach(function( tile, i ) {
+                        setTimeout(function(){
+                            $tiles.eq( tile ).toggleClass( 'tile-animated' );
+                        }, i * tileSpeed );
+                    });
+
+                });
+
+            });
+
+        };
+
+    }( jQuery, window ));
+
     $(document).ready(function () {
-        var charArray = <%= raw @info_object[:header]%>;
-        var headerTextContainer = document.getElementById("holder-header-id").children[0];
-        var textAnimation = new TextAnimation(document.getElementById("holder-header-id").children[0], charArray);
-        var mainNavigationBar = document.getElementById("navProjects");
-        textAnimation.removeLetters();
-        textAnimation.initializeLetters();
-        mainNavigationBar.style.display = "none";
         setTimeout(function () {
-            document.getElementById("holder-picture-id").style.height = "300px";
-        },500);
-        setTimeout(function () {
-            document.getElementById("holder-header-id").style.top = "220px";
-            document.getElementById("holder-header-id").style.opacity = "1";
-            document.getElementById("holder-text-id").style.opacity = "1";
-        },2500);
+            $('.sliced').sliced({ x: 2, y: 2, speed: 1000 });
 
-        function loadInHeader(div, numbOfChars, start){
-            setTimeout(function () {
-                if(start < numbOfChars ) {
-                    start +=0.1;
-                    div.style.opacity = start;
-                    loadInHeader(div)
-                }
-            },100);
-        }
-
-    });
-    function TextAnimation(context,letters) {
-        this.context = context;
-        this.letters = letters;
-        this.interval = [];
-        this.textDivTags = [];
-        this._animationSetted = false;
-        this.removeLetters = function () {
-            while(this.context.firstChild){
-                this.context.removeChild(this.context.firstChild);
-            }
-        };
-        this.initializeLetters = function() {
-            this.context.style.width = $(window).height() + "px";
-            for(var i = 0; i < this.letters.length; i++){
-                var div = document.createElement("div");
-                div.className = "char chars"+i;
-                div.id = "id-chars"+i;
-                //div.style.float = "left";
-                var innerText = document.createElement("div");
-                innerText.className = "char-inner";
-                innerText.innerHTML = letters[i];
-                div.appendChild(innerText);
-                var hasChild = this.context.querySelector(div.id) != null;
-
-                this.context.appendChild(div);
-
-            }
-        };
-        this.initializeTags = function () {
-            var childs = this.context.childNodes;
-            for(var i = 0; i < Object.size(childs); i++){
-                this.textDivTags.push(childs[i].childNodes[0]);
-            }
-            this._animationSetted = true;
-        }
-        this._checkIfIfCharAlreadyExist = function (childNodes) {
-            console.log(childNodes.length);
-            for(var i = 0; i < childNodes.length; i++) {
-                console.log(childNodes[i].id);
-                if (childNodes[i].id == "id-chars"+i) {
-                    this._animationSetted = true;
-                } else {
-                    console.log("in else duplicates");
-                    this._animationSetted = false;
-                }
-            }
-
-        };
-    }
+            $('#project-tag').click(function() {
+                $('.sliced').trigger('animate');
+            });
+        },600);
+    });*/
 
 </script>
 <div class="container">
