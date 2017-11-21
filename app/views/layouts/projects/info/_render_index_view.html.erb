@@ -10,266 +10,152 @@
           "https://images.unsplash.com/photo-1415769177894-634a98172336?dpr=2&auto=format&fit=crop&w=1500&h=1000&q=80&cs=tinysrgb&crop=", //magazinos pic
           "https://images.unsplash.com/photo-1498168208808-4c2706938a2f?dpr=2&auto=format&fit=crop&w=1500&h=1874&q=80&cs=tinysrgb&crop=" //drone pic
       ];
-    /*  var projectClassName = [
-          document.getElementById("onebas").children[1],//onebas pic
-          document.getElementById("thirty").children[1], //thirty pic
-          document.getElementById("googleglass").children[1], //google glass pic
-          document.getElementById("moodify").children[1], //moodify pic
-          document.getElementById("magazinos").children[1], //magazinos pic
-          document.getElementById("drone").children[1] //drone pic
-      ];
-      var projectHeader = [
-          document.getElementById("onebas").children[2],//onebas pic
-          document.getElementById("thirty").children[2], //thirty pic
-          document.getElementById("googleglass").children[2], //google glass pic
-          document.getElementById("moodify").children[2], //moodify pic
-          document.getElementById("magazinos").children[2], //magazinos pic
-          document.getElementById("drone").children[2] //drone pic
-      ];
-      var projectUnderText = [
-          document.getElementById("onebas").children[3],//onebas pic
-          document.getElementById("thirty").children[3], //thirty pic
-          document.getElementById("googleglass").children[3], //google glass pic
-          document.getElementById("moodify").children[3], //moodify pic
-          document.getElementById("magazinos").children[3], //magazinos pic
-          document.getElementById("drone").children[3] //drone pic
-      ];*/
 
-      function ImageGrid(defaults, position) {
-          //console.log(defaults._rows);
+      /* Downloaded from https://www.kode.to/ */
+      var options = {
+          imgSrc : projectPictureUrl[4],
+          containerName : "placeholder",
+          rows:2,
+          columns:2,
+          margin:0,
+          animTime: 0.5
+      };
+
+      function ImageGrid(defaults)
+      {
           var r = defaults.rows;
           var c = defaults.columns;
           var margin = defaults.margin;
+          var _deadSpace = 40;
+          var _hoverProgress = false;
 
-          var placeholder = defaults.containerName;
+          var placeholder = document.getElementsByClassName(defaults.containerName)[0];
           var container = document.createElement('div');
           container.className = "gridContainer";
-          container.id = "gridTileID" + position;
           placeholder.appendChild(container);
 
           var gridTile;
-          var w = (container.offsetWidth / c) - margin;
-          var h = (container.offsetHeight / r) - margin;
+
+          var w = ((container.offsetWidth - _deadSpace) / c) -margin;
+          var h = ((container.offsetHeight - _deadSpace) / r) -margin;
           var arr = [];
 
-          for (var i = 0, l = r * c; i < l; i++) {
+          for (var i=0, l=r*c; i < l; i++)
+          {
               gridTile = document.createElement('div');
               gridTile.className = "gridTile";
-              gridTile.style.backgroundImage = "url(" + defaults.imgSrc + ")";
-              gridTile.style.webkitFilter = 'grayscale(100%)';
-              gridTile.style.filter = 'grayscale(100%)';
+              gridTile.style.backgroundImage = "url("+defaults.imgSrc+")";
 
 
-              arr = [(w + margin) * (i % c), (h + margin) * Math.floor(i / c), ((w + margin) * (i % c) + w - margin),
-                  (h + margin) * Math.floor(i / c), ((w + margin) * (i % c) + w - margin), ((h + margin) * Math.floor(i / c) + h - margin),
-                  (w + margin) * (i % c), ((h + margin) * Math.floor(i / c) + h - margin)];
+              arr = [((w+margin)*(i%c) + (_deadSpace/2)), ((h+margin)*Math.floor(i/c))+ (_deadSpace/2), ((w+margin)*(i%c)+w-margin)+ (_deadSpace/2), ((h+margin)*Math.floor(i/c))+ (_deadSpace/2), (((w+margin)*(i%c)+w-margin))+ (_deadSpace/2), ((h+margin)*Math.floor(i/c) + h-margin)+ (_deadSpace/2), ((w+margin)*(i%c))+ (_deadSpace/2), ((h+margin)*Math.floor(i/c) + h-margin)+ (_deadSpace/2)];
 
-              console.log(i + " ====>>> " + arr + " ||||| " + i % c + " |||||| " + i / c);
+               console.log(i + " ====>>> " + arr + " ||||| " + i%c  + " |||||| " + i/c);
 
 
-              TweenMax.set(gridTile, {
-                  webkitClipPath: 'polygon(' + arr[0] + 'px ' + arr[1] + 'px,' + arr[2] + 'px ' + arr[3] + 'px, ' + arr[4] + 'px ' + arr[5] + 'px, ' + arr[6] + 'px ' + arr[7] + 'px)',
-                  clipPath: 'polygon(' + arr[0] + 'px ' + arr[1] + 'px,' + arr[2] + 'px ' + arr[3] + 'px, ' + arr[4] + 'px ' + arr[5] + 'px, ' + arr[6] + 'px ' + arr[7] + 'px)'
-              });
+              TweenMax.set(gridTile, {webkitClipPath:'polygon('+arr[0]+'px '+ arr[1]+'px,'+arr[2]+'px '+arr[3]+'px, '+arr[4]+'px '+ arr[5] +'px, '+arr[6]+'px '+ arr[7] +'px)', clipPath:'polygon('+arr[0]+'px '+ arr[1]+'px,'+arr[2]+'px '+arr[3]+'px, '+arr[4]+'px '+ arr[5] +'px, '+arr[6]+'px '+ arr[7] +'px)'});
+
               container.appendChild(gridTile);
 
-              fixTilePosition(gridTile, i);
+             // fixTilePosition(gridTile, i);
           }
-          /*linkButton.addEventListener("click", function () {
+          var downTileOne = 110;
+
+          var downTileFour = 190;
+          var downTileFourTop = 110;
+          var sideTileFour = 90;
+          var sideTileFourLeft = 170;
+
+          var downTileTwo = 30;
+          var downTileTwoBot = 110;
+
+          var sideTileThree = 10;
+          var sideTileThreeRight = 95;
+
+          var styleTileOne = {webkitClipPath:'polygon('+20+'px '+ 20 +'px,'+100+'px '+20+'px, '+100+'px '+ downTileOne +'px, '+20+'px '+ 100 +'px)', clipPath:'polygon('+20+'px '+ 20 +'px,'+100+'px '+20+'px, '+100+'px '+ downTileOne +'px, '+20+'px '+ 100 +'px)'};
+          var styleTileTwo = {webkitClipPath:'polygon('+arr[0]+'px '+ downTileTwo +'px,'+arr[2]+'px '+ downTileTwo +'px, '+arr[4]+'px '+ downTileTwoBot +'px, '+arr[6]+'px '+ downTileTwoBot +'px)', clipPath:'polygon('+arr[0]+'px '+ downTileTwo + 'px,'+arr[2]+'px '+ downTileTwo +'px, '+arr[4]+'px '+ downTileTwoBot +'px, '+arr[6]+'px '+ downTileTwoBot +'px)'};
+          var styleTileThree = {webkitClipPath:'polygon('+sideTileThree+'px '+ arr[1]+'px,'+ sideTileThreeRight +'px '+arr[3]+'px, '+ sideTileThreeRight +'px '+ arr[5] +'px, '+sideTileThree+'px '+ arr[7] +'px)', clipPath:'polygon('+sideTileThree+'px '+ arr[1]+'px,'+sideTileThreeRight+'px '+arr[3]+'px, '+sideTileThreeRight+'px '+ arr[5] +'px, '+sideTileThree+'px '+ arr[7] +'px)'};
+          var styleTileFour = {webkitClipPath:'polygon('+sideTileFour+'px '+ downTileFourTop+'px,'+sideTileFourLeft+'px '+downTileFourTop+'px, '+ sideTileFourLeft +'px '+ downTileFour +'px, '+sideTileFour+'px '+ downTileFour +'px)', clipPath:'polygon('+sideTileFour+'px '+ downTileFourTop +'px,'+ sideTileFourLeft +'px '+ downTileFourTop +'px, '+ sideTileFourLeft +'px '+ downTileFour +'px, '+sideTileFour+'px '+ downTileFour +'px)'};
+
+          var styleTileOneBack = {webkitClipPath:'polygon('+20+'px '+ 20 +'px,'+100+'px '+20+'px, '+100+'px '+ downTileOne +'px, '+20+'px '+ 100 +'px)', clipPath:'polygon('+20+'px '+ 20 +'px,'+100+'px '+20+'px, '+100+'px '+ downTileOne +'px, '+20+'px '+ 100 +'px)'};
+          var styleTileTwoBack = {webkitClipPath:'polygon('+arr[0]+'px '+ 20 +'px,'+arr[2]+'px '+ 20 +'px, '+arr[4]+'px '+ 100 +'px, '+arr[6]+'px '+ 100 +'px)', clipPath:'polygon('+arr[0]+'px '+ 20 + 'px,'+arr[2]+'px '+ 20 +'px, '+arr[4]+'px '+ 100 +'px, '+arr[6]+'px '+ 100 +'px)'};
+          var styleTileThreeBack = {webkitClipPath:'polygon('+20+'px '+ arr[1]+'px,'+ 100 +'px '+arr[3]+'px, '+ 100 +'px '+ arr[5] +'px, '+ 20 +'px '+ arr[7] +'px)', clipPath:'polygon('+ 20 +'px '+ arr[1]+'px,'+ 100 +'px '+arr[3]+'px, '+ 100 +'px '+ arr[5] +'px, '+ 20 +'px '+ arr[7] +'px)'};
+          var styleTileFourBack = {webkitClipPath:'polygon('+100+'px '+ 100 +'px,'+ 180 +'px '+100+'px, '+ 180 +'px '+ 180 +'px, '+100+'px '+ 180 +'px)', clipPath:'polygon('+100+'px '+ 100 +'px,'+ 180 +'px '+100+'px, '+ 180 +'px '+ 180 +'px, '+100+'px '+ 180 +'px)'};
+
+          normalizePosition();
+          changePolygons();
+          placeholder.addEventListener("mouseover", function(e){
+              if(!_hoverProgress) {
+                  normalizePolygonsPosition();
+                  normalizePosition();
+              }
+          });
+
+          placeholder.addEventListener("mouseleave", function(e){
+
+              changePolygons();
+
+              //normalizePosition();
+          });
+          function normalizePosition(){
+              var allTiles = container.querySelectorAll(".gridTile");
+              for (var t=0, len = allTiles.length; t < len; t++) {
+                  TweenMax.to(allTiles[t], defaults.animTime, {css:{backgroundPosition:"0px 0px"}, ease:Power1.easeOut});
+              }
+          };
+          function normalizePolygonsPosition() {
+              _hoverProgress = true;
+           //   console.log(container.querySelectorAll(".gridTile")[2]);
+              var tileOne = container.querySelectorAll(".gridTile")[0];
+              var tileTwo = container.querySelectorAll(".gridTile")[1];
+              var tileThree = container.querySelectorAll(".gridTile")[2];
+              var tileFour = container.querySelectorAll(".gridTile")[3];
+             // TweenMax.to(tileOne, 0.3, {css:styleTileOne});
+              TweenMax.to(tileFour, 0.3, {css:styleTileFourBack});
+              changePositionBasedOnPolygons(tileFour, 0, 10, 0.3);
+              TweenMax.to(tileThree, 0.3, {css:styleTileThreeBack});
+              changePositionBasedOnPolygons(tileThree, 0, 0, 0.3);
               setTimeout(function () {
-                  for (var i = 0; i < 6; i++) {
-                      loadInProject._pictureGrid[i].children[0].children[0].style.width = "200px";
-                      loadInProject._setUpPreload();
-                  }
-              }, 500);
-          });*/
-          placeholder.addEventListener("mouseover", function (e) {
-              var allTiles = e.currentTarget.querySelectorAll(".gridTile");
-              for (var t = 0, le = allTiles.length; t < le; t++) {
-                  TweenMax.to(allTiles[t], defaults.animTime, {
-                      css: {backgroundPosition: "0px 0px"},
-                      ease: Power1.easeOut
-                  });
-                  allTiles[t].style.webkitFilter = 'grayscale(0%)';
-                  allTiles[t].style.filter = 'grayscale(0%)';
-              }
-          });
-
-          placeholder.addEventListener("mouseleave", function (e) {
-              var allTiles = e.currentTarget.querySelectorAll(".gridTile");
-              for (var ti = 0, len = allTiles.length; ti < len; ti++) {
-                  fixTilePosition(allTiles[ti], ti, defaults.animTime);
-                  allTiles[ti].style.webkitFilter = 'grayscale(100%)';
-                  allTiles[ti].style.filter = 'grayscale(100%)';
-              }
-          });
-
-          function fixTilePosition(tile, ind, time) {
-              if (time == null) time = 0;
-              var centr, centrCol, centrRow, offsetW, offsetH, left, top;
-
-              centr = Math.floor(c * r / 2);
-              centrCol = Math.ceil(centr / c);
-              centrRow = Math.ceil(centr / r);
-
-              offsetW = w / centrCol;
-              offsetH = h / centrRow;
-
-              left = (Math.round((ind % c - centrCol + 1) * offsetW));
-              top = (Math.round((Math.floor(ind / c) - centrRow + 1) * offsetH));
-              TweenMax.to(tile, time, {
-                  css: {backgroundPosition: left + "px " + top + "px"},
-                  ease: Power1.easeOut
-              });
+                  TweenMax.to(tileTwo, 0.3, {css:styleTileTwoBack});
+                  changePositionBasedOnPolygons(tileFour, 0, 0, 0.3);
+                  changePositionBasedOnPolygons(tileTwo, 0, 0, 0.3);
+              },0);
+              setTimeout(function () {
+                  _hoverProgress = false;
+              }, 600)
           }
-
+          function changePositionBasedOnPolygons(tile, tileY, tileX, animTime) {
+              var moveY = 0, moveX = 0;
+              if(tileY != null)
+                  moveY = tileY;
+              if(tileX != null)
+                  moveX = tileX;
+              TweenMax.to(tile, animTime, {css:{backgroundPosition: moveY+"px "+moveX + "px"}});
+          }
+          function changePolygons() {
+              _hoverProgress = true;
+             // console.log(container.querySelectorAll(".gridTile")[2]);
+              var tileOne = container.querySelectorAll(".gridTile")[0];
+              var tileTwo = container.querySelectorAll(".gridTile")[1];
+              var tileThree = container.querySelectorAll(".gridTile")[2];
+              var tileFour = container.querySelectorAll(".gridTile")[3];
+              TweenMax.to(tileOne, 0.3, {css:styleTileOne});
+              TweenMax.to(tileTwo, 0.3, {css:styleTileTwo});
+              changePositionBasedOnPolygons(tileTwo, 0, 10, 0.3);
+              changePositionBasedOnPolygons(tileFour, 0, 10, 0.3);
+              setTimeout(function () {
+                  TweenMax.to(tileFour, 0.3, {css:styleTileFour});
+                  changePositionBasedOnPolygons(tileFour, -10, 10, 0.3);
+                  TweenMax.to(tileThree, 0.3, {css:styleTileThree});
+                  changePositionBasedOnPolygons(tileThree, -10, 0, 0.3);
+              },200);
+              setTimeout(function () {
+                  _hoverProgress = false;
+              }, 600)
+          }
       }
 
-      function ProjectListItem(imgSrc, containerName, row, column, margin, animTime) {
-          this.imgSrc = imgSrc;
-          this.containerName = containerName;
-          this.rows = row;
-          this.columns = column;
-          this.margin = margin;
-          this.animTime = animTime;
-      }
+      ImageGrid(options);
 
-      var imageGrids = [];
-      var item = new ProjectListItem(
-          projectPictureUrl[4],
-          document.getElementById("magazinos").children[1],
-          5,
-          5,
-          1.5,
-          0.3
-      );
-      //ImageGrid(item);
-      imageGrids.push(ImageGrid(item, 4));
-
-
-     /* var loadInProject = new LoadInProjects(projectUnderText, projectHeader, projectClassName);
-      loadInProject._instance = loadInProject;
-      loadInProject._setUpPreload();
-      setTimeout(function () {
-          for (var i = 0; i < 6; i++) {
-              loadInProject._pictureGrid[i].children[0].children[0].style.width = "200px";
-          }
-      }, 500);
-      setTimeout(function () {
-
-      }, 2000);
-      setTimeout(function () {
-          for (var i = 0; i < 6; i++) {
-              loadInProject._pictureGrid[i].children[0].style.alignItems = "right";
-              loadInProject._pictureGrid[i].children[0].children[0].style.width = "0px";
-              loadInProject._pictureGrid[i].children[0].children[0].style.float = "left";
-              loadInProject._pictureGrid[i].children[0].children[0].style.top = "0";
-              loadInProject._pictureGrid[i].children[0].children[0].style.right = "0";
-              loadInProject._pictureGrid[i].children[0].children[0].style.backgroundPosition = "left top";
-          }
-      }, 2800);
-      setTimeout(function () {
-          console.log("hajje");
-          loadInProject._initializeUnderText();
-      }, 3800);
-      setTimeout(function () {
-          console.log("hajje");
-          loadInProject._initializeHeaderText();
-      }, 4800);
-      function LoadInProjects(underText, headerText, pictureGrid) {
-          this._underText = underText;
-          this._headerText = headerText;
-          this._instance = null;
-          this._pictureGrid = pictureGrid;
-          this._allIntervals = [];
-          this._setUpPreload = function () {
-              for (var i = 0; i < this._underText.length; i++) {
-                  this._underText[i].style.opacity = "0";
-                  this._underText[i].style.marginTop = "110px";
-                  this._headerText[i].style.top = "-180px";
-                  this._headerText[i].style.opacity = "0";
-              }
-          };
-          this._initializeUnderText = function () {
-              for (var i = 0; i < this._underText.length; i++) {
-                  (function (instance, i) {
-
-                      setTimeout(function () {
-                          instance._underText[i].style.opacity = "1";
-                          instance._underText[i].style.marginTop = "";
-                      }, 50);
-                  })(this._instance, i)
-              }
-          };
-          this._initializeHeaderText = function () {
-              for (var i = 0; i < this._underText.length; i++) {
-                  (function (instance, i) {
-
-                      setTimeout(function () {
-                          instance._headerText[i].style.top = "";
-                          instance._headerText[i].style.opacity = "1";
-                      }, 50);
-                  })(this._instance, i)
-              }
-          };
-          this._initalizePictureGrid = function () {
-              for (var i = 0; i < 6; i++) {
-                  (function (instance, i) {
-                      setTimeout(function () {
-                          instance._loadingIntervalPicture(instance._pictureGrid[i].children[0]);
-                      }, 5);
-                  })(this._instance, i);
-              }
-              (function (instance) {
-                  setTimeout(function () {
-                      for (var i = 0; i < 6; i++) {
-                          (function (instance, i) {
-                              setTimeout(function () {
-                                  instance._loadingIntervalPictureOut(instance._pictureGrid[i].children[0]);
-                              }, 5);
-                          })(instance._instance, i);
-                      }
-                  }, 2000);
-              })(this._instance)
-          };
-          this._loadingIntervalPicture = function (divLoader) {
-              var width = 0;
-              (function (instance) {
-                  var interval = setInterval(function () {
-                      if (instance._allIntervals != interval) {
-                          instance._allIntervals.push(interval);
-                      }
-                      if (width < 200) {
-                          //console.log("yalla??", width);
-                          width += 1;
-                          divLoader.style.width = width + "px";
-                      } else {
-                          clearInterval(interval);
-                      }
-                  }, 1);
-              })(this._instance);
-          };
-          this._loadingIntervalPictureOut = function (divLoader) {
-              var width = 200;
-              divLoader.style.position = "relative";
-              divLoader.style.float = "left";
-              (function (instance) {
-                  var interval = setInterval(function () {
-                      if (instance._allIntervals != interval) {
-                          instance._allIntervals.push(interval);
-                      }
-                      if (width > 0) {
-                          //console.log("yalla??", width);
-                          width -= 1;
-                          divLoader.style.width = width + "px";
-                          // divLoader.style.left = width + "px";
-                      } else {
-                          clearInterval(interval);
-                      }
-                  }, 1);
-              })(this._instance);
-          };
-      }*/
   });
 </script>
 
@@ -314,12 +200,13 @@
   <div class="row">
     <div class="col-md-6">
       <%=link_to(projects_magazinos_path(:state => "magazinos", page: "index"), id: "project-tag", remote:true) do%>
-          <div class="progress"></div>
-          <div class="placeholder">
-            <div class="filler-container">
-              <div class="filler">
+          <div id="magazinos">
+              <div class="placeholder">
+                <div class="filler-container">
+                  <div class="filler">
+                  </div>
+                </div>
               </div>
-            </div>
           </div>
     <%end%>
     </div>
