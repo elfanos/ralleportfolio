@@ -1,147 +1,276 @@
 <script>
-  var linkButton = document.getElementById("project-tag");
-  var projectPictureUrl = [
-      "https://images.unsplash.com/photo-1477233534935-f5e6fe7c1159?dpr=2&auto=format&fit=crop&w=1500&h=1000&q=80&cs=tinysrgb&crop=",//onebas pic
-      "http://marcianosmx.com/wp-content/uploads/2015/03/dados.jpg", //thirty pic
-      "https://images.unsplash.com/photo-1478826160983-e6db8c7d537a?dpr=2&auto=format&fit=crop&w=1500&h=1000&q=80&cs=tinysrgb&crop=", //google glass pic
-      "https://images.unsplash.com/photo-1423068657086-889315a2eba8?dpr=2&auto=format&fit=crop&w=1500&h=1000&q=80&cs=tinysrgb&crop=", //moodify pic
-      "https://images.unsplash.com/photo-1415769177894-634a98172336?dpr=2&auto=format&fit=crop&w=1500&h=1000&q=80&cs=tinysrgb&crop=", //magazinos pic
-      "https://images.unsplash.com/photo-1498168208808-4c2706938a2f?dpr=2&auto=format&fit=crop&w=1500&h=1874&q=80&cs=tinysrgb&crop=" //drone pic
-  ];
-  var projectClassName = [
-      document.getElementById("onebas").children[1],//onebas pic
-      document.getElementById("thirty").children[1], //thirty pic
-      document.getElementById("googleglass").children[1], //google glass pic
-      document.getElementById("moodify").children[1], //moodify pic
-      document.getElementById("magazinos").children[1], //magazinos pic
-      document.getElementById("drone").children[1] //drone pic
-  ];
-  var projectHeader = [
-      document.getElementById("onebas").children[2],//onebas pic
-      document.getElementById("thirty").children[2], //thirty pic
-      document.getElementById("googleglass").children[2], //google glass pic
-      document.getElementById("moodify").children[2], //moodify pic
-      document.getElementById("magazinos").children[2], //magazinos pic
-      document.getElementById("drone").children[2] //drone pic
-  ];
-  var projectUnderText = [
-      document.getElementById("onebas").children[3],//onebas pic
-      document.getElementById("thirty").children[3], //thirty pic
-      document.getElementById("googleglass").children[3], //google glass pic
-      document.getElementById("moodify").children[3], //moodify pic
-      document.getElementById("magazinos").children[3], //magazinos pic
-      document.getElementById("drone").children[3] //drone pic
-  ];
+  $(document).ready(function () {
 
-  function ImageGrid(defaults, position) {
-      //console.log(defaults._rows);
-      var r = defaults.rows;
-      var c = defaults.columns;
-      var margin = defaults.margin;
+      var linkButton = document.getElementById("project-tag");
+      var projectPictureUrl = [
+          "https://images.unsplash.com/photo-1477233534935-f5e6fe7c1159?dpr=2&auto=format&fit=crop&w=1500&h=1000&q=80&cs=tinysrgb&crop=",//onebas pic
+          "http://marcianosmx.com/wp-content/uploads/2015/03/dados.jpg", //thirty pic
+          "https://images.unsplash.com/photo-1478826160983-e6db8c7d537a?dpr=2&auto=format&fit=crop&w=1500&h=1000&q=80&cs=tinysrgb&crop=", //google glass pic
+          "https://images.unsplash.com/photo-1423068657086-889315a2eba8?dpr=2&auto=format&fit=crop&w=1500&h=1000&q=80&cs=tinysrgb&crop=", //moodify pic
+          "https://images.unsplash.com/photo-1415769177894-634a98172336?dpr=2&auto=format&fit=crop&w=1500&h=1000&q=80&cs=tinysrgb&crop=", //magazinos pic
+          "https://images.unsplash.com/photo-1498168208808-4c2706938a2f?dpr=2&auto=format&fit=crop&w=1500&h=1874&q=80&cs=tinysrgb&crop=" //drone pic
+      ];
+    /*  var projectClassName = [
+          document.getElementById("onebas").children[1],//onebas pic
+          document.getElementById("thirty").children[1], //thirty pic
+          document.getElementById("googleglass").children[1], //google glass pic
+          document.getElementById("moodify").children[1], //moodify pic
+          document.getElementById("magazinos").children[1], //magazinos pic
+          document.getElementById("drone").children[1] //drone pic
+      ];
+      var projectHeader = [
+          document.getElementById("onebas").children[2],//onebas pic
+          document.getElementById("thirty").children[2], //thirty pic
+          document.getElementById("googleglass").children[2], //google glass pic
+          document.getElementById("moodify").children[2], //moodify pic
+          document.getElementById("magazinos").children[2], //magazinos pic
+          document.getElementById("drone").children[2] //drone pic
+      ];
+      var projectUnderText = [
+          document.getElementById("onebas").children[3],//onebas pic
+          document.getElementById("thirty").children[3], //thirty pic
+          document.getElementById("googleglass").children[3], //google glass pic
+          document.getElementById("moodify").children[3], //moodify pic
+          document.getElementById("magazinos").children[3], //magazinos pic
+          document.getElementById("drone").children[3] //drone pic
+      ];*/
 
-      var placeholder = defaults.containerName;
-      var container = document.createElement('div');
-      container.className = "gridContainer";
-      container.id = "gridTileID"+position;
-      placeholder.appendChild(container);
+      function ImageGrid(defaults, position) {
+          //console.log(defaults._rows);
+          var r = defaults.rows;
+          var c = defaults.columns;
+          var margin = defaults.margin;
 
-      var gridTile;
-      var w = (container.offsetWidth / c) - margin;
-      var h = (container.offsetHeight / r) - margin;
-      var arr = [];
+          var placeholder = defaults.containerName;
+          var container = document.createElement('div');
+          container.className = "gridContainer";
+          container.id = "gridTileID" + position;
+          placeholder.appendChild(container);
 
-      for (var i = 0, l = r * c; i < l; i++) {
-          gridTile = document.createElement('div');
-          gridTile.className = "gridTile";
-          gridTile.style.backgroundImage = "url(" + defaults.imgSrc + ")";
-          gridTile.style.webkitFilter = 'grayscale(100%)';
-          gridTile.style.filter = 'grayscale(100%)';
+          var gridTile;
+          var w = (container.offsetWidth / c) - margin;
+          var h = (container.offsetHeight / r) - margin;
+          var arr = [];
 
-
-          arr = [(w + margin) * (i % c), (h + margin) * Math.floor(i / c), ((w + margin) * (i % c) + w - margin),
-              (h + margin) * Math.floor(i / c), ((w + margin) * (i % c) + w - margin), ((h + margin) * Math.floor(i / c) + h - margin),
-              (w + margin) * (i % c), ((h + margin) * Math.floor(i / c) + h - margin)];
-
-          console.log(i + " ====>>> " + arr + " ||||| " + i%c  + " |||||| " + i/c);
+          for (var i = 0, l = r * c; i < l; i++) {
+              gridTile = document.createElement('div');
+              gridTile.className = "gridTile";
+              gridTile.style.backgroundImage = "url(" + defaults.imgSrc + ")";
+              gridTile.style.webkitFilter = 'grayscale(100%)';
+              gridTile.style.filter = 'grayscale(100%)';
 
 
-          TweenMax.set(gridTile, {
-              webkitClipPath: 'polygon(' + arr[0] + 'px ' + arr[1] + 'px,' + arr[2] + 'px ' + arr[3] + 'px, ' + arr[4] + 'px ' + arr[5] + 'px, ' + arr[6] + 'px ' + arr[7] + 'px)',
-              clipPath: 'polygon(' + arr[0] + 'px ' + arr[1] + 'px,' + arr[2] + 'px ' + arr[3] + 'px, ' + arr[4] + 'px ' + arr[5] + 'px, ' + arr[6] + 'px ' + arr[7] + 'px)'
-          });
-          container.appendChild(gridTile);
+              arr = [(w + margin) * (i % c), (h + margin) * Math.floor(i / c), ((w + margin) * (i % c) + w - margin),
+                  (h + margin) * Math.floor(i / c), ((w + margin) * (i % c) + w - margin), ((h + margin) * Math.floor(i / c) + h - margin),
+                  (w + margin) * (i % c), ((h + margin) * Math.floor(i / c) + h - margin)];
 
-          fixTilePosition(gridTile, i);
-      }
-      linkButton.addEventListener("click", function () {
-          setTimeout(function () {
-              for(var i = 0; i < 6; i++) {
-                  loadInProject._pictureGrid[i].children[0].children[0].style.width = "200px";
-                  loadInProject._setUpPreload();
+              console.log(i + " ====>>> " + arr + " ||||| " + i % c + " |||||| " + i / c);
+
+
+              TweenMax.set(gridTile, {
+                  webkitClipPath: 'polygon(' + arr[0] + 'px ' + arr[1] + 'px,' + arr[2] + 'px ' + arr[3] + 'px, ' + arr[4] + 'px ' + arr[5] + 'px, ' + arr[6] + 'px ' + arr[7] + 'px)',
+                  clipPath: 'polygon(' + arr[0] + 'px ' + arr[1] + 'px,' + arr[2] + 'px ' + arr[3] + 'px, ' + arr[4] + 'px ' + arr[5] + 'px, ' + arr[6] + 'px ' + arr[7] + 'px)'
+              });
+              container.appendChild(gridTile);
+
+              fixTilePosition(gridTile, i);
+          }
+          /*linkButton.addEventListener("click", function () {
+              setTimeout(function () {
+                  for (var i = 0; i < 6; i++) {
+                      loadInProject._pictureGrid[i].children[0].children[0].style.width = "200px";
+                      loadInProject._setUpPreload();
+                  }
+              }, 500);
+          });*/
+          placeholder.addEventListener("mouseover", function (e) {
+              var allTiles = e.currentTarget.querySelectorAll(".gridTile");
+              for (var t = 0, le = allTiles.length; t < le; t++) {
+                  TweenMax.to(allTiles[t], defaults.animTime, {
+                      css: {backgroundPosition: "0px 0px"},
+                      ease: Power1.easeOut
+                  });
+                  allTiles[t].style.webkitFilter = 'grayscale(0%)';
+                  allTiles[t].style.filter = 'grayscale(0%)';
               }
-          },500);
-      });
-      placeholder.addEventListener("mouseover", function (e) {
-          var allTiles = e.currentTarget.querySelectorAll(".gridTile");
-          for (var t = 0, le = allTiles.length; t < le; t++) {
-              TweenMax.to(allTiles[t], defaults.animTime, {
-                  css: {backgroundPosition: "0px 0px"},
+          });
+
+          placeholder.addEventListener("mouseleave", function (e) {
+              var allTiles = e.currentTarget.querySelectorAll(".gridTile");
+              for (var ti = 0, len = allTiles.length; ti < len; ti++) {
+                  fixTilePosition(allTiles[ti], ti, defaults.animTime);
+                  allTiles[ti].style.webkitFilter = 'grayscale(100%)';
+                  allTiles[ti].style.filter = 'grayscale(100%)';
+              }
+          });
+
+          function fixTilePosition(tile, ind, time) {
+              if (time == null) time = 0;
+              var centr, centrCol, centrRow, offsetW, offsetH, left, top;
+
+              centr = Math.floor(c * r / 2);
+              centrCol = Math.ceil(centr / c);
+              centrRow = Math.ceil(centr / r);
+
+              offsetW = w / centrCol;
+              offsetH = h / centrRow;
+
+              left = (Math.round((ind % c - centrCol + 1) * offsetW));
+              top = (Math.round((Math.floor(ind / c) - centrRow + 1) * offsetH));
+              TweenMax.to(tile, time, {
+                  css: {backgroundPosition: left + "px " + top + "px"},
                   ease: Power1.easeOut
               });
-              allTiles[t].style.webkitFilter = 'grayscale(0%)';
-              allTiles[t].style.filter = 'grayscale(0%)';
           }
-      });
 
-      placeholder.addEventListener("mouseleave", function (e) {
-          var allTiles = e.currentTarget.querySelectorAll(".gridTile");
-          for (var ti = 0, len = allTiles.length; ti < len; ti++) {
-              fixTilePosition(allTiles[ti], ti, defaults.animTime);
-              allTiles[ti].style.webkitFilter = 'grayscale(100%)';
-              allTiles[ti].style.filter = 'grayscale(100%)';
-          }
-      });
-
-      function fixTilePosition(tile, ind, time) {
-          if (time == null) time = 0;
-          var centr, centrCol, centrRow, offsetW, offsetH, left, top;
-
-          centr = Math.floor(c * r / 2);
-          centrCol = Math.ceil(centr / c);
-          centrRow = Math.ceil(centr / r);
-
-          offsetW = w / centrCol;
-          offsetH = h / centrRow;
-
-          left = (Math.round((ind % c - centrCol + 1) * offsetW));
-          top = (Math.round((Math.floor(ind / c) - centrRow + 1) * offsetH));
-          TweenMax.to(tile, time, {css: {backgroundPosition: left + "px " + top + "px"}, ease: Power1.easeOut});
       }
 
-  }
-  function ProjectListItem(imgSrc, containerName, row, column, margin, animTime) {
-      this.imgSrc = imgSrc;
-      this.containerName = containerName;
-      this.rows = row;
-      this.columns = column;
-      this.margin = margin;
-      this.animTime = animTime;
-  }
-  var imageGrids= [];
-  var item = new ProjectListItem(
-      projectPictureUrl[4],
-      projectClassName[4],
-      5,
-      5,
-      1.5,
-      0.3
-  );
-  //ImageGrid(item);
-  imageGrids.push(ImageGrid(item, 4));
+      function ProjectListItem(imgSrc, containerName, row, column, margin, animTime) {
+          this.imgSrc = imgSrc;
+          this.containerName = containerName;
+          this.rows = row;
+          this.columns = column;
+          this.margin = margin;
+          this.animTime = animTime;
+      }
+
+      var imageGrids = [];
+      var item = new ProjectListItem(
+          projectPictureUrl[4],
+          document.getElementById("magazinos").children[1],
+          5,
+          5,
+          1.5,
+          0.3
+      );
+      //ImageGrid(item);
+      imageGrids.push(ImageGrid(item, 4));
 
 
+     /* var loadInProject = new LoadInProjects(projectUnderText, projectHeader, projectClassName);
+      loadInProject._instance = loadInProject;
+      loadInProject._setUpPreload();
+      setTimeout(function () {
+          for (var i = 0; i < 6; i++) {
+              loadInProject._pictureGrid[i].children[0].children[0].style.width = "200px";
+          }
+      }, 500);
+      setTimeout(function () {
 
+      }, 2000);
+      setTimeout(function () {
+          for (var i = 0; i < 6; i++) {
+              loadInProject._pictureGrid[i].children[0].style.alignItems = "right";
+              loadInProject._pictureGrid[i].children[0].children[0].style.width = "0px";
+              loadInProject._pictureGrid[i].children[0].children[0].style.float = "left";
+              loadInProject._pictureGrid[i].children[0].children[0].style.top = "0";
+              loadInProject._pictureGrid[i].children[0].children[0].style.right = "0";
+              loadInProject._pictureGrid[i].children[0].children[0].style.backgroundPosition = "left top";
+          }
+      }, 2800);
+      setTimeout(function () {
+          console.log("hajje");
+          loadInProject._initializeUnderText();
+      }, 3800);
+      setTimeout(function () {
+          console.log("hajje");
+          loadInProject._initializeHeaderText();
+      }, 4800);
+      function LoadInProjects(underText, headerText, pictureGrid) {
+          this._underText = underText;
+          this._headerText = headerText;
+          this._instance = null;
+          this._pictureGrid = pictureGrid;
+          this._allIntervals = [];
+          this._setUpPreload = function () {
+              for (var i = 0; i < this._underText.length; i++) {
+                  this._underText[i].style.opacity = "0";
+                  this._underText[i].style.marginTop = "110px";
+                  this._headerText[i].style.top = "-180px";
+                  this._headerText[i].style.opacity = "0";
+              }
+          };
+          this._initializeUnderText = function () {
+              for (var i = 0; i < this._underText.length; i++) {
+                  (function (instance, i) {
 
+                      setTimeout(function () {
+                          instance._underText[i].style.opacity = "1";
+                          instance._underText[i].style.marginTop = "";
+                      }, 50);
+                  })(this._instance, i)
+              }
+          };
+          this._initializeHeaderText = function () {
+              for (var i = 0; i < this._underText.length; i++) {
+                  (function (instance, i) {
+
+                      setTimeout(function () {
+                          instance._headerText[i].style.top = "";
+                          instance._headerText[i].style.opacity = "1";
+                      }, 50);
+                  })(this._instance, i)
+              }
+          };
+          this._initalizePictureGrid = function () {
+              for (var i = 0; i < 6; i++) {
+                  (function (instance, i) {
+                      setTimeout(function () {
+                          instance._loadingIntervalPicture(instance._pictureGrid[i].children[0]);
+                      }, 5);
+                  })(this._instance, i);
+              }
+              (function (instance) {
+                  setTimeout(function () {
+                      for (var i = 0; i < 6; i++) {
+                          (function (instance, i) {
+                              setTimeout(function () {
+                                  instance._loadingIntervalPictureOut(instance._pictureGrid[i].children[0]);
+                              }, 5);
+                          })(instance._instance, i);
+                      }
+                  }, 2000);
+              })(this._instance)
+          };
+          this._loadingIntervalPicture = function (divLoader) {
+              var width = 0;
+              (function (instance) {
+                  var interval = setInterval(function () {
+                      if (instance._allIntervals != interval) {
+                          instance._allIntervals.push(interval);
+                      }
+                      if (width < 200) {
+                          //console.log("yalla??", width);
+                          width += 1;
+                          divLoader.style.width = width + "px";
+                      } else {
+                          clearInterval(interval);
+                      }
+                  }, 1);
+              })(this._instance);
+          };
+          this._loadingIntervalPictureOut = function (divLoader) {
+              var width = 200;
+              divLoader.style.position = "relative";
+              divLoader.style.float = "left";
+              (function (instance) {
+                  var interval = setInterval(function () {
+                      if (instance._allIntervals != interval) {
+                          instance._allIntervals.push(interval);
+                      }
+                      if (width > 0) {
+                          //console.log("yalla??", width);
+                          width -= 1;
+                          divLoader.style.width = width + "px";
+                          // divLoader.style.left = width + "px";
+                      } else {
+                          clearInterval(interval);
+                      }
+                  }, 1);
+              })(this._instance);
+          };
+      }*/
+  });
 </script>
 
 
