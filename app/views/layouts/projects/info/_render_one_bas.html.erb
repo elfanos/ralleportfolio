@@ -1,4 +1,9 @@
 <script>
+
+    document.body.style.overflow ="";
+    document.getElementById("content-container").style.overflow = "";
+
+    document.getElementById("projectPage").style.marginTop = "0px";
     window.history.replaceState('onebas',null,'/' + 'projects' + '/onebas');
     insideProjects = false;
     window.addEventListener('popstate', function(e) {
@@ -95,8 +100,8 @@
 
 </script>
 <div class="jumbotron vertical-center project-show">
-  <div class="back-nav-project">
-    <%=link_to(projects_path({state:'project', page: 'info'}), remote:true) do%>
+  <div class="back-nav-project" id="backNavProjects">
+    <%=link_to(projects_path({state:'projwt', page: 'onebas'}), remote:true) do%>
         <div id="crossBox">
           <span class="projectBack" id="projectBackID"/>
         </div>
@@ -115,13 +120,24 @@
           </div>
         </div>
         <div class="col-md-6 col-centered info-content">
-          <div class="text-content-holder" id="holder-text-id">
-            <p>
-              This was my first ruby on rails project from start to finish.
-              I developed the site with a friend during a summer internship. The site is for artist that
-              can upload music, a lot like soundcloud. I did mostly front-end and developed a global
-              music player that wasnt realsed on the site
-            </p>
+          <div class="col-md-12">
+            <div class="text-content-holder" id="holder-text-id">
+              <p>
+                This was my first ruby on rails project from start to finish.
+                I developed the site with a friend during a summer internship. The site is for artist that
+                can upload music, a lot like soundcloud. I did mostly front-end and developed a global
+                music player that wasnt realsed on the site
+              </p>
+            </div>
+          </div>
+          <div class="col-md-12">
+            <div class="col-md-6 col-centered" id="buttonsView">
+              <button class="btn draw-border" id="webSiteButton" onclick="location.href='http://onebas.herokuapp.com/';">
+                Website
+              </button>
+            </div>
+            <div class="col-md-4  col-centered">
+            </div>
           </div>
         </div>
       </div>

@@ -1,150 +1,132 @@
 <script>
-    /*;(function( $, window ) {
 
-        var _defaults = {
-            x      : 2, // number of tiles in x axis
-            y      : 2, // number of tiles in y axis
-            random : true, // animate tiles in random order
-            speed  : 2000 // time to clear all times
-        };
 
-        /**
-         * range Get an array of numbers within a range
-         * @param min {number} Lowest number in array
-         * @param max {number} Highest number in array
-         * @param rand {bool} Shuffle array
-         * @return {array}
-         */
-     /*   function range( min, max, rand ) {
-            var arr = ( new Array( ++max - min ) )
-                .join('.').split('.')
-                .map(function( v,i ){ return min + i })
-            return rand
-                ? arr.map(function( v ) { return [ Math.random(), v ] })
-                    .sort().map(function( v ) { return v[ 1 ] })
-                : arr
+    window.history.replaceState('magazinos',null,'/' + 'projects' + '/magazinos');
+    insideProjects = false;
+    window.addEventListener('popstate', function(e) {
+
+    });
+    $(document).ready(function () {
+        var test = document.getElementsByClassName("back-nav-project");
+        $(test).hover(function () {
+                $("#projectBackID").addClass("hoverClass");
+                $("#projectBackID").removeClass("hoverClassOut");
+            },
+            function () {
+                $("#projectBackID").removeClass("hoverClass");
+                $("#projectBackID").addClass("hoverClassOut");
+            }
+        );
+        var charArray = ['m','a','g','a','z','i','n','o','s','.','c','o','m']
+        var headerTextContainer = document.getElementById("holder-header-id").children[0];
+        var textAnimation = new TextAnimationAbout(document.getElementById("holder-header-id").children[0], charArray);
+        var mainNavigationBar = document.getElementById("navProjects");
+        $(mainNavigationBar).hide();
+        textAnimation.removeLetters();
+        textAnimation.initializeLetters();
+        setTimeout(function () {
+            document.getElementById("holder-picture-id").style.height = "300px";
+        },500);
+        setTimeout(function () {
+            document.getElementById("holder-header-id").style.top = "220px";
+            document.getElementById("holder-header-id").style.opacity = "1";
+            document.getElementById("holder-text-id").style.opacity = "1";
+        },2500);
+
+        function loadInHeader(div, numbOfChars, start){
+            setTimeout(function () {
+                if(start < numbOfChars ) {
+                    start +=0.1;
+                    div.style.opacity = start;
+                    loadInHeader(div)
+                }
+            },100);
         }
 
-        // Prevent css3 transitions on load
-        $('body').addClass('css3-preload')
-        $( window ).load(function(){ $('body').removeClass('css3-preload') })
-
-        $.fn.sliced = function( options ) {
-
-            var o = $.extend( {}, _defaults, options );
-
-            return this.each(function() {
-
-                var $container = $(this);
-
-                /*---------------------------------
-                 * Make the tiles:
-                 ---------------------------------*/
-
-       /*         var width = $container.width(),
-                    height = $container.height(),
-                    $img = $container.find('img'),
-                    n_tiles = o.x * o.y,
-                    tiles = [], $tiles;
-
-                for ( var i = 0; i < n_tiles; i++ ) {
-                    tiles.push('<div class="tile" id="tile'+i+'"/>');
-                }
-
-                $tiles = $( tiles.join('') );
-
-                // Hide original image and insert tiles in DOM
-                $img.hide().after( $tiles );
-
-                // Set background
-                $tiles.css({
-                    width: width / o.x,
-                    height: height / o.y,
-                    backgroundImage: 'url('+ $img.attr('src') +')'
-                });
-                $img.css({
-                    width: "100%",
-                    height: "100%"
-                });
-                /* $tiles.getElementsByTagName("img").style.width = "100%";
-                 $tiles.getElementsByTagName("img").style.height = "100%";*/
-
-                // Adjust position
-   /*             $tiles.each(function() {
-                    var pos = $(this).position();
-                    $(this).css( 'backgroundPosition', -pos.left +'px '+ -pos.top +'px' );
-                });
-
-                /*---------------------------------
-                 * Animate the tiles:
-                 ---------------------------------*/
-
-     /*           var tilesArr = range( 0, n_tiles, o.random ),
-                    tileSpeed = o.speed / n_tiles; // time to clear a single tile
-
-                // Public method
-                $container.on( 'animate', function() {
-
-                    tilesArr.forEach(function( tile, i ) {
-                        setTimeout(function(){
-                            $tiles.eq( tile ).toggleClass( 'tile-animated' );
-                        }, i * tileSpeed );
-                    });
-
-                });
-
-            });
-
+    });
+    function TextAnimationAbout(context, letters) {
+        this.context = context;
+        this.letters = letters;
+        this.interval = [];
+        this.textDivTags = [];
+        this._animationSetted = false;
+        this.removeLetters = function () {
+            while(this.context.firstChild){
+                this.context.removeChild(this.context.firstChild);
+            }
         };
+        this.initializeLetters = function() {
+            this.context.style.width = $(window).height() + "px";
+            for(var i = 0; i < this.letters.length; i++){
+                var div = document.createElement("div");
+                div.className = "char chars"+i;
+                div.id = "id-chars"+i;
+                //div.style.float = "left";
+                var innerText = document.createElement("div");
+                innerText.className = "char-inner";
+                innerText.innerHTML = letters[i];
+                div.appendChild(innerText);
+                var hasChild = this.context.querySelector(div.id) != null;
 
-    }( jQuery, window ));
+                this.context.appendChild(div);
 
-    $(document).ready(function () {
-        setTimeout(function () {
-            $('.sliced').sliced({ x: 2, y: 2, speed: 1000 });
-
-            $('#project-tag').click(function() {
-                $('.sliced').trigger('animate');
-            });
-        },600);
-    });*/
+            }
+        };
+        this.initializeTags = function () {
+            var childs = this.context.childNodes;
+            for(var i = 0; i < Object.size(childs); i++){
+                this.textDivTags.push(childs[i].childNodes[0]);
+            }
+            this._animationSetted = true;
+        };
+    }
 
 </script>
-<div class="container">
-  <div class="row">
-    <div class="col-md-6 col-centered info-content">
-      <div class="picture-holder" id="holder-picture-id">
-        <%=image_tag(@info_object[:url])%>
-      </div>
-      <div class="header-holder" id="holder-header-id">
-          <span class="header-text" id="header-textID">
-          </span>
-      </div>
-      <div class="text-content-holder" id="holder-text-id">
-        <p>
-          <%=@info_object[:description]%>
-        </p>
+<div class="jumbotron vertical-center project-show">
+  <div class="back-nav-project" id="backNavProjects">
+    <%=link_to(projects_path({state:'project', page: 'info'}), remote:true) do%>
+        <div id="crossBox">
+          <span class="projectBack" id="projectBackID"/>
+        </div>
+    <%end%>
+  </div>
+  <div id="info-show">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6 col-centered info-content">
+          <div class="picture-holder" id="holder-picture-id">
+            <%=image_tag("https://images.unsplash.com/photo-1415769177894-634a98172336?dpr=2&auto=format&fit=crop&w=1500&h=1000&q=80&cs=tinysrgb&crop=")%>
+          </div>
+          <div class="header-holder" id="holder-header-id">
+              <span class="header-text" id="header-textID">
+              </span>
+          </div>
+        </div>
+        <div class="col-md-6 col-centered info-content">
+          <div class="col-md-12">
+            <div class="text-content-holder" id="holder-text-id">
+              <p>
+                The oldschool game yatzy made for android device. Can be played
+                alone and with friends up to 4 player. The game is still in beta
+                and has not been released on Google play. Game visualize dice
+                throws using openGL(3D animation).
+              </p>
+            </div>
+          </div>
+          <div class="col-md-12">
+            <div class="col-md-6 col-centered" id="buttonsView">
+              <button class="btn draw-border" id="webSiteButton" onclick="location.href='https://www.magazinos.com/';">
+                Website
+              </button>
+            </div>
+            <div class="col-md-4  col-centered">
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 </div>
-<div class="bottom-navigation">
-  <div class="container">
-    <div class="row">
-      <div id="back-nav">
-        <div class="col-md-3 back-navigation">
-          <%=link_to(projects_info_path(:state => "#{@info_object[:prev]}"), remote:true) do%>
-              <span class="arrow-bar"><i class="arrow left"></i></span>
-          <%end%>
-        </div>
-      </div>
-      <div id="next-nav">
-        <div class="col-md-3 next-navigation">
-          <%=link_to(projects_info_path(:state => "#{@info_object[:next]}"), remote:true) do%>
-              <span class="arrow-bar"><i class="arrow right"></i></span>
-          <%end%>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
+
+
+

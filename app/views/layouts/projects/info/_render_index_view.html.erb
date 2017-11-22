@@ -2,6 +2,7 @@
   $(document).ready(function () {
       document.body.style.overflow ="scroll";
       document.getElementById("content-container").style.overflow = "scroll";
+      document.getElementById("projectPage").style.marginTop = "";
       var magaArray = ['m','a','g','a','z','i','n','o','s'];
       var textAnimationMagazinos = new TextAnimationProjectView(
               document.getElementById("magaHeaderText").children[0], magaArray
@@ -15,7 +16,7 @@
       var textAnimationOneBas = new TextAnimationProjectView(
               document.getElementById("onebasHeaderText").children[0], oneBasArray
           );
-      var livingArray = ['L','i','v','i','n','g','M','a','p','s'];
+      var livingArray = ['Y','a','t','z','y'];
       var textAnimationLiving = new TextAnimationProjectView(
           document.getElementById("livingHeaderText").children[0], livingArray
       );
@@ -125,7 +126,7 @@
       var projectPictureUrl = [
           "https://images.unsplash.com/photo-1415769177894-634a98172336?dpr=2&auto=format&fit=crop&w=1500&h=1000&q=80&cs=tinysrgb&crop=", //magazinos pic
           "https://images.unsplash.com/photo-1477233534935-f5e6fe7c1159?dpr=2&auto=format&fit=crop&w=1500&h=1000&q=80&cs=tinysrgb&crop=",//onebas pic
-          "https://images.unsplash.com/photo-1498354150229-26139331c067?dpr=1&auto=format&fit=crop&w=1000&q=80&cs=tinysrgb&ixid=dW5zcGxhc2guY29tOzs7Ozs%3D", //drone pic,
+          "https://images.unsplash.com/photo-1510778670743-06254c768dad?dpr=1&auto=format&fit=crop&w=1000&q=80&cs=tinysrgb&ixid=dW5zcGxhc2guY29tOzs7Ozs%3D", //drone pic,
           "https://images.unsplash.com/photo-1478826160983-e6db8c7d537a?dpr=2&auto=format&fit=crop&w=1500&h=1000&q=80&cs=tinysrgb&crop=", //google glass pic
           "https://images.unsplash.com/photo-1423068657086-889315a2eba8?dpr=2&auto=format&fit=crop&w=1500&h=1000&q=80&cs=tinysrgb&crop=", //moodify pic
           "http://marcianosmx.com/wp-content/uploads/2015/03/dados.jpg" //thirty pic
@@ -161,7 +162,7 @@
           var _deadSpace = 80;
           var placeholder = defaults.containerName.children[0].children[0];
           var container = document.createElement('div');
-          console.log(defaults.containerName.children[0].children[0]);
+         // console.log(defaults.containerName.children[0].children[0]);
           container.className = "gridContainer";
           placeholder.appendChild(container);
 

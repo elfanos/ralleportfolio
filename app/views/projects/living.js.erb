@@ -1,7 +1,14 @@
+
+$('html,body').scrollTop(0);
+$("#content-container").animate({ scrollTop: 0 }, 'fast');
+
+$("#projectPage").fadeOut("slow");
+$("#navProjects").fadeOut("slow");
 setTimeout(function () {
     history.pushState('living', document.title, '/' + 'projects' + '/living');
     console.log("lole?");
     //Do some cool animation
     $("#projectPage").
-    html("<%= escape_javascript(render partial: 'layouts/projects/info/render_living',locals: { state: "livingmaps" }) %>");
+    html("<%= escape_javascript(render partial: 'layouts/projects/info/render_living',locals: { state: "livingmaps" }) %>").fadeIn("slow");
+    localStorage.infoState = "yatzy";
 }, 1000);

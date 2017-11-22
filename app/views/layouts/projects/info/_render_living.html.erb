@@ -1,6 +1,11 @@
 
 <script>
 
+    document.body.style.overflow ="";
+    document.getElementById("content-container").style.overflow = "";
+
+    document.getElementById("projectPage").style.marginTop = "0px";
+
     window.history.replaceState('living',null,'/' + 'projects' + '/living');
     insideProjects = false;
     console.log("jamramrwrawrawin dadawdjgaw?? living jounry?????");
@@ -18,7 +23,7 @@
         }
     );
     $(document).ready(function () {
-        var charArray = ['L','i','v','i','n','g','M','a','p','s'];
+        var charArray = ['Y','a','t','z','y'];
         var headerTextContainer = document.getElementById("holder-header-id").children[0];
         var textAnimation = new TextAnimationProject(document.getElementById("holder-header-id").children[0], charArray);
         var mainNavigationBar = document.getElementById("navProjects");
@@ -98,8 +103,8 @@
 
 </script>
 <div class="jumbotron vertical-center project-show">
-  <div class="back-nav-project">
-    <%=link_to(projects_path({state:'project', page: 'info'}), remote:true) do%>
+  <div class="back-nav-project" id="backNavProjects">
+    <%=link_to(projects_path({state:'projwt', page: 'yatzy'}), remote:true) do%>
         <div id="crossBox">
           <span class="projectBack" id="projectBackID"/>
         </div>
@@ -110,7 +115,7 @@
       <div class="row">
         <div class="col-md-6 col-centered info-content">
           <div class="picture-holder" id="holder-picture-id">
-            <%=image_tag("https://images.unsplash.com/photo-1498168208808-4c2706938a2f?dpr=2&auto=format&fit=crop&w=1500&h=1874&q=80&cs=tinysrgb&crop=")%>
+            <%=image_tag("https://images.unsplash.com/photo-1510778670743-06254c768dad?dpr=1&auto=format&fit=crop&w=1000&q=80&cs=tinysrgb&ixid=dW5zcGxhc2guY29tOzs7Ozs%3D")%>
           </div>
           <div class="header-holder" id="holder-header-id">
               <span class="header-text" id="header-textID">
@@ -118,15 +123,24 @@
           </div>
         </div>
         <div class="col-md-6 col-centered info-content">
-          <div class="text-content-holder" id="holder-text-id">
-            <p>
-              LivingMaps is an interface and drone, that was developed with a team
-              containing designers and one interface designer me for skogforsk. It was ment
-              to help harvester gather information about the forest. With the purpose of
-              making the work more attractive in the labour marke. The drone was design for the reason
-              of gather information to complete a map in the interface therefore the name living map.
-              The map is designed for helping the harvester track forest which is suposed to be gathered
-            </p>
+          <div class="col-md-12">
+            <div class="text-content-holder" id="holder-text-id">
+              <p>
+                The oldschool game yatzy made for android device. Can be played
+                alone and with friends up to 4 player. The game is still in beta
+                and has not been released on Google play. Game visualize dice
+                throws using openGL(3D animation).
+              </p>
+            </div>
+          </div>
+          <div class="col-md-12">
+            <div class="col-md-6 col-centered" id="buttonsView">
+              <button class="btn draw-border" id="webSiteButton" onclick="location.href='https://www.magazinos.com/';">
+                GitHub
+              </button>
+            </div>
+            <div class="col-md-4  col-centered">
+            </div>
           </div>
         </div>
       </div>

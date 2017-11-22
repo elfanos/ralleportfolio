@@ -1,9 +1,31 @@
-console.log("lole? onebase---------");
+console.log("lole? index prolle---------", + insideProjects);
+<%if(params[:page] == "onebas")%>
+  $("#projectPage").
+  html("<%= escape_javascript(render partial: 'layouts/projects/info/render_one_bas',locals: { state: "index" }) %>").fadeOut("slow");
+<%elsif(params[:page] == "googleglass")%>
+  $("#projectPage").
+  html("<%= escape_javascript(render partial: 'layouts/projects/info/render_google_glass',locals: { state: "index" }) %>").fadeOut("slow");
+<%elsif(params[:page] == "magazinos")%>
+  $("#projectPage").
+  html("<%= escape_javascript(render partial: 'layouts/projects/info/render_magazinos',locals: { state: "index" }) %>").fadeOut("slow");
+<%elsif(params[:page] == "yatzy")%>
+  $("#projectPage").
+  html("<%= escape_javascript(render partial: 'layouts/projects/info/render_living',locals: { state: "index" }) %>").fadeOut("slow");
+<%elsif(params[:state] == "projects")%>
+  $("#projectPage").
+  html("<%= escape_javascript(render partial: 'layouts/home/render_home',locals: { state: "index" }) %>").fadeOut("slow");
+<%end%>
+<%if(params[:state] == "projects")%>
+  $("#pcontent-container").
+  html("<%= escape_javascript(render partial: 'layouts/home/render_home',locals: { state: "index" }) %>").fadeOut("slow");
+<%end%>
+<%logger.info "jaja-----------------: #{params[:state]}"%>
 setTimeout(function () {
     insideProjects = true;
     history.pushState('projects', document.title, '/' + 'projects');
     //Do some cool animation
     $("#navProjects").show();
+    $("#content-container").fadeIn("slow");
     $("#projectPage").
-    html("<%= escape_javascript(render partial: 'layouts/projects/info/render_index_view',locals: { state: "index" }) %>");
-}, 1000);
+    html("<%= escape_javascript(render partial: 'layouts/projects/info/render_index_view',locals: { state: "index" }) %>").fadeIn("slow");
+}, 4000);

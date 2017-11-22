@@ -1,7 +1,14 @@
-console.log("lole? onebase---------");
+
+$('html,body').scrollTop(0);
+$("#content-container").animate({ scrollTop: 0 }, 'fast');
+
+$("#projectPage").fadeOut("slow");
+<%logger.info "jaja-----------------: #{params[:state]}"%>
+$("#navProjects").fadeOut("slow");
 setTimeout(function () {
     history.pushState('onebas', document.title, '/' + 'projects' + '/onebas');
     //Do some cool animation
     $("#projectPage").
-    html("<%= escape_javascript(render partial: 'layouts/projects/info/render_one_bas',locals: { state: "onebas" }) %>");
+    html("<%= escape_javascript(render partial: 'layouts/projects/info/render_one_bas',locals: { state: "onebas" }) %>").fadeIn("slow");
+    localStorage.infoState = "onebas";
 }, 1000);

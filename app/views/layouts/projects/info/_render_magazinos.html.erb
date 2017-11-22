@@ -1,5 +1,9 @@
 <script>
 
+    document.body.style.overflow ="";
+    document.getElementById("content-container").style.overflow = "";
+
+    document.getElementById("projectPage").style.marginTop = "0px";
 
     window.history.replaceState('magazinos',null,'/' + 'projects' + '/magazinos');
     insideProjects = false;
@@ -78,26 +82,13 @@
                 this.textDivTags.push(childs[i].childNodes[0]);
             }
             this._animationSetted = true;
-        }
-        this._checkIfIfCharAlreadyExist = function (childNodes) {
-            console.log(childNodes.length);
-            for(var i = 0; i < childNodes.length; i++) {
-                console.log(childNodes[i].id);
-                if (childNodes[i].id == "id-chars"+i) {
-                    this._animationSetted = true;
-                } else {
-                    console.log("in else duplicates");
-                    this._animationSetted = false;
-                }
-            }
-
         };
     }
 
 </script>
 <div class="jumbotron vertical-center project-show">
   <div class="back-nav-project" id="backNavProjects">
-    <%=link_to(projects_path({state:'project', page: 'info'}), remote:true) do%>
+    <%=link_to(projects_path({state:'projw', page: 'magazinos'}), remote:true) do%>
         <div id="crossBox">
           <span class="projectBack" id="projectBackID"/>
         </div>
@@ -116,16 +107,27 @@
           </div>
         </div>
         <div class="col-md-6 col-centered info-content">
-          <div class="text-content-holder" id="holder-text-id">
-            <p>
-              In this project I was assigned to fetch a e-book api. In the project
-              I learned a lot about coding in ruby and rails. Also how to
-              structure a project involving a group of engineers. I worked during
-              this project only in the back-end section. It was about 1 month
-              of work and with my friend we managed to achive a good interface
-              as well as a good api code for retrive all information necessary
-              from the api
-            </p>
+          <div class="col-md-12">
+              <div class="text-content-holder" id="holder-text-id">
+                <p>
+                  In this project I was assigned to fetch a e-book api. In the project
+                  I learned a lot about coding in ruby and rails. Also how to
+                  structure a project involving a group of engineers. I worked during
+                  this project only in the back-end section. It was about 1 month
+                  of work and with my friend we managed to achive a good interface
+                  as well as a good api code for retrive all information necessary
+                  from the api
+                </p>
+              </div>
+          </div>
+          <div class="col-md-12">
+            <div class="col-md-6 col-centered" id="buttonsView">
+              <button class="btn draw-border" id="webSiteButton" onclick="location.href='https://www.magazinos.com/';">
+                Website
+              </button>
+            </div>
+            <div class="col-md-4  col-centered">
+            </div>
           </div>
         </div>
       </div>

@@ -40,7 +40,8 @@ function StateKeeper (){
         switch (this._state){
             case "projects":
                 insideProjects = true;
-                console.log("projects???");
+                console.log("projects???" + localStorage.infoState);
+                this._fadeOutInfo(localStorage.infoState);
                 setTimeout(function () {
                     $("#projectPage").
                     html("<%= escape_javascript(render partial: 'layouts/projects/info/render_index_view',locals: { state: "projects" }) %>");
@@ -51,39 +52,59 @@ function StateKeeper (){
                 break;
             case "living":
                 insideProjects = false;
+                $('html,body').scrollTop(0);
+                $("#content-container").animate({ scrollTop: 0 }, 'fast');
+
+                $("#projectPage").fadeOut("slow");
+                $("#navProjects").fadeOut("slow");
                 setTimeout(function () {
                     console.log("lole?");
                     //Do some cool animation
                     $("#projectPage").
-                    html("<%= escape_javascript(render partial: 'layouts/projects/info/render_living',locals: { state: "livingmaps" }) %>");
+                    html("<%= escape_javascript(render partial: 'layouts/projects/info/render_living',locals: { state: "livingmaps" }) %>").fadeIn("slow");
                 }, 1000);
                 console.log("well hello in living");
                 //about position of nav
                 break;
             case "onebas":
                 insideProjects = false;
+                $('html,body').scrollTop(0);
+                $("#content-container").animate({ scrollTop: 0 }, 'fast');
+
+                $("#projectPage").fadeOut("slow");
+                $("#navProjects").fadeOut("slow");
                 console.log("one base??  ");
                 setTimeout(function () {
                     //Do some cool animation
                     $("#projectPage").
-                    html("<%= escape_javascript(render partial: 'layouts/projects/info/render_one_bas',locals: { state: "onebas" }) %>")
+                    html("<%= escape_javascript(render partial: 'layouts/projects/info/render_one_bas',locals: { state: "onebas" }) %>").fadeIn("slow");
                 }, 1000);
                 break;
             case "magazinos":
                 insideProjects = false;
+                $('html,body').scrollTop(0);
+                $("#content-container").animate({ scrollTop: 0 }, 'fast');
+
+                $("#projectPage").fadeOut("slow");
+                $("#navProjects").fadeOut("slow");
                 setTimeout(function () {
                     //Do some cool animation
                     $("#projectPage").
-                    html("<%= escape_javascript(render partial: 'layouts/projects/info/render_magazinos',locals: { state: "magazinos" }) %>");
+                    html("<%= escape_javascript(render partial: 'layouts/projects/info/render_magazinos',locals: { state: "magazinos" }) %>").fadeIn("slow");
                 }, 1000);
                 break;
             case "lag":
                 insideProjects = false;
+                $('html,body').scrollTop(0);
+                $("#content-container").animate({ scrollTop: 0 }, 'fast');
+
+                $("#projectPage").fadeOut("slow");
+                $("#navProjects").fadeOut("slow");
                 console.log("lagge?  ");
                 setTimeout(function () {
                     //Do some cool animation
                     $("#projectPage").
-                    html("<%= escape_javascript(render partial: 'layouts/projects/info/render_google_glass',locals: { state: "googleglass" }) %>");
+                    html("<%= escape_javascript(render partial: 'layouts/projects/info/render_google_glass',locals: { state: "googleglass" }) %>").fadeIn("slow");
                 }, 1000);
                 break;
         }
@@ -96,6 +117,26 @@ function StateKeeper (){
         switch (state){
         }
     };
+    this._fadeOutInfo = function(state){
+        switch (state){
+            case "onebas":
+                $("#projectPage").
+                html("<%= escape_javascript(render partial: 'layouts/projects/info/render_one_bas',locals: { state: "index" }) %>").fadeOut("slow");
+                break;
+            case "yatzy":
+                $("#projectPage").
+                html("<%= escape_javascript(render partial: 'layouts/projects/info/render_living',locals: { state: "index" }) %>").fadeOut("slow");
+                break;
+            case "lag":
+                $("#projectPage").
+                html("<%= escape_javascript(render partial: 'layouts/projects/info/render_google_glass',locals: { state: "index" }) %>").fadeOut("slow");
+                break;
+            case "magazinos":
+                $("#projectPage").
+                html("<%= escape_javascript(render partial: 'layouts/projects/info/render_magazinos',locals: { state: "index" }) %>").fadeOut("slow");
+                break;
+        }
+    }
 }
 
 
