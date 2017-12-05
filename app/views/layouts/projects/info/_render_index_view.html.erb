@@ -60,7 +60,9 @@
           this.initializeTags = function () {
               var childs = this.context.childNodes;
               for(var i = 0; i < Object.size(childs); i++){
-                  this.textDivTags.push(childs[i].childNodes[0]);
+                  if(childs[i].childNodes[0] != undefined) {
+                      this.textDivTags.push(childs[i].childNodes[0]);
+                  }
               }
               this._animationSetted = true;
           };
@@ -234,8 +236,10 @@
           function setGreyFilter() {
               var allTiles = container.querySelectorAll(".gridTile");
               for (var t=0, len = allTiles.length; t < len; t++) {
-                  allTiles[t].style.webkitFilter = 'grayscale(90%)';
-                  allTiles[t].style.filter = 'grayscale(90%)';
+                 // allTiles[t].style.WebkitFilter = "grayscale(90%)";
+                 // allTiles[t].style.filter = "url(filters.svg#grayscale)";
+                  //allTiles[t].style.filter = "gray";
+                  //allTiles[t].style.filter = "grayscale(90%)";
               }
           }
           function backgroundPosition(tileY, tileX){
@@ -254,26 +258,26 @@
 
               /*tile four in timeline*/
               _tileTimelineHoverOut
-                  .to(_tileFour, 0.2, {css:stylePoly(3,0,20)},0)
-                  .to(_tileTwo, 0.2, {css:stylePoly(1,0,20)},0)
-                  .to(_tileFour, 0.2, {css:backgroundPosition(0,20)},0)
-                  .to(_tileTwo, 0.2, {css:backgroundPosition(0,20)},0)
+                  .to(_tileFour, 0.2, {css:stylePoly(3,0,20),rotation:0.01,ease:Linear.easeNone},0)
+                  .to(_tileTwo, 0.2, {css:stylePoly(1,0,20),rotation:0.01,ease:Linear.easeNone},0)
+                  .to(_tileFour, 0.2, {css:backgroundPosition(0,20),rotation:0.01,ease:Linear.easeNone},0)
+                  .to(_tileTwo, 0.2, {css:backgroundPosition(0,20),rotation:0.01,ease:Linear.easeNone},0)
                   .add("sideMovement",0.2)
-                  .to(_tileFour,0.2,{css:backgroundPosition(-20,20)}, "sideMovement")
-                  .to(_tileFour,0.2,{css:stylePoly(3,-20,20)}, "sideMovement")
-                  .to(_tileThree, 0.2,{css:backgroundPosition(-20,0)}, "sideMovement")
-                  .to(_tileThree, 0.2,{css:stylePoly(2,-20,0)}, "sideMovement");
+                  .to(_tileFour,0.2,{css:backgroundPosition(-20,20),rotation:0.01,ease:Linear.easeNone}, "sideMovement")
+                  .to(_tileFour,0.2,{css:stylePoly(3,-20,20),rotation:0.01,ease:Linear.easeNone}, "sideMovement")
+                  .to(_tileThree, 0.2,{css:backgroundPosition(-20,0),rotation:0.01,ease:Linear.easeNone}, "sideMovement")
+                  .to(_tileThree, 0.2,{css:stylePoly(2,-20,0),rotation:0.01,ease:Linear.easeNone}, "sideMovement");
 
               _tileTimelineHoverIn
-                  .to(_tileFour,0.2,{css:backgroundPosition(0,20)}, 0)
-                  .to(_tileFour,0.2,{css:stylePoly(3,0,20)}, 0)
-                  .to(_tileThree, 0.2,{css:backgroundPosition(0,0)}, 0)
-                  .to(_tileThree, 0.2,{css:stylePoly(2,0,0)}, 0)
+                  .to(_tileFour,0.2,{css:backgroundPosition(0,20),rotation:0.01,ease:Linear.easeNone}, 0)
+                  .to(_tileFour,0.2,{css:stylePoly(3,0,20),rotation:0.01,ease:Linear.easeNone}, 0)
+                  .to(_tileThree, 0.2,{css:backgroundPosition(0,0),rotation:0.01,ease:Linear.easeNone}, 0)
+                  .to(_tileThree, 0.2,{css:stylePoly(2,0,0),rotation:0.01,ease:Linear.easeNone}, 0)
                   .add("bottomMovement",0.2)
-                  .to(_tileFour, 0.2, {css:stylePoly(3,0,0)}, "bottomMovement")
-                  .to(_tileTwo, 0.2, {css:stylePoly(1,0,0)}, "bottomMovement")
-                  .to(_tileFour, 0.2, {css:backgroundPosition(0,0)},"bottomMovement")
-                  .to(_tileTwo, 0.2, {css:backgroundPosition(0,0)},"bottomMovement");
+                  .to(_tileFour, 0.2, {css:stylePoly(3,0,0),rotation:0.01,ease:Linear.easeNone}, "bottomMovement")
+                  .to(_tileTwo, 0.2, {css:stylePoly(1,0,0),rotation:0.01,ease:Linear.easeNone}, "bottomMovement")
+                  .to(_tileFour, 0.2, {css:backgroundPosition(0,0),rotation:0.01,ease:Linear.easeNone},"bottomMovement")
+                  .to(_tileTwo, 0.2, {css:backgroundPosition(0,0),rotation:0.01,ease:Linear.easeNone},"bottomMovement");
           }
           function playAnimations() {
               _tileTimelineHoverIn.pause();

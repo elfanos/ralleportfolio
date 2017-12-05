@@ -1,148 +1,157 @@
 
 <script>
-
-  var insideProjects;
+    var insideProjects;
     $(document).ready(function () {
-        console.log("watta fuckawerwerwerwerwerwetwsfdfww?");
-        $("#page-wrapper").hide();
-    var stateKeeperProject = new StateKeeper();
-    if(insideProjects == true || insideProjects == undefined) {
-            window.history.replaceState('projects', null, '/' + 'projects');
-    }
-    window.addEventListener('popstate', function(e) {
-        var character = e.state;
+        console.log("in projects: " + insideProjects);
+       // if(stateOfPage.projects) {
+          $("#page-wrapper").hide();
+          var stateKeeperProject = new StateKeeper();
+          if (insideProjects == true || insideProjects == undefined) {
+              console.log("inside projectS??" + insideProjects);
+              window.history.replaceState('projects', null, '/' + 'projects');
+          }
+          window.addEventListener('popstate', function (e) {
+              var character = e.state;
 
-        if (character == null) {
-            console.log("char in projects" + window.location.lastHash)
-        } else {
-            console.log("what is char? " + character);
-            console.log("what is charcater back nav? " + localStorage.infoState);
-            stateKeeperProject._setSate(character);
-            stateKeeperProject._setPreviousState(localStorage.infoState);
-            stateKeeperProject._initializeState();
+              if (character == null) {
+              } else {
+                  console.log("what is char? in porjects " + character);
+                  console.log("what is charcater back nav in projects? " + localStorage.infoState);
+                  console.log("is we inside projecTS?" + stateOfPage.projects);
+                  if(localStorage.previousState == "projects") {
+                      stateKeeperProject._setSate(character);
+                      stateKeeperProject._setPreviousState(localStorage.infoState);
+                      stateKeeperProject._initializeState();
+                  }
 
-        }
+              }
+          });
+          function StateKeeper() {
+              this._state = null;
+              this.__previousState = null;
+              this._backNavButtons = null;
+              this._instance = null;
+              this._setSate = function (state) {
+                  this._state = state;
+              };
+              this._setPreviousState = function (state) {
+                  this.__previousState = state;
+              };
+              this._initializeState = function () {
+                  switch (this._state) {
+                      case "home":
+                          console.log("put some back shit here??? home");
+                          console.log("minemfjur--------------");
+                          this._fadeOutInfo(localStorage.infoState);
+                          stateManager.projectBack();
+                          setTimeout(function () {
+                              //Do some cool animation
+                              $("#content-container").html("<%= escape_javascript(render partial: 'layouts/home/render_home', locals: { state: "alla?" }) %>").fadeIn("slow");
+                          }, 4000);
+                          break;
+                      case "projects":
+                          insideProjects = true;
+                          console.log("projects navback");
+                          this._fadeOutInfo(localStorage.infoState);
+                          setTimeout(function () {
+                              $("#projectPage").html("<%= escape_javascript(render partial: 'layouts/projects/info/render_index_view',locals: { state: "projects" }) %>").fadeIn("slow");
+                              $("#navProjects").show();
+                          }, 4000);
+                          //normal position of nav
+                          break;
+                      case "living":
+                          insideProjects = false;
+                          $('html,body').scrollTop(0);
+                          $("#content-container").animate({scrollTop: 0}, 'fast');
+
+                          $("#projectPage").fadeOut("slow");
+                          $("#navProjects").fadeOut("slow");
+                          setTimeout(function () {
+                              console.log("lole?");
+                              //Do some cool animation
+                              $("#projectPage").html("<%= escape_javascript(render partial: 'layouts/projects/info/render_living',locals: { state: "livingmaps" }) %>").fadeIn("slow");
+                          }, 1000);
+                          console.log("well hello in living");
+                          //about position of nav
+                          break;
+                      case "onebas":
+                          insideProjects = false;
+                          $('html,body').scrollTop(0);
+                          $("#content-container").animate({scrollTop: 0}, 'fast');
+
+                          $("#projectPage").fadeOut("slow");
+                          $("#navProjects").fadeOut("slow");
+                          console.log("one base??  ");
+                          setTimeout(function () {
+                              //Do some cool animation
+                              $("#projectPage").html("<%= escape_javascript(render partial: 'layouts/projects/info/render_one_bas',locals: { state: "onebas" }) %>").fadeIn("slow");
+                          }, 1000);
+                          break;
+                      case "magazinos":
+                          insideProjects = false;
+                          $('html,body').scrollTop(0);
+                          $("#content-container").animate({scrollTop: 0}, 'fast');
+
+                          $("#projectPage").fadeOut("slow");
+                          $("#navProjects").fadeOut("slow");
+                          setTimeout(function () {
+                              //Do some cool animation
+                              $("#projectPage").html("<%= escape_javascript(render partial: 'layouts/projects/info/render_magazinos',locals: { state: "magazinos" }) %>").fadeIn("slow");
+                          }, 1000);
+                          break;
+                      case "lag":
+                          insideProjects = false;
+                          $('html,body').scrollTop(0);
+                          $("#content-container").animate({scrollTop: 0}, 'fast');
+
+                          $("#projectPage").fadeOut("slow");
+                          $("#navProjects").fadeOut("slow");
+                          console.log("lagge?  ");
+                          setTimeout(function () {
+                              //Do some cool animation
+                              $("#projectPage").html("<%= escape_javascript(render partial: 'layouts/projects/info/render_google_glass',locals: { state: "googleglass" }) %>").fadeIn("slow");
+                          }, 1000);
+                          break;
+                  }
+              };
+              this._animationForwardState = function (state) {
+                  switch (state) {
+                  }
+              };
+              this._animationBackState = function (state) {
+                  switch (state) {
+                  }
+              };
+              this._fadeOutInfo = function (state) {
+                  switch (state) {
+                      case "onebas":
+                          this._transitionPageAvoidHome();
+                          $("#projectPage").html("<%= escape_javascript(render partial: 'layouts/projects/info/render_one_bas',locals: { state: "index" }) %>").fadeOut("slow");
+                          break;
+                      case "yatzy":
+                          this._transitionPageAvoidHome();
+                          $("#projectPage").html("<%= escape_javascript(render partial: 'layouts/projects/info/render_living',locals: { state: "index" }) %>").fadeOut("slow");
+                          break;
+                      case "lag":
+                          this._transitionPageAvoidHome();
+                          $("#projectPage").html("<%= escape_javascript(render partial: 'layouts/projects/info/render_google_glass',locals: { state: "index" }) %>").fadeOut("slow");
+                          break;
+                      case "magazinos":
+                          this._transitionPageAvoidHome();
+                          $("#projectPage").html("<%= escape_javascript(render partial: 'layouts/projects/info/render_magazinos',locals: { state: "index" }) %>").fadeOut("slow");
+                          break;
+                  }
+              };
+              this._transitionPageAvoidHome = function () {
+                  $("#content-container").html("<%= escape_javascript(render partial: 'layouts/home/render_home',locals: { state: "index" }) %>").hide();
+                  $("#navContact").hide();
+                  $("#navAbout").hide();
+                  window.history.replaceState('projects', null, '/' + 'projects');
+              }
+          }
+
+     //   }
     });
-function StateKeeper (){
-    this._state = null;
-    this.__previousState = null;
-    this._backNavButtons = null;
-    this._instance = null;
-    this._setSate = function (state) {
-        console.log("hola vista?" + state);
-        this._state = state;
-    };
-    this._setPreviousState = function(state){
-        this.__previousState = state;
-    };
-    this._initializeState = function () {
-        console.log("hola vista???" + this._state);
-        switch (this._state){
-            case "projects":
-                insideProjects = true;
-                console.log("projects???" + localStorage.infoState);
-                this._fadeOutInfo(localStorage.infoState);
-                setTimeout(function () {
-                    $("#projectPage").
-                    html("<%= escape_javascript(render partial: 'layouts/projects/info/render_index_view',locals: { state: "projects" }) %>");
-                    $("#navProjects").show();
-                    window.history.replaceState('projects', null, '/' + 'projects');
-                },4000);
-                //normal position of nav
-                break;
-            case "living":
-                insideProjects = false;
-                $('html,body').scrollTop(0);
-                $("#content-container").animate({ scrollTop: 0 }, 'fast');
-
-                $("#projectPage").fadeOut("slow");
-                $("#navProjects").fadeOut("slow");
-                setTimeout(function () {
-                    console.log("lole?");
-                    //Do some cool animation
-                    $("#projectPage").
-                    html("<%= escape_javascript(render partial: 'layouts/projects/info/render_living',locals: { state: "livingmaps" }) %>").fadeIn("slow");
-                }, 1000);
-                console.log("well hello in living");
-                //about position of nav
-                break;
-            case "onebas":
-                insideProjects = false;
-                $('html,body').scrollTop(0);
-                $("#content-container").animate({ scrollTop: 0 }, 'fast');
-
-                $("#projectPage").fadeOut("slow");
-                $("#navProjects").fadeOut("slow");
-                console.log("one base??  ");
-                setTimeout(function () {
-                    //Do some cool animation
-                    $("#projectPage").
-                    html("<%= escape_javascript(render partial: 'layouts/projects/info/render_one_bas',locals: { state: "onebas" }) %>").fadeIn("slow");
-                }, 1000);
-                break;
-            case "magazinos":
-                insideProjects = false;
-                $('html,body').scrollTop(0);
-                $("#content-container").animate({ scrollTop: 0 }, 'fast');
-
-                $("#projectPage").fadeOut("slow");
-                $("#navProjects").fadeOut("slow");
-                setTimeout(function () {
-                    //Do some cool animation
-                    $("#projectPage").
-                    html("<%= escape_javascript(render partial: 'layouts/projects/info/render_magazinos',locals: { state: "magazinos" }) %>").fadeIn("slow");
-                }, 1000);
-                break;
-            case "lag":
-                insideProjects = false;
-                $('html,body').scrollTop(0);
-                $("#content-container").animate({ scrollTop: 0 }, 'fast');
-
-                $("#projectPage").fadeOut("slow");
-                $("#navProjects").fadeOut("slow");
-                console.log("lagge?  ");
-                setTimeout(function () {
-                    //Do some cool animation
-                    $("#projectPage").
-                    html("<%= escape_javascript(render partial: 'layouts/projects/info/render_google_glass',locals: { state: "googleglass" }) %>").fadeIn("slow");
-                }, 1000);
-                break;
-        }
-    };
-    this._animationForwardState = function(state){
-        switch (state){
-        }
-    };
-    this._animationBackState = function(state){
-        switch (state){
-        }
-    };
-    this._fadeOutInfo = function(state){
-        switch (state){
-            case "onebas":
-                $("#projectPage").
-                html("<%= escape_javascript(render partial: 'layouts/projects/info/render_one_bas',locals: { state: "index" }) %>").fadeOut("slow");
-                break;
-            case "yatzy":
-                $("#projectPage").
-                html("<%= escape_javascript(render partial: 'layouts/projects/info/render_living',locals: { state: "index" }) %>").fadeOut("slow");
-                break;
-            case "lag":
-                $("#projectPage").
-                html("<%= escape_javascript(render partial: 'layouts/projects/info/render_google_glass',locals: { state: "index" }) %>").fadeOut("slow");
-                break;
-            case "magazinos":
-                $("#projectPage").
-                html("<%= escape_javascript(render partial: 'layouts/projects/info/render_magazinos',locals: { state: "index" }) %>").fadeOut("slow");
-                break;
-        }
-    }
-}
-
-
-
-});
-
 </script>
 
 <div id="projectPage">

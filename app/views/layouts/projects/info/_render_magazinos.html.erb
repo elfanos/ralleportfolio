@@ -1,20 +1,25 @@
 <script>
+  /*
+   * Needed for browser navigation back when
+   * page inside a project info has been refreshed
+   * */
+  if(!insideProjects) {
+        document.body.style.overflow = "";
+        document.getElementById("content-container").style.overflow = "";
 
-    document.body.style.overflow ="";
-    document.getElementById("content-container").style.overflow = "";
+        document.getElementById("projectPage").style.marginTop = "0px";
 
-    document.getElementById("projectPage").style.marginTop = "0px";
+        window.history.replaceState('magazinos', null, '/' + 'projects' + '/magazinos');
 
-    window.history.replaceState('magazinos',null,'/' + 'projects' + '/magazinos');
     insideProjects = false;
     window.addEventListener('popstate', function(e) {
 
     });
     $(document).ready(function () {
-        var test = document.getElementsByClassName("back-nav-project");
-        $(test).hover(function () {
-             $("#projectBackID").addClass("hoverClass");
-             $("#projectBackID").removeClass("hoverClassOut");
+        var backButton = document.getElementsByClassName("back-nav-project");
+        $(backButton).hover(function () {
+                $("#projectBackID").addClass("hoverClass");
+                $("#projectBackID").removeClass("hoverClassOut");
             },
             function () {
                 $("#projectBackID").removeClass("hoverClass");
@@ -84,6 +89,7 @@
             this._animationSetted = true;
         };
     }
+  }
 
 </script>
 <div class="jumbotron vertical-center project-show">

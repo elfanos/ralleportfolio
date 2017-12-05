@@ -1,106 +1,111 @@
 
 <script>
+  /*
+   * Needed for browser navigation back when
+   * page inside a project info has been refreshed
+   * */
+  if(!insideProjects) {
+      document.body.style.overflow = "";
+      document.getElementById("content-container").style.overflow = "";
 
-    document.body.style.overflow ="";
-    document.getElementById("content-container").style.overflow = "";
+      document.getElementById("projectPage").style.marginTop = "0px";
 
-    document.getElementById("projectPage").style.marginTop = "0px";
+      window.history.replaceState('living', null, '/' + 'projects' + '/living');
 
-    window.history.replaceState('living',null,'/' + 'projects' + '/living');
-    insideProjects = false;
-    console.log("jamramrwrawrawin dadawdjgaw?? living jounry?????");
-    window.addEventListener('popstate', function(e) {
+      insideProjects = false;
+      console.log("jamramrwrawrawin dadawdjgaw?? living jounry?????");
+      window.addEventListener('popstate', function (e) {
 
-    });
-    var test = document.getElementsByClassName("back-nav-project");
-    $(test).hover(function () {
-            $("#projectBackID").addClass("hoverClass");
-            $("#projectBackID").removeClass("hoverClassOut");
-        },
-        function () {
-            $("#projectBackID").removeClass("hoverClass");
-            $("#projectBackID").addClass("hoverClassOut");
-        }
-    );
-    $(document).ready(function () {
-        var charArray = ['Y','a','t','z','y'];
-        var headerTextContainer = document.getElementById("holder-header-id").children[0];
-        var textAnimation = new TextAnimationProject(document.getElementById("holder-header-id").children[0], charArray);
-        var mainNavigationBar = document.getElementById("navProjects");
-        $(mainNavigationBar).hide();
-        textAnimation.removeLetters();
-        textAnimation.initializeLetters();
-        setTimeout(function () {
-            document.getElementById("holder-picture-id").style.height = "300px";
-        },500);
-        setTimeout(function () {
-            document.getElementById("holder-header-id").style.top = "220px";
-            document.getElementById("holder-header-id").style.opacity = "1";
-            document.getElementById("holder-text-id").style.opacity = "1";
-        },2500);
+      });
+      $(document).ready(function () {
+          var backButton = document.getElementsByClassName("back-nav-project");
+          $(backButton).hover(function () {
+                  $("#projectBackID").addClass("hoverClass");
+                  $("#projectBackID").removeClass("hoverClassOut");
+              },
+              function () {
+                  $("#projectBackID").removeClass("hoverClass");
+                  $("#projectBackID").addClass("hoverClassOut");
+              }
+          );
+          var charArray = ['Y', 'a', 't', 'z', 'y'];
+          var headerTextContainer = document.getElementById("holder-header-id").children[0];
+          var textAnimation = new TextAnimationProject(document.getElementById("holder-header-id").children[0], charArray);
+          var mainNavigationBar = document.getElementById("navProjects");
+          $(mainNavigationBar).hide();
+          textAnimation.removeLetters();
+          textAnimation.initializeLetters();
+          setTimeout(function () {
+              document.getElementById("holder-picture-id").style.height = "300px";
+          }, 500);
+          setTimeout(function () {
+              document.getElementById("holder-header-id").style.top = "220px";
+              document.getElementById("holder-header-id").style.opacity = "1";
+              document.getElementById("holder-text-id").style.opacity = "1";
+          }, 2500);
 
-        function loadInHeader(div, numbOfChars, start){
-            setTimeout(function () {
-                if(start < numbOfChars ) {
-                    start +=0.1;
-                    div.style.opacity = start;
-                    loadInHeader(div)
-                }
-            },100);
-        }
+          function loadInHeader(div, numbOfChars, start) {
+              setTimeout(function () {
+                  if (start < numbOfChars) {
+                      start += 0.1;
+                      div.style.opacity = start;
+                      loadInHeader(div)
+                  }
+              }, 100);
+          }
 
-    });
-    function TextAnimationProject(context, letters) {
-        this.context = context;
-        this.letters = letters;
-        this.interval = [];
-        this.textDivTags = [];
-        this._animationSetted = false;
-        this.removeLetters = function () {
-            while(this.context.firstChild){
-                this.context.removeChild(this.context.firstChild);
-            }
-        };
-        this.initializeLetters = function() {
-            this.context.style.width = $(window).height() + "px";
-            for(var i = 0; i < this.letters.length; i++){
-                var div = document.createElement("div");
-                div.className = "char chars"+i;
-                div.id = "id-chars"+i;
-                var checkDiv = "id-chars"+i;
-                //div.style.float = "left";
-                var innerText = document.createElement("div");
-                innerText.className = "char-inner";
-                innerText.innerHTML = letters[i];
-                div.appendChild(innerText);
-                var hasChild = this.context.querySelector(div.id) != null;
+      });
+      function TextAnimationProject(context, letters) {
+          this.context = context;
+          this.letters = letters;
+          this.interval = [];
+          this.textDivTags = [];
+          this._animationSetted = false;
+          this.removeLetters = function () {
+              while (this.context.firstChild) {
+                  this.context.removeChild(this.context.firstChild);
+              }
+          };
+          this.initializeLetters = function () {
+              this.context.style.width = $(window).height() + "px";
+              for (var i = 0; i < this.letters.length; i++) {
+                  var div = document.createElement("div");
+                  div.className = "char chars" + i;
+                  div.id = "id-chars" + i;
+                  var checkDiv = "id-chars" + i;
+                  //div.style.float = "left";
+                  var innerText = document.createElement("div");
+                  innerText.className = "char-inner";
+                  innerText.innerHTML = letters[i];
+                  div.appendChild(innerText);
+                  var hasChild = this.context.querySelector(div.id) != null;
 
-                this.context.appendChild(div);
+                  this.context.appendChild(div);
 
-            }
-        };
-        this.initializeTags = function () {
-            var childs = this.context.childNodes;
-            for(var i = 0; i < Object.size(childs); i++){
-                this.textDivTags.push(childs[i].childNodes[0]);
-            }
-            this._animationSetted = true;
-        }
-        this._checkIfIfCharAlreadyExist = function (childNodes) {
-            console.log(childNodes.length);
-            for(var i = 0; i < childNodes.length; i++) {
-                console.log(childNodes[i].id);
-                if (childNodes[i].id == "id-chars"+i) {
-                    this._animationSetted = true;
-                } else {
-                    console.log("in else duplicates");
-                    this._animationSetted = false;
-                }
-            }
+              }
+          };
+          this.initializeTags = function () {
+              var childs = this.context.childNodes;
+              for (var i = 0; i < Object.size(childs); i++) {
+                  this.textDivTags.push(childs[i].childNodes[0]);
+              }
+              this._animationSetted = true;
+          }
+          this._checkIfIfCharAlreadyExist = function (childNodes) {
+              console.log(childNodes.length);
+              for (var i = 0; i < childNodes.length; i++) {
+                  console.log(childNodes[i].id);
+                  if (childNodes[i].id == "id-chars" + i) {
+                      this._animationSetted = true;
+                  } else {
+                      console.log("in else duplicates");
+                      this._animationSetted = false;
+                  }
+              }
 
-        };
-    }
-
+          };
+      }
+  }
 </script>
 <div class="jumbotron vertical-center project-show">
   <div class="back-nav-project" id="backNavProjects">

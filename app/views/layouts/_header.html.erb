@@ -17,6 +17,11 @@
         about: false,
         project: false
     };
+    var stateOfPage = {
+        projects:false,
+        contact:false,
+        about:false
+    };
     var stateKeeper = new StateKeeper();
     stateKeeper._instance = stateKeeper;
     window.addEventListener('popstate', function(e) {
@@ -25,8 +30,8 @@
         if (character == null) {
             console.log("character null xD")
         } else {
-            console.log("what is charcater? " + character);
-            console.log("what is charcater back nav? " + localStorage.previousState);
+            console.log("what is charcater in home? " + character);
+            console.log("what is charcater back nav in home? " + localStorage.previousState);
             stateKeeper._setSate(character);
             stateKeeper._setPreviousState(localStorage.previousState);
             if(stateManager != undefined){
@@ -323,39 +328,48 @@
                   setTimeout(function () {
                       //Do some cool animation
                       $("#content-container").
-                      html("<%= escape_javascript(render partial: 'layouts/home/render_home', locals: { state: "alla?" }) %>");
+                      html("<%= escape_javascript(render partial: 'layouts/home/render_home', locals: { state: "alla?" }) %>").fadeIn("slow");
                   }, 4000);
                   //normal position of nav
                   break;
               case "about":
+                  $("#content-container").
+                  html("<%= escape_javascript(render partial: 'layouts/home/render_home', locals: { state: "alla?" }) %>").fadeOut("slow");
                   this._animationForwardState('about');
                   (function (backNavAbout) {
                       setTimeout(function () {
                           // history.pushState('about', document.title, '/' + 'about');
                           //Do some cool animation
-                          $("#content-container").html("<%= escape_javascript(render partial: 'layouts/about/render_about', locals: { state: "alla?" }) %>");
+                          $("#content-container").html("<%= escape_javascript(render partial: 'layouts/about/render_about', locals: { state: "alla?" }) %>").fadeIn("slow");
                           $(backNavAbout).fadeIn("slow");
                       }, 4000);
                   }(this._backNavButtons.buttonAbout));
                   //about position of nav
                   break;
               case "projects":
+                  console.log("arewenothere??????:::::");
+                  $("#content-container").
+                  html("<%= escape_javascript(render partial: 'layouts/home/render_home', locals: { state: "alla?" }) %>").fadeOut("slow");
                   this._animationForwardState('projects');
+
                   setTimeout(function () {
                       // history.pushState('about', document.title, '/' + 'about');
                       //Do some cool animation
+                      stateOfPage.projects = true;
                       $("#content-container").
-                      html("<%= escape_javascript(render partial: 'layouts/projects/render_projects', locals: { state: "alla?" }) %>");
+                      html("<%= escape_javascript(render partial: 'layouts/projects/render_projects', locals: { state: "alla?" }) %>").fadeIn("slow");
                   }, 4000);
                   //project position of nav
                   break;
               case "contact":
+                  $("#content-container").
+                  html("<%= escape_javascript(render partial: 'layouts/home/render_home', locals: { state: "alla?" }) %>").fadeOut("slow");
                   this._animationForwardState('contact');
                   setTimeout(function () {
                       // history.pushState('about', document.title, '/' + 'about');
                       //Do some cool animation
                       $("#content-container").
-                      html("<%= escape_javascript(render partial: 'layouts/contact/render_contact', locals: { state: "alla?" }) %>");
+                      html("<%= escape_javascript(render partial: 'layouts/contact/render_contact', locals: { state: "alla?" }) %>").fadeIn("slow");
                   }, 4000);
                   //contact position of nav
                   break;
@@ -377,15 +391,24 @@
         this._animationBackState = function(state){
             switch (state){
                 case 'about':
+                    $("#content-container").
+                    html("<%= escape_javascript(render partial: 'layouts/about/render_about', locals: { state: "alla?" }) %>").fadeOut("slow");
                     stateManager.aboutBack();
                     break;
                 case 'projects':
+                    console.log("minemfjur--------------");
+                    stateOfPage.projects = false;
+                    $("#content-container").
+                    html("<%= escape_javascript(render partial: 'layouts/projects/render_projects', locals: { state: "alla?" }) %>").fadeOut("slow");
                     stateManager.projectBack();
                     break;
                 case 'contact':
+                    $("#content-container").
+                    html("<%= escape_javascript(render partial: 'layouts/contact/render_contact', locals: { state: "alla?" }) %>").fadeOut("slow");
                     stateManager.contactBack();
                     break;
                 case 'home':
+
                     break;
             }
         };
@@ -1489,6 +1512,11 @@
         navBars.navProjects.addEventListener("click",function () {
             hoverStates.project = true;
             if(!stateOfButtons.projectState) {
+                console.log("rasttaa farairaw??" + stateOfPage.projects);
+                stateOfPage.projects = true;
+                console.log("rasttaa faraira true?w??" + stateOfPage.projects);
+                $("#content-container").
+                html("<%= escape_javascript(render partial: 'layouts/home/render_home',locals: { state: "index" }) %>").fadeOut("slow");
                 stateManager.projectForward();
                 /**
                  * Ajax calls
@@ -1496,10 +1524,13 @@
                 setTimeout(function () {
                     history.pushState('projects', document.title, '/' + 'projects');
                     $("#content-container").
-                    html("<%= escape_javascript(render partial: 'layouts/projects/render_projects', locals: { state: "alla?" }) %>");
+                    html("<%= escape_javascript(render partial: 'layouts/projects/render_projects', locals: { state: "alla?" }) %>").fadeIn("slow");
                     localStorage.previousState = "projects";
                 }, 4000);
             }else{
+                stateOfPage.projects = false;
+                $("#content-container").
+                html("<%= escape_javascript(render partial: 'layouts/projects/render_projects',locals: { state: "index" }) %>").fadeOut("slow");
                 stateKeeper._setSate('home');
                 stateKeeper._setPreviousState('projects');
                 stateKeeper._initializeState();
@@ -1512,6 +1543,8 @@
             hoverStates.contact = true;
             if(!stateOfButtons.contactState) {
                 stateManager.contactForward();
+                $("#content-container").
+                html("<%= escape_javascript(render partial: 'layouts/home/render_home',locals: { state: "index" }) %>").fadeOut("slow");
                 /**
                  * Ajax calls
                  * */
@@ -1522,6 +1555,9 @@
                     localStorage.previousState = "contact";
                 }, 4000);
             }else{
+                $("#content-container").
+                html("<%= escape_javascript(render partial: 'layouts/contact/render_contact',locals: { state: "index" }) %>").fadeOut("slow");
+
                 stateKeeper._setSate('home');
                 stateKeeper._setPreviousState('contact');
                 stateKeeper._initializeState();
@@ -1535,6 +1571,9 @@
             hoverStates.about = true;
             if(!stateOfButtons.aboutState) {
                 stateManager.aboutForward();
+                $("#content-container").
+                html("<%= escape_javascript(render partial: 'layouts/home/render_home',locals: { state: "index" }) %>").fadeOut("slow");
+
                 /**
                  * Ajax calls
                  * */
@@ -1545,6 +1584,8 @@
                     localStorage.previousState = "about";
                 }, 4000);
             }else{
+                $("#content-container").
+                html("<%= escape_javascript(render partial: 'layouts/about/render_about',locals: { state: "index" }) %>").fadeOut("slow");
                 stateKeeper._setSate('home');
                 stateKeeper._setPreviousState('about');
                 stateKeeper._initializeState();

@@ -5,6 +5,7 @@ $("#content-container").animate({ scrollTop: 0 }, 'fast');
 
 $("#projectPage").fadeOut("slow");
 $("#navProjects").fadeOut("slow");
+insideProjects = false;
 setTimeout(function () {
     history.pushState('lag', document.title, '/' + 'projects' + '/lag');
     //Do some cool animation

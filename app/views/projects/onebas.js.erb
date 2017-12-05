@@ -5,6 +5,7 @@ $("#content-container").animate({ scrollTop: 0 }, 'fast');
 $("#projectPage").fadeOut("slow");
 <%logger.info "jaja-----------------: #{params[:state]}"%>
 $("#navProjects").fadeOut("slow");
+insideProjects = false;
 setTimeout(function () {
     history.pushState('onebas', document.title, '/' + 'projects' + '/onebas');
     //Do some cool animation

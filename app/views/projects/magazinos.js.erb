@@ -3,6 +3,7 @@ $("#content-container").animate({ scrollTop: 0 }, 'fast');
 
 $("#projectPage").fadeOut("slow");
 $("#navProjects").fadeOut("slow");
+insideProjects = false;
 setTimeout(function () {
     history.pushState('magazinos', document.title, '/' + 'projects' + '/magazinos');
     //Do some cool animation
