@@ -82,7 +82,7 @@
           this._hoverIn = function () {
               var childs = this.context.childNodes;
               var addClass = false, addTop = false;
-              for(var i = 0; i < Object.size(childs); i++){
+              for(var i = 0; i < loopLength(childs); i++){
                   if(addClass) {
                       $(childs[i].childNodes[0]).addClass("hoverTop");
                       $(childs[i].childNodes[0]).removeClass("hoverProjectOut");
@@ -103,7 +103,7 @@
           this._hoverOut = function () {
               var childs = this.context.childNodes;
               var addClass = false, addTop = false;
-              for(var i = 0; i < Object.size(childs); i++){
+              for(var i = 0; i < loopLength(childs); i++){
                   if(addClass) {
                       $(childs[i].childNodes[0]).removeClass("hoverTop");
                       $(childs[i].childNodes[0]).addClass("hoverProjectOut");

@@ -22,6 +22,24 @@
         contact:false,
         about:false
     };
+
+    /**
+     * Cross browser settings for Object.size
+     * safari give one extra number in object.size
+     *
+     * @param object usally basic html node
+     * */
+    function loopLength(object){
+        if(navigator.userAgent.indexOf("Safari") != -1 ) {
+            if(navigator.userAgent.indexOf("Chrome") != -1 ){
+                return Object.size(object);
+            }else {
+                return (Object.size(object) - 1);
+            }
+        }else{
+            return Object.size(object);
+        }
+    };
     var stateKeeper = new StateKeeper();
     stateKeeper._instance = stateKeeper;
     window.addEventListener('popstate', function(e) {
@@ -78,8 +96,14 @@
         };
         this.initializeTags = function () {
             var childs = this.context.childNodes;
-            for(var i = 0; i < Object.size(childs); i++){
-                this.textDivTags.push(childs[i].childNodes[0]);
+            console.log("le childs?", childs[0].childNodes);
+            console.log("le childs?", childs[2].childNodes[0]);
+            console.log("le chileads?", Object.size(childs));
+            for(var i = 0; i < loopLength(childs); i++){
+                console.log("wat is i " + childs[i].childNodes[0]);
+               // if(childs[i].childNodes[0] != null) {
+                    this.textDivTags.push(childs[i].childNodes[0]);
+              //  }
             }
         };
         this._addTextHover = function () {
@@ -115,7 +139,7 @@
                                             navBar, backPressed, state) {
                 var childs = this.context.childNodes;
                // textAnimation._addTextHover();
-                for(var i = 0; i < Object.size(childs); i++){
+                for(var i = 0; i < loopLength(childs); i++){
                 //    console.log("childe?" + childs[i].children[0].innerHTML);
                    (function(j, instance) {
                      setTimeout(function () {
@@ -220,7 +244,7 @@
         };
         this._charFadeOut = function () {
             var childs = this.context.childNodes;
-            for(var i = 0; i < Object.size(childs); i++){
+            for(var i = 0; i < loopLength(childs); i++){
                 $(childs[i].childNodes[0]).fadeOut();
             }
         };
@@ -238,7 +262,7 @@
             textAnimation._removeTextHover();
             navBar.style.pointerEvents = "";
             var childs = this.context.childNodes;
-            for(var i = 0; i < Object.size(childs); i++){
+            for(var i = 0; i < loopLength(childs); i++){
                 $(childs[i].childNodes[0]).fadeIn("slow");
                 childs[i].childNodes[0].style.bottom = "";
             }
@@ -561,11 +585,19 @@
             $(backNavButtons.buttonContact).hide();
             $(backNavButtons.buttonProject).hide();
             stateKeeper._backNavButtons = backNavButtons;
-            textAnimationAbout.initializeLetters();
+           setTimeout(function () {
+                textAnimationAbout.initializeLetters();
+                textAnimationAbout.initializeTags();
+                textAnimationContact.initializeLetters();
+                textAnimationContact.initializeTags();
+                 initializeAllLetters();
+            },50);
+           /* textAnimationAbout.initializeLetters();
             textAnimationAbout.initializeTags();
             textAnimationContact.initializeLetters();
-            textAnimationContact.initializeTags();
-            initializeAllLetters();
+            textAnimationContact.initializeTags();*/
+           // textAnimationProject.initializeLetters();
+          //  textAnimationProject.initializeTags();
             hideDive(pageWrapper);
             //draws
             drawLoadingContent();
@@ -1371,8 +1403,9 @@
             for (key in obj) {
                 if (obj.hasOwnProperty(key)) size++;
             }
-            return size;
+            return (size);
         };
+
         /***
          * increase opacity of each
          * childnode placed in the animation loop
