@@ -3,6 +3,11 @@
     var insideProjects;
     $(document).ready(function () {
         console.log("in projects: " + insideProjects);
+        console.log("in proj" + "<%= @state %>");
+        if("<%= @state %>" == "projects"){
+           $("#navContact").hide();
+            $("#navAbout").hide();
+        }
        // if(stateOfPage.projects) {
           $("#page-wrapper").hide();
           var stateKeeperProject = new StateKeeper();
