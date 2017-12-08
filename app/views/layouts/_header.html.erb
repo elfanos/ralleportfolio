@@ -388,6 +388,7 @@
               case "contact":
                   $("#content-container").
                   html("<%= escape_javascript(render partial: 'layouts/home/render_home', locals: { state: "alla?" }) %>").fadeOut("slow");
+                  $("#page-wrapper").hide();
                   this._animationForwardState('contact');
                   setTimeout(function () {
                       // history.pushState('about', document.title, '/' + 'about');

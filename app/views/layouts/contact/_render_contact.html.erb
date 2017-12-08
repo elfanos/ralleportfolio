@@ -1,6 +1,7 @@
 
 <script>
     window.history.replaceState('contact',null,'/' + 'contact');
+    $("#page-wrapper").hide();
     window.addEventListener('popstate', function(e) {
 
     });
@@ -10,4 +11,59 @@
     $("#content-container").show();
 </script>
 
-<h1>"leee contact????"</h1>
+<div id="contactPage">
+  <div class="container">
+    <div class="row">
+      <%=link_to("https://www.google.se/maps/@60.5681398,15.105082,17z?hl=en") do%>
+        <div class="col-md-4 nav-col" id="navLocation">
+          <div class="content" id="contentL">
+                <h2>
+                  <div id="animateNumber">
+                  <span class="numbers">01</span>
+                  </div>
+                </h2>
+              <span class="text">
+                <h1>Location</h1>
+              </span>
+              <hr class="underlineContact">
+              <div class="typewriter">
+                <p>Sweden :)</p>
+              </div>
+          </div>
+        </div>
+      <%end%>
+      <%=link_to("https://www.visualcv.com/rasmusdahlkvist") do%>
+      <div class="col-md-4 nav-col" id="navResume">
+        <div class="content" id="contentR">
+            <div id="animateNumber">
+              <h2><span class="numbers">02</span></h2>
+            </div>
+            <span class="text">
+              <h1>Resumé</h1>
+            </span>
+            <hr class="underlineContact">
+            <div class="typewriter">
+              <p>Check it!</p>
+            </div>
+        </div>
+      </div>
+      <%end%>
+      <%=link_to("mailto:rasmus.per.dahlkvist@gmail.com") do%>
+      <div class="col-md-4 nav-col">
+        <div class="content" id="contentC">
+            <div id="animateNumber">
+              <h2><span class="numbers">03</span></h2>
+            </div>
+            <span class="text">
+             <h1>Contact</h1>
+            </span>
+            <hr class="underlineContact">
+            <div class="typewriter">
+              <p>Mail me!</p>
+            </div>
+        </div>
+      </div>
+      <%end%>
+    </div>
+  </div>
+</div>

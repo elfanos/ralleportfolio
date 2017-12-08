@@ -16,6 +16,9 @@
       });
       $(document).ready(function () {
           var backButton = document.getElementsByClassName("back-nav-project");
+          var webSiteButton = document.getElementById("webSiteButton");
+          $(webSiteButton).hide();
+          $(backButton).hide();
           $(backButton).hover(function () {
                   $("#projectBackID").addClass("hoverClass");
                   $("#projectBackID").removeClass("hoverClassOut");
@@ -36,6 +39,8 @@
               document.getElementById("holder-picture-id").style.height = "300px";
           }, 500);
           setTimeout(function () {
+              $(backButton).fadeIn("slow");
+              $(webSiteButton).fadeIn("slow");
               document.getElementById("holder-header-id").style.top = "220px";
               document.getElementById("holder-header-id").style.opacity = "1";
               document.getElementById("holder-text-id").style.opacity = "1";

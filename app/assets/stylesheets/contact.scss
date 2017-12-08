@@ -1,3 +1,189 @@
 // Place all the styles related to the contact controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+$white: #FFFFFF;
+$red: #EE6352;
+$black: #2F3031;
+$greyWhite: #EFE9E7;
+$orange: #F79D65;
+#contactPage{
+  height: 100%;
+  margin-left: 30px;
+  .container{
+    height: 100%;
+  }
+  .row{
+    height: 100%;
+    margin-right: 50px;
+    margin-left: 100px;
+  }
+  .nav-col {
+    position: relative;
+    height: 100%;
+    padding-left: 0;
+    padding-right: 0;
+  }
+  .content{
+    position: absolute;
+    top: 50%;
+    left: 35%;
+  }
+  .contentNumber{
+    position: absolute;
+    top: 40%;
+    left: 45%;
+  }
+  #contentC{
+    top: 40%;
+  }
+  #contentR{
+    top: 45%;
+  }
+  #contentL{
+    top: 35%;
+  }
+  .verticalLine {
+    border-left: thick solid #ff0000;
+  }
+  .hrNavRight{
+    margin-top: 0;
+    margin-bottom: 0;
+    border:0.3px solid #000000;
+    opacity: 0.1;
+    height: 100%;
+    float:right;
+    width: 100%;
+  }
+  .hrNavLeft{
+    margin-top: 0;
+    margin-bottom: 0;
+    border:0.3px solid #00000021;
+    height: 100%;
+    float:left;
+    width: 100%;
+  }
+  .underlineContact{
+    width: 0;
+    color: black;
+  }
+  #navLocation:hover{
+
+  }
+  .nav-col:hover{
+    h1{
+      background-position: -100% 0;
+      transition: color 0.5s, background-position 0.5s, opacity 0.5s;
+      color: white;
+      opacity: 1;
+    }
+    .underlineContact{
+      transition: width 0.5s;
+      width: 40%;
+    }
+    .typewriter p{
+      width: 100%;
+      border-right: .15em solid $orange; /* The typwriter cursor */
+      animation:
+              typing 1s steps(30, end),
+              blink-caret .5s step-end infinite;
+    }
+
+
+  }
+  .nav-col:hover #animateNumber .numbers:after{
+    background: transparent;
+    width: 100%;
+    transition: 0s;
+  }
+  .nav-col:hover #animateNumber .numbers:before{
+    background:  black;
+    width: 100%;
+    transition: width 0.5s cubic-bezier(0.22, 0.61, 0.36, 1);
+  }
+  h1{
+    font-family: Adobe Caslon Pro Regular,adobe-caslon-pro;
+    font-size: 25px;
+    margin-bottom: 0;
+    color:black;
+    opacity: 0.5;
+    text-align: center;
+    background-size: 200% 100%;
+    background-image: linear-gradient(to right, white 50%, $orange 50%);
+    transition: background-position 0.5s;
+    margin-top: 20px;
+
+  }
+  h2{
+    font-family: Adobe Caslon Pro Regular,adobe-caslon-pro;
+    font-size: 10px;
+    text-align: center;
+    margin-top: 0;
+    margin-bottom: 0;
+    opacity: 0.5;
+    margin-bottom: 20px;
+    margin: 0 auto;
+    width: 15px;
+  }
+  p{
+    text-align: center;
+  }
+  .text {
+    text-decoration: none;
+    background-size: 200% 100%;
+    background-image: linear-gradient(to right, #600 50%, yellow 50%);
+    transition: background-position 1s;
+  }
+
+  /* DEMO-SPECIFIC STYLES */
+  .typewriter p {
+    text-align: center;
+    color: black;
+    opacity: 0.5;
+    font-family: Adobe Caslon Pro Regular,adobe-caslon-pro;
+    overflow: hidden; /* Ensures the content is not revealed until the animation */
+    border-right: 0em solid $orange; /* The typwriter cursor */
+    white-space: nowrap; /* Keeps the content on a single line */
+    margin: 0 auto; /* Gives that scrolling effect as the typing happens */
+    letter-spacing: .15em; /* Adjust as needed */
+    width: 0;
+  }
+
+  /* The typing effect */
+  @keyframes typing {
+    from { width: 0 }
+    to { width: 100% }
+  }
+
+  /* The typewriter cursor effect */
+  @keyframes blink-caret {
+    from, to { border-color: transparent }
+    50% { border-color: $orange }
+  }
+  #animateNumber{
+    .numbers {
+      position: relative;
+      display: block;
+      cursor: pointer;
+    }
+
+    .numbers:before, .numbers:after {
+      content: '';
+      position: absolute;
+      width: 0%;
+      height: 1px;
+      top: 50%;
+      margin-top: -0.5px;
+      background: black;
+    }
+
+    .numbers:before {
+      left: -2.5px;
+    }
+    .numbers:after {
+      right: 2.5px;
+      background: black;
+      transition: width 0.8s cubic-bezier(0.22, 0.61, 0.36, 1);
+    }
+  }
+}
