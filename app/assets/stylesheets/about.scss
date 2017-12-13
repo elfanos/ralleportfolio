@@ -1,3 +1,191 @@
 // Place all the styles related to the about controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+$white: #FFFFFF;
+$red: #EE6352;
+$black: #2F3031;
+$greyWhite: #EFE9E7;
+$orange: #F79D65;
+
+#about{
+  .navItem.navItemAbout{
+    margin-left: 5px;
+    pointer-events: none;
+    z-index: 1001;
+    left: auto;
+    transform: matrix(1, 0, 0, 1, 0, 0);
+    right: 0px;
+    display: block;
+  }
+}
+#about-page{
+  .content-about{
+    .text-content{
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: -15px;
+      width: 100%;
+    //  overflow: auto;
+      transform: translate3d(0,0,0);
+      height: 1000px;
+      overflow-y: hidden; // hide vertical
+      overflow-x: hidden; // hide horizontal
+    }
+    .text {
+      position: absolute;
+     // top: 0;
+      //bottom: 0;
+      //left: 0;
+      right: -15px;
+     // border: 1px solid blue;
+      overflow:hidden;
+      width: 100%;
+      transform: translate3d(0,0,0);
+      height: 1000px;
+      p{
+        color: $orange;
+        margin-left: 50px;
+        font-size: 12vw;
+        line-height: 1.2em;
+        padding-top: 10vh;
+        text-transform: uppercase;
+        -ms-transform-origin: top left;
+        -webkit-transform-origin: top left;
+        -moz-transform-origin: top left;
+        transform-origin: top left;
+        white-space: nowrap;
+        font-family: brandon-grotesque;
+        font-weight: 900;
+        letter-spacing: 0.4em;
+        transform: scale(1,1) translate3d(0px, 0px, 0px);
+        transition: all 100ms ease;
+        -webkit-transition: all 200ms linear;
+        -moz-transition: all 200ms linear;
+        -o-transition: all 200ms linear;
+
+       // transition: transform ease-in 0.3s;
+
+      }
+      /*p.addTransition{
+        -webkit-transition: all 0.5s linear;
+        -moz-transition: all 0.5s linear;
+        -o-transition: all 0.5s linear;
+        transition: all 0.5s linear;
+      }*/
+    }
+    h1{
+      font-family: brandon-grotesque;
+      color: $black;
+      font-size: 16px;
+      text-align: center;
+      letter-spacing: 0.4em;
+    }
+    h2{
+      font-family: brandon-grotesque;
+      color: $orange;
+      font-size: 10px;
+      letter-spacing: 0.4em;
+      text-align: center;
+      height: 40px;
+
+    }
+    .text-content{
+      width: 100%;
+      height: 100%;
+    }
+    .progressCoding{
+      position: absolute;
+      width: 150px;
+      height: 150px;
+      margin-left: 50px;
+      //float: left;
+      -webkit-transform: translate3d(0,0,0);
+      transition: all 0.5s linear;
+   //   transform: translate3d(0px, 360px, 0px);
+    }
+    .progressFrontend{
+      position: absolute;
+      width: 150px;
+      height: 150px;
+      margin-left: 100px;
+      left: 15%;
+      //float: left;
+      -webkit-transform: translate3d(0,0,0);
+      transition: all 0.5s linear;
+    //  transform: translate3d(0px, 360px, 0px);
+    }
+    .progressUx{
+      position: absolute;
+      width: 150px;
+      height: 150px;
+      margin-left: 100px;
+      left: 45%;
+     // float: left;
+      -webkit-transform: translate3d(0,0,0);
+      transition: all 0.5s linear;
+     // transform: translate3d(0px, 360px, 0px);
+    }
+    .progressDesign{
+      position: absolute;
+      width: 150px;
+      height: 150px;
+      margin-left: 100px;
+      left: 30%;
+      //float: left;
+      -webkit-transform: translate3d(0,0,0);
+      transition: all 0.5s linear;
+     // transform: translate3d(0px, 360px, 0px);
+
+    }
+    .bottomTex{
+     // transform: translate3d(0px,  -100px, 0px);
+      position: absolute;
+      width: 400px;
+      height: 200px;
+      float: left;
+      margin-left: 50px;
+      -webkit-transform: translate3d(0,0,0);
+      transition: all 0.5s linear;
+    }
+    #ux{
+      h2{
+
+      }
+    }
+    #design{
+      h2{
+
+      }
+    }
+    #infoCube{
+     // -webkit-transform: translate3d(0,220px,0);
+      h1 {
+        font-family: brandon-grotesque;
+        color: $black;
+        font-size: 16px;
+        text-align: left;
+        letter-spacing: 0.4em;
+        margin-bottom: 30px;
+      }
+      p{
+        font-family: brandon-grotesque;
+        color: $black;
+        opacity: 0.6;
+        line-height: 8px;
+        font-size: 12px;
+        letter-spacing: 0.15em;
+        margin: -5px 0 0px;
+      }
+    }
+
+  }
+}
+.noTransition {
+  -webkit-transition: none !important;
+  -moz-transition: none !important;
+  -o-transition: none !important;
+  transition: none !important;
+}

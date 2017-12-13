@@ -7,7 +7,383 @@
     $(document).ready(function () {
         console.log("watta fuckawerwerwerwerwerwetwsfdfww?");
     });
-    $("#content-container").show();
+    document.getElementById("content-container").style.display="";
+    document.getElementById("page-wrapper").style.display="none";
 </script>
 
-<h1>"arnea??"</h1>
+<script>
+  $(document).ready(function () {
+      console.log("le about loaded??");
+   //   $("#content-container").show();
+      var endScrollText3d =  -600;
+      var scrollerPosition3d = 0;
+      var scrollIntro = -260;
+      var fontSize = 12;
+      var endFontSize = 2;
+      var _frame = document.getElementById("the-text-content");
+      var _jFrame = $("#the-text-content");
+      var fontSizeFinnished = false;
+      var animationSetted = false;
+      var animationSettedUp = false;
+      var autoScrollActive = true;
+      var barAnimated = false;
+      var _bar = $("#brogress");
+      var _barDesign = $("#design");
+      var _barFront = $("#frontend");
+      var _barUX = $("#ux");
+      var _infoCube = $("#infoCube");
+      var autoScroller = setScrollDown(autoScroller);
+      var fadeInSetted=false;
+      var fadeInSettedTwo = false;
+      var bottomTextItems = {
+          header: $("#headerInfo"),
+          firstText: $("#first"),
+          secondText: $("#second"),
+          thirdText: $("#third"),
+          fourthText: $("#fourth"),
+          fifthText: $("#five")
+      };
+     _barDesign.hide();
+      _barFront.hide();
+      _barUX.hide();
+      _bar.hide();
+     _infoCube.hide();
+     // initialiazeBottomText();
+      _frame.addEventListener("scroll", function () {
+         console.log("wtf scrolling??");
+      });
+
+      setListener();
+      function setListener() {
+          $(_frame).on('mousewheel', function(event) {
+              console.log("wtf scrolling??");
+              $(_jFrame).scrollTop(0);
+              console.log(event.deltaX, event.deltaY, event.deltaFactor);
+
+              clearTimeout($.data(this, 'scrollTimer'));
+              $.data(this, 'scrollTimer', setTimeout(function() {
+                     autoScroller = 0;
+                     autoScroller = setScrollDown(autoScroller);
+                  autoScrollActive = true;
+              }, 1000));
+              if(event.deltaY > 0){
+                  if(!animationSettedUp) {
+                      animationSettedUp = true;
+                      setTimeout(function () {
+                          handleScrollUp();
+                          animationSettedUp = false;
+                          autoScrollActive = false;
+                          fadeInProgressBar(scrollerPosition3d);
+                      }, 25);
+                  }
+              }else{
+                  if(!animationSetted) {
+                      animationSetted = true;
+                      setTimeout(function () {
+                          handleScrollDown();
+                          animationSetted = false;
+                          fadeInProgressBar(scrollerPosition3d);
+                      }, 25);
+                  }
+              }
+          });
+      }
+      function setScrollDown(scroller){
+          scroller = setInterval(function () {
+              if( scrollerPosition3d > -420 && autoScrollActive){
+                  autoScrollDown();
+                  fadeInProgressBar(scrollerPosition3d);
+              }else{
+                  clearInterval(scroller);
+              }
+          },200);
+      }
+      function handleScrollUp() {
+          console.log("jaman up" + scrollerPosition3d);
+          if(scrollerPosition3d < 0){
+              if(scrollerPosition3d > -240){
+                  scrollerPosition3d += 10;
+                  _frame.childNodes[1].style.webkitTransform = "translate3d(0,0, 0)";
+                  _frame.childNodes[1].style.transform = "translate3d(0,"+scrollerPosition3d+"px, 0)";
+                  $(_frame.childNodes[1]).addClass("noTransition");
+                  $(_frame.childNodes[1]).remove("addTransition");
+                  removeTransitionToBars();
+              }else{
+                  scrollerPosition3d += 10;
+                  _frame.childNodes[1].style.webkitTransform = "translate3d(0,0, 0)";
+                  _frame.childNodes[1].style.transform = "translate3d(0,"+scrollerPosition3d+"px, 0)";
+                  $(_frame.childNodes[1]).addClass("noTransition");
+                  $(_frame.childNodes[1]).remove("addTransition");
+                  removeTransitionToBars();
+              }
+          }
+          if(scrollerPosition3d > -110 ){
+              if(fontSize < 15) {
+                  fontSize += 0.4;
+                  _frame.childNodes[1].style.fontSize = fontSize + "vw";
+              }
+          }
+      }
+      function handleScrollDown() {
+          console.log("jaman d" + scrollerPosition3d);
+          if(scrollerPosition3d > -420){
+              if(!fontSizeFinnished){
+                  scrollerPosition3d -= 10;
+                  _frame.childNodes[1].style.webkitTransform = "translate3d(0,0, 0)";
+                  _frame.childNodes[1].style.webkitTransform = "translate3d(0,"+scrollerPosition3d+"px, 0)";
+                  $(_frame.childNodes[1]).removeClass("addTransition");
+                  $(_frame.childNodes[1]).addClass("noTransition");
+                  removeTransitionToBars();
+              }else{
+                  scrollerPosition3d -= 10;
+                  _frame.childNodes[1].style.webkitTransform = "translate3d(0,0, 0)";
+                  _frame.childNodes[1].style.webkitTransform = "translate3d(0,"+scrollerPosition3d+"px, 0)";
+                  $(_frame.childNodes[1]).removeClass("addTransition");
+                  $(_frame.childNodes[1]).addClass("noTransition");
+                  removeTransitionToBars();
+              }
+          }
+          if(fontSize > 2){
+              fontSize -= 0.4;
+              _frame.childNodes[1].style.fontSize = fontSize+ "vw";
+              fontSizeFinnished = true;
+          }
+      }
+      function autoScrollDown() {
+          console.log("jaman" + scrollerPosition3d);
+          if(scrollerPosition3d > -420){
+              if(!fontSizeFinnished){
+                   scrollerPosition3d -= 30;
+                  _frame.childNodes[1].style.webkitTransform = "translate3d(0,0, 0)";
+                  _frame.childNodes[1].style.transform = "translate3d(0,"+scrollerPosition3d+"px, 0)";
+                  $(_frame.childNodes[1])[0].offsetHeight; // Trigger a reflow, flushing the CSS changes
+                  $(_frame.childNodes[1]).removeClass("noTransition");
+                  addTransitionToBars();
+               //   $(_frame.childNodes[1]).addClass("addTransition");
+              }else{
+                   scrollerPosition3d -= 30;
+                  _frame.childNodes[1].style.webkitTransform = "translate3d(0,0, 0)";
+                  _frame.childNodes[1].style.transform = "translate3d(0,"+scrollerPosition3d+"px, 0)";
+                  $(_frame.childNodes[1])[0].offsetHeight; // Trigger a reflow, flushing the CSS changes
+                  $(_frame.childNodes[1]).removeClass("noTransition");
+                  addTransitionToBars();
+               //   $(_frame.childNodes[1]).addClass("addTransition");
+              }
+          }
+          if(fontSize > 2){
+              fontSize -= 1;
+              _frame.childNodes[1].style.fontSize = fontSize+ "vw";
+              fontSizeFinnished = true;
+          }
+          if(fontSize < 2){
+              _frame.childNodes[1].style.fontSize = 2+ "vw";
+          }
+      }
+
+      function initialiazeBottomText(){
+          bottomTextItems.header.hide();
+          bottomTextItems.firstText.hide();
+          bottomTextItems.secondText.hide();
+          bottomTextItems.fourthText.hide();
+          bottomTextItems.fifthText.hide();
+      }
+      function fadeInProgressBar(progress) {
+          if(progress < -300){
+              translatePixelPosition(progress);
+              if(!fadeInSetted && progress < -330){
+                  fadeInSetted = true;
+                  fadeInBars();
+
+              }
+              if(progress < -330){
+                 // setTimeout(function () {
+                      _infoCube.fadeIn("slow");
+                  //},500);
+                  translatePixelPositionImprint(progress);
+              }else{
+                  _infoCube.hide();
+              }
+
+          }else{
+              _barDesign.hide();
+              _barFront.hide();
+              _barUX.hide();
+              _bar.hide();
+          }
+
+      }
+      function translatePixelPositionImprint(progress){
+          var newValue = ((800)-Math.abs(progress));
+          //well this is retarded but needed otherwise scrolling is bugging haha xD
+          document.getElementById("infoCube").style.webkitTransform = "translate3d(0,0,0)";
+
+          //here is the actual value xD
+          document.getElementById("infoCube").style.webkitTransform = "translate3d(0,"+newValue+"px, 0)";
+      }
+      function translatePixelPosition(progress) {
+          if(!barAnimated){
+              barAnimated = false;
+          }
+          var newValue = ((650)-Math.abs(progress));
+
+          //well this is retarded but needed otherwise scrolling is bugging haha xD
+          document.getElementById("brogress").style.webkitTransform = "translate3d(0,0,0)";
+          document.getElementById("brogress").style.webkitTransform = "translate3d(0,"+newValue+"px, 0)";
+
+          //well this is retarded but needed otherwise scrolling is bugging haha xD
+          document.getElementById("frontend").style.webkitTransform = "translate3d(0,0,0)";
+          document.getElementById("frontend").style.webkitTransform = "translate3d(0,"+newValue+"px, 0)";
+
+          //well this is retarded but needed otherwise scrolling is bugging haha xD
+          document.getElementById("design").style.webkitTransform = "translate3d(0,0,0)";
+          document.getElementById("design").style.webkitTransform = "translate3d(0,"+newValue+"px, 0)";
+
+          //well this is retarded but needed otherwise scrolling is bugging haha xD
+          document.getElementById("ux").style.webkitTransform = "translate3d(0,0,0)";
+          document.getElementById("ux").style.webkitTransform = "translate3d(0,"+newValue+"px, 0)";
+      }
+      function addTransitionToBars() {
+          _bar.removeClass("noTransition");
+          _barFront.removeClass("noTransition");
+          _barDesign.removeClass("noTransition");
+          _barUX.removeClass("noTransition")
+      }
+      function removeTransitionToBars(){
+          _bar.addClass("noTransition");
+          _barFront.addClass("noTransition");
+          _barDesign.addClass("noTransition");
+          _barUX.addClass("noTransition");
+      }
+      function fadeInBottom() {
+          bottomTextItems.header.fadeIn("slow");
+          setTimeout(function () {
+              bottomTextItems.firstText.fadeIn("slow");
+          },200);
+          setTimeout(function () {
+              bottomTextItems.secondText.fadeIn("slow");
+          },400);
+          setTimeout(function () {
+              bottomTextItems.thirdText.fadeIn("slow");
+          },600);
+          setTimeout(function () {
+              bottomTextItems.fourthText.fadeIn("slow");
+          },800);
+          setTimeout(function () {
+              bottomTextItems.fifthText.fadeIn("slow");
+          },1000);
+      }
+      function fadeInBars(){
+          setTimeout(function () {
+              _bar.fadeIn("slow");
+         //      setTimeout(function () {
+                _barFront.fadeIn("slow");
+           //     },200);
+            //   setTimeout(function () {
+               _barDesign.fadeIn("slow");
+             //  },400);
+             // setTimeout(function () {
+                _barUX.fadeIn("slow");
+
+               //},600);
+              fadeInSetted = false;
+          },600);
+      }
+  });
+</script>
+
+<div id="about-page">
+  <div class="content-about">
+    <div class="text-content" id="scrollContent">
+      <div class="text" id="the-text-content">
+        <p>
+          Hello,
+          <br>
+          my name
+          <br>
+          is Rasmus
+          <br>
+          Dahlkvist
+          <br>
+
+          I am a coder and
+          <br>
+          interaction designer.
+          <br>
+          <br>
+          <br>
+          I love creating new cool stuff
+          <br>
+          with awesome technology. And
+          <br>
+          find new creative ways to
+          <br>
+          interact wit smart objects that
+          <br>
+          surrounds us :).
+
+          <br>
+          <br>
+          <br>
+          I current live in Umeå sweden
+          <br>
+          where Im almost done with
+          <br>
+          my master degree in interaction
+          <br>
+          deisgn, in computer science
+        </p>
+      </div>
+      <div class="progressCoding" id="brogress">
+        <h1>
+          Back-End
+        </h1>
+        <h2>
+          Ruby,MySQL,
+          Postgres,Heroku,
+          Java,C#,DOT.NET
+        </h2>
+      </div>
+      <div class="progressFrontend" id="frontend">
+        <h1>
+          Front-end
+        </h1>
+        <h2>
+          Android/java,
+          Javascript,css,
+          Html,C#,Unity
+        </h2>
+      </div>
+      <div class="progressDesign" id="design">
+        <h1>
+          Design
+        </h1>
+        <h2>
+          Maya,Unity,
+          Photoshop
+        </h2>
+      </div>
+      <div class="progressUx" id="ux">
+        <h1>
+          UX
+        </h1>
+        <h2>
+          Prototyping,
+          User-test,Research,
+          Wireframe,Sketching
+        </h2>
+      </div>
+      <div class="bottomTex" id="infoCube">
+        <h1 id="headerInfo">Information</h1>
+        <p id="first">Rasmus Dahlkvist </p>
+          <br>
+        <p id="second"> Temp: Overbacka 20 | 785 61 Gagnef | Sweden </p>
+          <br>
+        <p id="third">Tel: +46 76-5154893 </p>
+          <br>
+        <p id="fourth">rasmus.per.dahlkvist@gmail.com </p>
+         <br>
+        <p id="five">www.rasmusdahlkvist.com</p>
+      </div>
+    </div>
+  </div>
+</div>

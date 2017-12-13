@@ -15,6 +15,8 @@
 //= require progressbar.min.js
 //= require modernizr.min.js
 //= require TweenMax.min.js
+//= require jquery.mousewheel.min.js
+//= require jquery.unevent.js
 //= require owl.carousel.min.js
 //= require turbolinks
 //= require_tree .
