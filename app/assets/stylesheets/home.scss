@@ -1,3 +1,170 @@
 // Place all the styles related to the home controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+$white: #FFFFFF;
+$red: #EE6352;
+$black: #495867;
+$_black: #000;
+$greyWhite: #EFE9E7;
+$orange: #F79D65;
+
+.page-home{
+  width: 100%;
+  height: 100%;
+  position: relative;
+  .placeholder{
+    position:absolute;
+    width: 500px;
+    height:400px;
+    overflow:hidden;
+    z-index: 1;
+    left: 50%;
+    top: 70%;
+    -webkit-transform: translate(-50%, -50%);
+    -moz-transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    -o-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+  }
+  .placeholder img{
+    -webkit-filter: grayscale(100%); /* Safari 6.0 - 9.0 */
+    filter: grayscale(100%);
+  }
+
+  .gridContainer{
+    width:100%;
+    height:100%;
+  }
+
+  .gridTile {
+    position:absolute;
+    top:0px;
+    left:0px;
+    width:100%;
+    height:100%;
+    background-size:cover;
+    background-repeat:no-repeat;
+  }
+  .gridTile img{
+    -webkit-filter: grayscale(100%); /* Safari 6.0 - 9.0 */
+    filter: grayscale(100%);
+  }
+  .gridContainer img{
+    -webkit-filter: grayscale(100%); /* Safari 6.0 - 9.0 */
+    filter: grayscale(100%);
+  }
+  .page-home-inner{
+    width: 800px;
+    height: 600px;
+    max-height: calc(100% - 200px);
+    max-width: calc(100% - 200px);
+
+    position: absolute;
+    left: 50%;
+    top: 35%;
+    -webkit-transform: translate(-50%, -50%);
+    -moz-transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    -o-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+
+    .left-panel{
+      top: 60%;
+      position: absolute;
+      z-index: 2;
+      width: 30%;
+      left: -10%;
+      /* margin-right: 73px; */
+      /* left: -10%; */
+      /* float: left; */
+      /* margin-top: 59px; */
+      transform: translate(-50%, -50%);
+      /* bottom: 20%; */
+    }
+    .textAnimation{
+      position: relative;
+      letter-spacing: 0.9em;
+      text-indent: 0.9em;
+      opacity: 1;
+      line-height: 1.5;
+      display: inline-block;
+      text-align: center;
+      font-size: 22px;
+      color: $white;
+      margin-top:20px;
+      .char{
+        //float:left;
+        display: inline-block;
+        transition: margin ease-in-out 0.5s;
+        background-color: #0f0f0f;
+      }
+    }
+    .textAnimation-two{
+      position: relative;
+      letter-spacing: 0.8em;
+      opacity: 1;
+      line-height: 1.5;
+      display: inline-block;
+      text-align: center;
+      font-size: 15px;
+      color:$_black;
+      margin-top:5px;
+      .char{
+        //float:left;
+        display: inline-block;
+        transition: margin ease-in-out 0.5s;
+      }
+    }
+    #text1{
+      left: 0%;
+      right: 70%;
+    }
+    #text2{
+      left: 30%;
+    }
+    #text3{
+      left: 10%;
+    }
+    #text4{
+      left: 25%;
+    }
+    #rightText1{
+      left: 0;
+    }
+    #rightText2{
+      left: 0;
+    }
+    #rightText3{
+      left: 0;
+    }
+    .right-panel{
+      position: absolute;
+      z-index: 2;
+      width: 100%;
+      top: 80%;
+      left: 90%;
+      -webkit-transform: translate(-50%, -50%);
+      -moz-transform: translate(-50%, -50%);
+      -ms-transform: translate(-50%, -50%);
+      -o-transform: translate(-50%, -50%);
+      transform: translate(-50%, -50%);
+
+    }
+
+  }
+  .picture-on-site{
+    position: absolute;
+    width: 400px;
+    height: 400px;
+    display: block;
+    z-index: 1;
+    left: 50%;
+    top: 70%;
+    -webkit-transform: translate(-50%, -50%);
+    -moz-transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    -o-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+  }
+}

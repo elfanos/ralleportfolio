@@ -1,5 +1,533 @@
 <script>
   window.history.replaceState('home',null,'/' + 'home')
 </script>
+<script>
+    var HoverOnHomeText = function (div) {
+        this._div = div;
+        this._instance = null;
+        this._textEffect = function () {
+            var i = 0;
+            console.log("yama");
+            NodeList.prototype.forEach = Array.prototype.forEach;
+            var children = this._div.childNodes;
+            (function (instance) {
+                children.forEach(function (item) {
+                    i++
+                    if(item.tagName == 'DIV') {
+                        instance. _addHoverListener(item,i);
+                    }
+                });
+            })(this._instance);
+        };
+        this._textEffectDefault = function () {
+            console.log("yama");
+            NodeList.prototype.forEach = Array.prototype.forEach;
+            var children = this._div.childNodes;
+            children.forEach(function(item){
+                if(item.tagName == 'DIV'){
+                    console.log(item);
+                    item.style.margin = "";
+                }
+            });
+        };
+        this._addHoverListener = function (div, post) {
+            $(div).hover(
+                function () {
+                    this.style.marginLeft = "10px";
+                    this.style.marginRight = "10px";
+                },
+                function () {
+                    this.style.marginLeft = "0";
+                    this.style.marginRight = "0";
+                }
+            );
+        };
+        this._siteEffectOrange = function () {
+            NodeList.prototype.forEach = Array.prototype.forEach;
+            var children = this._div.childNodes;
+            (function (instance) {
+                children.forEach(function (item) {
+                    if(item.tagName == 'DIV') {
+                        instance._changeBackgroundColor(item);
+                    }
+                });
+            })(this._instance);
+        };
+        this._changeBackgroundColor = function (div) {
+            console.log(div);
+            div.style.background = "#F79D65";
+        };
+        this._interValForChange = function () {
+            (function (instance) {
+                setInterval(function(){
+                },5000);
+            })(this._instance);
+        };
+        this._changePosition = function () {
+        };
+    };
+  $(document).ready(function () {
+      var position = 0;
+      var welcomeText = {
+          welcome: ['W', 'e', 'l', 'c', 'o', 'm', 'e'],
+          to: ['t','o'],
+          the: ['t', 'h', 'e'],
+          my: ['m','y'],
+          site: ['s','i','t','e']
+      };
+      var rightText = {
+          ux: ['U', 'X'],
+          coding: ['c','o','d','i','n','g'],
+          and: ['a', 'n', 'd']
+      };
+      var textDivs = {
+          textOne: document.getElementById("text1"),
+          textTwo: document.getElementById("text2"),
+          textThree: document.getElementById("text3"),
+          textFour: document.getElementById("text4")
+      };
+      var textRightDiv = {
+          ux: document.getElementById("rightText1"),
+          coding: document.getElementById("rightText2"),
+          and: document.getElementById("rightText3")
+      };
+      var textInterValDiv = {
+          webOne: document.getElementById("rightText4"),
+          webTwo: document.getElementById("rightText5"),
+          music: document.getElementById("rightText6"),
+          musicTwo: document.getElementById("rightText7"),
+          interactionOne: document.getElementById("rightText8"),
+          interactionTwo: document.getElementById("rightText9")
+      };
+      var interValText = {
+          webdesign: ['w', 'e','b'],
+          webdeisgntwo: ['e','n','g','i','n','e','e','r','i','n','g'],
+          music: ['m','u','s','i','c'],
+          interaction: ['i', 'n', 't','e','r','a','c','t','i','o','n'],
+          interactiontwo: ['d','e','s','i','g','n']
+      };
+      var uxLetter = new TextAnimationHome(textRightDiv.ux, rightText.ux);
+      var codingLetter = new TextAnimationHome(textRightDiv.coding, rightText.coding);
+      var andLetter = new TextAnimationHome(textRightDiv.and, rightText.and);
+      var animateRighText = {
+          ux: uxLetter,
+          coding: codingLetter,
+          and: andLetter
+      };
+      var webOne = new TextAnimationHome(textInterValDiv.webOne, interValText.webdesign);
+      var webTwo = new TextAnimationHome(textInterValDiv.webTwo, interValText.webdeisgntwo);
+      var music = new TextAnimationHome(textInterValDiv.music, interValText.music);
+      var musicTwo = new TextAnimationHome(textInterValDiv.musicTwo, interValText.interaction);
+      var interactionOne = new TextAnimationHome(textInterValDiv.interactionOne, interValText.interaction);
+      var interactionTwo = new TextAnimationHome(textInterValDiv.interactionTwo, interValText.interactiontwo);
+      var animationIntervalText = {
+          webOne: webOne,
+          webTwo: webTwo,
+          musicOne: music,
+          musicTwo: musicTwo,
+          interactionOne: interactionOne,
+          interactionTwo: interactionTwo
+      };
+      var welcome = new TextAnimationHome(textDivs.textOne, welcomeText.welcome);
+      var toLetter = new TextAnimationHome(textDivs.textTwo, welcomeText.to);
+      var myLetter = new TextAnimationHome(textDivs.textThree, welcomeText.my);
+      var siteLetter = new TextAnimationHome(textDivs.textFour, welcomeText.site);
+      var animationWelcome = {
+          welcome: welcome,
+          toLetter: toLetter,
+          myLetter: myLetter,
+          siteLetter: siteLetter
+      };
 
-<h1>jarasTA=</h1>
+      var projectPictureUrl = [
+          "https://images.unsplash.com/photo-1500264071431-8dd63bfd6e7e?auto=format&fit=crop&w=1778&q=80&ixid=dW5zcGxhc2guY29tOzs7Ozs%3D",
+          "https://images.unsplash.com/photo-1500264071431-8dd63bfd6e7e?auto=format&fit=crop&w=1778&q=80&ixid=dW5zcGxhc2guY29tOzs7Ozs%3D",
+          "https://images.unsplash.com/photo-1500264071431-8dd63bfd6e7e?auto=format&fit=crop&w=1778&q=80&ixid=dW5zcGxhc2guY29tOzs7Ozs%3D"
+      ];
+      var projectID= [
+          document.getElementById("firstPicture"),
+          document.getElementById("secondPicture"),
+          document.getElementById("thirdPicture")
+      ];
+
+      function homeScreenAnimiation(){
+          if(!animationIntervalText.webOne._animationSetted){
+              //animationWelcome.welcome.removeLetters();
+              animationIntervalText.webOne.initializeLetters();
+              animationIntervalText.webOne.initializeTags();
+          }
+          setTimeout(function () {
+              var textSiteEffect = new HoverOnHomeText(textDivs.textFour);
+              textSiteEffect._instance = textSiteEffect;
+              console.log(textSiteEffect._div); //
+              textSiteEffect._textEffect();
+              textSiteEffect._siteEffectOrange();
+          },10);
+          if(!animateRighText.ux._animationSetted){
+              //animationWelcome.welcome.removeLetters();
+              animateRighText.ux.initializeLetters();
+              animateRighText.ux.initializeTags();
+          }
+          if(!animateRighText.coding._animationSetted){
+              //animationWelcome.welcome.removeLetters();
+              animateRighText.coding.initializeLetters();
+              animateRighText.coding.initializeTags();
+          }
+          if(!animateRighText.and._animationSetted){
+              //animationWelcome.welcome.removeLetters();
+              animateRighText.and.initializeLetters();
+              animateRighText.and.initializeTags();
+          }
+          if(!animationWelcome.welcome._animationSetted){
+              //animationWelcome.welcome.removeLetters();
+              animationWelcome.welcome.initializeLetters();
+              animationWelcome.welcome.initializeTags();
+          }
+          if(!animationWelcome.myLetter._animationSetted){
+              //animationWelcome.welcome.removeLetters();
+              animationWelcome.myLetter.initializeLetters();
+              animationWelcome.myLetter.initializeTags();
+          }
+          if(!animationWelcome.siteLetter._animationSetted){
+              //animationWelcome.welcome.removeLetters();
+              animationWelcome.siteLetter.initializeLetters();
+              animationWelcome.siteLetter.initializeTags();
+          }
+          if(!animationWelcome.toLetter._animationSetted){
+              //animationWelcome.welcome.removeLetters();
+              animationWelcome.toLetter.initializeLetters();
+              animationWelcome.toLetter.initializeTags();
+          }
+          if(!animationWelcome.welcome._animationSetted){
+              //animationWelcome.welcome.removeLetters();
+              animationWelcome.welcome.initializeLetters();
+              animationWelcome.welcome.initializeTags();
+          }
+          var textWelcomeEffect = new HoverOnHomeText(textDivs.textOne);
+          textWelcomeEffect._instance = textWelcomeEffect;
+          var textMyEffect = new HoverOnHomeText(textDivs.textTwo);
+          textMyEffect._instance = textMyEffect;
+          var textToEffect = new HoverOnHomeText(textDivs.textThree);
+          textToEffect._instance = textToEffect;
+          $(textDivs.textOne).hover(
+              function () {
+                  console.log(textWelcomeEffect._div); //
+                  textWelcomeEffect._textEffect();
+              },
+              function () {
+                  textWelcomeEffect._textEffectDefault();
+              }
+          );
+          $(textDivs.textTwo).hover(
+              function () {
+                  console.log(textMyEffect._div); //
+                  textMyEffect._textEffect();
+              },
+              function () {
+                  textMyEffect._textEffectDefault();
+              }
+          );
+          $(textDivs.textThree).hover(
+              function () {
+                  console.log(textToEffect._div); //
+                  textToEffect._textEffect();
+              },
+              function () {
+                  textToEffect._textEffectDefault();
+              }
+          );
+      }
+
+      function TextAnimationHome(context,letters) {
+          this.context = context;
+          this.letters = letters;
+          this.interval = [];
+          this.textDivTags = [];
+          this._animationSetted = false;
+          this.removeLetters = function () {
+              while(this.context.firstChild){
+                  this.context.removeChild(this.context.firstChild);
+              }
+          };
+          this.initializeLetters = function() {
+              this.context.style.width = $(window).height() + "px";
+              for(var i = 0; i < this.letters.length; i++){
+                  var div = document.createElement("div");
+                  div.className = "char chars"+i;
+                  div.id = "id-chars"+i;
+                  var innerText = document.createElement("div");
+                  innerText.className = "char-inner";
+                  innerText.innerHTML = letters[i];
+                  console.log("innertexT?", letters[i]);
+                  div.appendChild(innerText);
+                  //parentDiv.querySelector("#child2") != null;
+                  //this._checkIfIfCharAlreadyExist(this.context.childNodes)
+                  var hasChild = this.context.querySelector(div.id) != null;
+                  this.context.appendChild(div);
+              }
+          };
+          this.initializeTags = function () {
+              var childs = this.context.childNodes;
+              console.log("wata");
+              for(var i = 0; i < childs.length; i++){
+                  this.textDivTags.push(childs[i].childNodes[0]);
+              }
+              this._animationSetted = true;
+          }
+          this._checkIfIfCharAlreadyExist = function (childNodes) {
+              console.log(childNodes.length);
+              for(var i = 0; i < childNodes.length; i++) {
+                  console.log(childNodes[i].id);
+                  if (childNodes[i].id == "id-chars"+i) {
+                      this._animationSetted = true;
+                  } else {
+                      console.log("in else duplicates");
+                      this._animationSetted = false;
+                  }
+              }
+          };
+      }
+      function ProjectListItem(imgSrc, containerName, row,
+                               column, margin, animTime, textAnimation) {
+          this.imgSrc = imgSrc;
+          this.containerName = containerName;
+          this.rows = row;
+          this.columns = column;
+          this.margin = margin;
+          this.animTime = animTime;
+      }
+      function ImageGridHome(defaults) {
+          var r = defaults.rows;
+          var c = defaults.columns;
+          var margin = defaults.margin;
+          this._pop = "pop";
+          this._stopAni = function () {
+              _tileTimelineHoverOut.pause();
+              _tileTimelineHoverIn.restart();
+          };
+          this._startAni = function () {
+              _tileTimelineHoverIn.pause();
+              _tileTimelineHoverOut.restart();
+          };
+          var _deadSpace = 80;
+          console.log("le container?" + $(defaults.containerName).children(0));
+          var placeholder =  defaults.containerName.children[0];
+          var container = document.createElement('div');
+          console.log("waitta?",  defaults.containerName.children[0]);
+          container.className = "gridContainer";
+          placeholder.appendChild(container);
+
+          var gridTile;
+
+          var w = ((container.offsetWidth - _deadSpace) / c) -margin;
+          var h = ((container.offsetHeight - _deadSpace) / r) -margin;
+          var arr = [];
+          for (var i=0, l=r*c; i < l; i++) {
+              gridTile = document.createElement('div');
+              gridTile.className = "gridTile";
+              gridTile.style.backgroundImage = "url("+defaults.imgSrc+")";
+              console.log("le background", defaults.imgSrc);
+              arr = [((w+margin)*(i%c) + (_deadSpace/2)), ((h+margin)*Math.floor(i/c))+ (_deadSpace/2), ((w+margin)*(i%c)+w-margin)+ (_deadSpace/2), ((h+margin)*Math.floor(i/c))+ (_deadSpace/2), (((w+margin)*(i%c)+w-margin))+ (_deadSpace/2), ((h+margin)*Math.floor(i/c) + h-margin)+ (_deadSpace/2), ((w+margin)*(i%c))+ (_deadSpace/2), ((h+margin)*Math.floor(i/c) + h-margin)+ (_deadSpace/2)];
+              TweenMax.set(gridTile, {webkitClipPath:'polygon('+arr[0]+'px '+ arr[1]+'px,'+arr[2]+'px '+arr[3]+'px, '+arr[4]+'px '+ arr[5] +'px, '+arr[6]+'px '+ arr[7] +'px)', clipPath:'polygon('+arr[0]+'px '+ arr[1]+'px,'+arr[2]+'px '+arr[3]+'px, '+arr[4]+'px '+ arr[5] +'px, '+arr[6]+'px '+ arr[7] +'px)'});
+              container.appendChild(gridTile);
+          }
+          //polygons works like this
+          // xdirection = (array[0] array[6] minimize) and (array[2] and array[4] size)
+          // ydirection = ((array[5] array[7]) size) and (array[1] and array[3] minimize)
+          function stylePoly(tilePosition,xDirection, yDirection) {
+              var w = ((container.offsetWidth - _deadSpace) / c) -margin;
+              var h = ((container.offsetHeight - _deadSpace) / r) -margin;
+              var arr = [(((w+margin)*(tilePosition%c) + (_deadSpace/2))+xDirection), //minimize one side on x
+                  ((((h+margin)*Math.floor(tilePosition/c))+ (_deadSpace/2)) + yDirection), //minimize one side on y
+                  ((((w+margin)*(tilePosition%c)+w-margin)+ (_deadSpace/2)) + xDirection), //increase size one side on x
+                  ((((h+margin)*Math.floor(tilePosition/c))+ (_deadSpace/2)) + yDirection), //minimize one side on y
+                  (((((w+margin)*(tilePosition%c)+w-margin))+ (_deadSpace/2)) + xDirection), //increase size one side on x
+                  ((((h+margin)*Math.floor(tilePosition/c) + h-margin)+ (_deadSpace/2)) + yDirection), //increase size one side on y
+                  ((((w+margin)*(tilePosition%c))+ (_deadSpace/2)) + xDirection), // increase size one side on x
+                  ((((h+margin)*Math.floor(tilePosition/c) + h-margin)+ (_deadSpace/2)) + yDirection) //increase size one side on y
+              ];
+              return {webkitClipPath:'polygon('+arr[0]+'px '+ arr[1]+'px,'+arr[2]+'px '+arr[3]+'px, '+arr[4]+'px '+ arr[5] +'px, '+arr[6]+'px '+ arr[7] +'px)', clipPath:'polygon('+arr[0]+'px '+ arr[1]+'px,'+arr[2]+'px '+arr[3]+'px, '+arr[4]+'px '+ arr[5] +'px, '+arr[6]+'px '+ arr[7] +'px)'};
+          }
+          function stylePolyMain(tilePosition,xDirection, yDirection) {
+              var w = ((container.offsetWidth - _deadSpace) / c) -margin;
+              var h = ((container.offsetHeight - _deadSpace) / r) -margin;
+              var arr = [((w+margin)*(tilePosition%c) + (_deadSpace/2)), //minimize one side on x
+                  (((h+margin)*Math.floor(tilePosition/c))+ (_deadSpace/2)), //minimize one side on y
+                  (((w+margin)*(tilePosition%c)+w-margin)+ (_deadSpace/2)), //increase size one side on x
+                  (((h+margin)*Math.floor(tilePosition/c))+ (_deadSpace/2)), //minimize one side on y
+                  (((((w+margin)*(tilePosition%c)+w-margin))+ (_deadSpace/2)) + xDirection), //increase size one side on x
+                  ((((h+margin)*Math.floor(tilePosition/c) + h-margin)+ (_deadSpace/2)) + yDirection), //increase size one side on y
+                  ((((w+margin)*(tilePosition%c))+ (_deadSpace/2)) + xDirection), // increase size one side on x
+                  ((((h+margin)*Math.floor(tilePosition/c) + h-margin)+ (_deadSpace/2)) + yDirection) //increase size one side on y
+              ];
+              return {webkitClipPath:'polygon('+arr[0]+'px '+ arr[1]+'px,'+arr[2]+'px '+arr[3]+'px, '+arr[4]+'px '+ arr[5] +'px, '+arr[6]+'px '+ arr[7] +'px)', clipPath:'polygon('+arr[0]+'px '+ arr[1]+'px,'+arr[2]+'px '+arr[3]+'px, '+arr[4]+'px '+ arr[5] +'px, '+arr[6]+'px '+ arr[7] +'px)'};
+          }
+          var _tileTwo = container.querySelectorAll(".gridTile")[1];
+          var _tileThree = container.querySelectorAll(".gridTile")[2];
+          var _tileFour = container.querySelectorAll(".gridTile")[3];
+          var _tileTimelineHoverOut = new TimelineMax({paused:true});
+          var _tileTimelineHoverIn = new TimelineMax({paused:true});
+          testPolygons();
+         // playAnimations();
+          setGreyFilter();
+          normalizeTileOne();
+          function setGreyFilter() {
+              var allTiles = container.querySelectorAll(".gridTile");
+              for (var t=0, len = allTiles.length; t < len; t++) {
+                  // allTiles[t].style.WebkitFilter = "grayscale(90%)";
+                  // allTiles[t].style.filter = "url(filters.svg#grayscale)";
+                  //allTiles[t].style.filter = "gray";
+                  //allTiles[t].style.filter = "grayscale(90%)";
+              }
+          }
+          function backgroundPosition(tileY, tileX){
+              var moveY = 0, moveX = 0;
+              if(tileY != null)
+                  moveY = tileY;
+              if(tileX != null)
+                  moveX = tileX;
+              return {backgroundPosition: moveY+"px "+moveX + "px"};
+          }
+          function normalizeTileOne() {
+              var tileOne = container.querySelectorAll(".gridTile")[0];
+              tileOneAni = TweenMax.to(tileOne, 0.2, {css:stylePolyMain(0,0,20)});
+          }
+          function testPolygons() {
+
+              /*tile four in timeline*/
+              _tileTimelineHoverOut
+                  .to(_tileFour, 0.2, {css:stylePoly(3,0,20),rotation:0.01,ease:Linear.easeNone},0)
+                  .to(_tileTwo, 0.2, {css:stylePoly(1,0,20),rotation:0.01,ease:Linear.easeNone},0)
+                  .to(_tileFour, 0.2, {css:backgroundPosition(0,20),rotation:0.01,ease:Linear.easeNone},0)
+                  .to(_tileTwo, 0.2, {css:backgroundPosition(0,20),rotation:0.01,ease:Linear.easeNone},0)
+                  .add("sideMovement",0.2)
+                  .to(_tileFour,0.2,{css:backgroundPosition(-20,20),rotation:0.01,ease:Linear.easeNone}, "sideMovement")
+                  .to(_tileFour,0.2,{css:stylePoly(3,-20,20),rotation:0.01,ease:Linear.easeNone}, "sideMovement")
+                  .to(_tileThree, 0.2,{css:backgroundPosition(-20,0),rotation:0.01,ease:Linear.easeNone}, "sideMovement")
+                  .to(_tileThree, 0.2,{css:stylePoly(2,-20,0),rotation:0.01,ease:Linear.easeNone}, "sideMovement");
+
+              _tileTimelineHoverIn
+                  .to(_tileFour,0.2,{css:backgroundPosition(0,20),rotation:0.01,ease:Linear.easeNone}, 0)
+                  .to(_tileFour,0.2,{css:stylePoly(3,0,20),rotation:0.01,ease:Linear.easeNone}, 0)
+                  .to(_tileThree, 0.2,{css:backgroundPosition(0,0),rotation:0.01,ease:Linear.easeNone}, 0)
+                  .to(_tileThree, 0.2,{css:stylePoly(2,0,0),rotation:0.01,ease:Linear.easeNone}, 0)
+                  .add("bottomMovement",0.2)
+                  .to(_tileFour, 0.2, {css:stylePoly(3,0,0),rotation:0.01,ease:Linear.easeNone}, "bottomMovement")
+                  .to(_tileTwo, 0.2, {css:stylePoly(1,0,0),rotation:0.01,ease:Linear.easeNone}, "bottomMovement")
+                  .to(_tileFour, 0.2, {css:backgroundPosition(0,0),rotation:0.01,ease:Linear.easeNone},"bottomMovement")
+                  .to(_tileTwo, 0.2, {css:backgroundPosition(0,0),rotation:0.01,ease:Linear.easeNone},"bottomMovement");
+          }
+          function playAnimations() {
+              _tileTimelineHoverIn.pause();
+              _tileTimelineHoverOut.restart();
+          }
+          function stopAnimations() {
+              _tileTimelineHoverOut.pause();
+              _tileTimelineHoverIn.restart();
+          }
+      }
+
+      var imageGirdsHome = [];
+      var test = null;
+      function initializeProjectsHome() {
+          for(var i = 0; i < 2; i++){
+              (function (i) {
+                  setTimeout(function () {
+                      var item = new ProjectListItem(
+                          projectPictureUrl[i],
+                          projectID[i],
+                          2,
+                          2,
+                          0,
+                          1.5
+                      );
+                      imageGirdsHome.push(new ImageGridHome(item));
+
+                  },50);
+              })(i);
+          }
+      }
+      homeScreenAnimiation();
+      //$(projectID[0]).hide();
+      $(projectID[1]).hide();
+      $(projectID[2]).hide();
+      setTimeout(function () {
+          initializeProjectsHome();
+      },1000);
+      console.log("naim", imageGirdsHome[2]);
+      testva();
+      function testva() {
+          (function (position) {
+              setInterval(function () {
+                  console.log("papa", position);
+                  if(position === 0) {
+                      imageGirdsHome[0]._startAni();
+                      setTimeout(function () {
+                          imageGirdsHome[0]._stopAni();
+                      },3000);
+                  }
+              },6000);
+          })(position)
+      }
+
+  });
+</script>
+
+<div class="page-home">
+  <div class="page-home-inner">
+    <div class="left-panel">
+      <div class="textAnimation" id="text1">
+      </div>
+      <div class="textAnimation" id="text2">
+      </div>
+      <div class="textAnimation" id="text3">
+      </div>
+      <div class="textAnimation" id="text4">
+      </div>
+    </div>
+    <div id="firstPicture">
+      <div class="placeholder">
+        <div class="filler-container">
+          <div class="filler">
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="secondPicture">
+      <div class="placeholder">
+        <div class="filler-container">
+          <div class="filler">
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="thirdPicture">
+      <div class="placeholder">
+        <div class="filler-container">
+          <div class="filler">
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="right-panel">
+      <div class="textAnimation-two" id="rightText1">
+      </div>
+      <div class="textAnimation-two" id="rightText2">
+      </div>
+      <div class="textAnimation-two" id="rightText3">
+      </div>
+      <div class="textAnimation-two" id="rightText4">
+      </div>
+      <div class="textAnimation-two" id="rightText5">
+      </div>
+      <div class="textAnimation-two" id="rightText6">
+      </div>
+      <div class="textAnimation-two" id="rightText7">
+      </div>
+      <div class="textAnimation-two" id="rightText8">
+      </div>
+      <div class="textAnimation-two" id="rightText9">
+      </div>
+    </div>
+  </div>
+</div>
