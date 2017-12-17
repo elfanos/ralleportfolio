@@ -89,7 +89,8 @@
       var textRightDiv = {
           ux: document.getElementById("rightText1"),
           coding: document.getElementById("rightText2"),
-          and: document.getElementById("rightText3")
+          and: document.getElementById("rightText3"),
+          interval: document.getElementById("rightText4")
       };
       var textInterValDiv = {
           webOne: document.getElementById("rightText4"),
@@ -100,7 +101,7 @@
           interactionTwo: document.getElementById("rightText9")
       };
       var interValText = {
-          webdesign: ['w', 'e','b'],
+          webdesign: ['w', 'e', 'b'],
           webdeisgntwo: ['e','n','g','i','n','e','e','r','i','n','g'],
           music: ['m','u','s','i','c'],
           interaction: ['i', 'n', 't','e','r','a','c','t','i','o','n'],
@@ -209,6 +210,46 @@
           textMyEffect._instance = textMyEffect;
           var textToEffect = new HoverOnHomeText(textDivs.textThree);
           textToEffect._instance = textToEffect;
+          var textUXEffect = new HoverOnHomeText(textRightDiv.ux);
+          textUXEffect._instance = textUXEffect;
+          var textCodingEffect = new HoverOnHomeText(textRightDiv.coding);
+          textCodingEffect._instance = textCodingEffect;
+          var textAndEffect = new HoverOnHomeText(textRightDiv.and);
+          textAndEffect._instance = textAndEffect;
+          var textIntervalEffect = new HoverOnHomeText(textRightDiv.interval);
+          textIntervalEffect._instance = textIntervalEffect;
+          $(textRightDiv.ux).hover(
+              function () {
+                  textUXEffect._textEffect();
+              },
+              function () {
+                  textUXEffect._textEffectDefault();
+              }
+          );
+          $(textRightDiv.coding).hover(
+              function () {
+                  textCodingEffect._textEffect();
+              },
+              function () {
+                  textCodingEffect._textEffectDefault();
+              }
+          );
+          $(textRightDiv.and).hover(
+              function () {
+                  textAndEffect._textEffect();
+              },
+              function () {
+                  textAndEffect._textEffectDefault();
+              }
+          );
+          $(textRightDiv.interval).hover(
+              function () {
+                  textIntervalEffect._textEffect();
+              },
+              function () {
+                  textIntervalEffect._textEffectDefault();
+              }
+          );
           $(textDivs.textOne).hover(
               function () {
                   console.log(textWelcomeEffect._div); //
@@ -237,12 +278,17 @@
               }
           );
       }
-
       function TextAnimationHome(context,letters) {
           this.context = context;
           this.letters = letters;
           this.interval = [];
           this.textDivTags = [];
+          this._intervalTime = 0;
+          this._textView = {
+              web: ['w', 'e', 'b'],
+              engineering: ['e','n','g','i','n','e','e','r','i','n','g'],
+              interaction: ['i', 'n', 't','e','r','a','c','t','i','o','n']
+          };
           this._animationSetted = false;
           this.removeLetters = function () {
               while(this.context.firstChild){
@@ -266,14 +312,54 @@
                   this.context.appendChild(div);
               }
           };
+          this._addANewLetter = function (letter) {
+              var div = document.createElement("div");
+              div.className = "char chars1";
+              div.id = "id-chars";
+              var innerText = document.createElement("div");
+              innerText.className = "char-inner";
+              innerText.innerHTML = letter;
+              div.appendChild(innerText);
+              var hasChild = this.context.querySelector(div.id) != null;
+              this.context.appendChild(div);
+          };
+          this._removeLetter = function (index) {
+              var childs = this.context.childNodes;
+              while(Object.size(childs) > 4){
+                  console.log(this.context.lastChild.innerHTML);
+                  this.context.removeChild(this.context.lastChild);
+              }
+          };
+          this._removeAllLetters = function(){
+              var childs = this.context.childNodes;
+              while(Object.size(childs) > 1){
+                //  console.log(this.context.lastChild.innerHTML);
+                //  this.context.removeChild(this.context.lastChild);
+                  this.context.lastChild.style.visibility = "hidden";
+              }
+          };
           this.initializeTags = function () {
               var childs = this.context.childNodes;
-              console.log("wata");
               for(var i = 0; i < childs.length; i++){
                   this.textDivTags.push(childs[i].childNodes[0]);
               }
               this._animationSetted = true;
-          }
+          };
+          this.changeTextOnChild = function (index,letter){
+              var childs = this.context.childNodes;
+              for(var i = 0; i < Object.size(childs); i++){
+           //       console.log("jaman" + childs[i].innerHTML);
+                 if(i === index){
+                     if(letter != undefined) {
+                         console.log("le div?", childs[i]);
+                         childs[i].innerHTML = letter;
+                     }
+                 }
+              }
+          };
+          this.getLength = function () {
+            return Object.size(this.context.childNodes);
+          };
           this._checkIfIfCharAlreadyExist = function (childNodes) {
               console.log(childNodes.length);
               for(var i = 0; i < childNodes.length; i++) {
@@ -286,6 +372,99 @@
                   }
               }
           };
+      }
+      function getRandomizedLetter() {
+          var letters = "abcdeinoqr";
+          function getLetterFromString(index) {
+              for(var i = 0; i < letters.length; i++){
+                  if(i === index){ return letters.charAt(index); }
+              }
+          }
+          return getLetterFromString(Math.floor(Math.random() * letters.length) + 1);
+      }
+      setInterval(function () {
+          beginTextChangeAnimation(animationIntervalText.webOne, 1, false);
+      },6000);
+      var testtext = 0;
+      function getLetterLength(node,index){
+          switch (index){
+              case 0:
+                  return node._textView.web.length;
+              case 1:
+                  return node._textView.engineering.length;
+              case 2:
+                  return node._textView.interaction.length;
+          }
+      }
+      function beginTextChangeAnimation(node,index, done){
+          /*setTimeout(function () {
+              node._removeAllLetters(getLetterLength(node,node._intervalTime));
+          },20);*/
+          setTimeout(function () {
+              startChangeTextEffect(animationIntervalText.webOne, index, done);
+          },1000)
+      }
+      function startChangeTextEffect(node,index, done) {
+          if(index < (node.getLength())) {
+                  var i = 0;
+                  var webONE = setInterval(function () {
+                      if (i < node.getLength()) {
+                          node.changeTextOnChild(index, getRandomizedLetter());
+                          i++;
+                          if( i < (node.getLength()-1)){
+                              if(index == (node.getLength()-1)) {
+                                 return startChangeTextEffect(node, index+1, true);
+                              }else{
+                                  testtext +=1;
+                                  //console.log("one time plz");
+                                  clearInterval(webONE);
+                                  return startChangeTextEffect(node, index+1, false);
+                              }
+                          }
+                      } else {
+                          console.log("one time plz");
+                          clearInterval(webONE);
+                          if(node._intervalTime === 0) {
+                              addMoreLetters(node,node._textView.engineering,(index));
+                              node._intervalTime = 1;
+                          }else if(node._intervalTime === 1){
+                              addMoreLetters(node,node._textView.interaction,(index));
+                              node._intervalTime = 2;
+                          }else if(node._intervalTime === 2){
+                              addMoreLetters(node,node._textView.web,(index));
+                              node._intervalTime = 0;
+                          }
+                      }
+                  }, 50);
+          }else{
+           //   console.log("loloelsih" + index);
+          }
+          if(done){
+            //  console.log("ye boi!");
+          }
+      }
+      function addMoreLetters(node,letters,index){
+          var numOfMoreLetters = letters.length - index;
+          console.log("jaman numb of letters", numOfMoreLetters);
+          if(numOfMoreLetters >= 0) {
+              for (var i = 0; i < index; i++) {
+                  node.changeTextOnChild((i+1), letters[i]);
+              }
+              for (var j = index; j < (numOfMoreLetters + index); j++) {
+               //   console.log("index" + j);
+                  node._addANewLetter(letters[j]);
+              }
+          }
+          if(numOfMoreLetters < 0){
+            for (var c = 0; c < (letters.length); c++) {
+                node.changeTextOnChild((c+1), letters[c]);
+                console.log("jaman numb of letters", letters[c]);
+            }
+            setTimeout(function () {
+                node._removeLetter(letters.length);
+            },20);
+          }
+
       }
       function ProjectListItem(imgSrc, containerName, row,
                                column, margin, animTime, textAnimation) {
@@ -368,7 +547,7 @@
           var _tileTimelineHoverOut = new TimelineMax({paused:true});
           var _tileTimelineHoverIn = new TimelineMax({paused:true});
           testPolygons();
-         // playAnimations();
+          playAnimations();
           setGreyFilter();
           normalizeTileOne();
           function setGreyFilter() {
@@ -447,6 +626,7 @@
               })(i);
           }
       }
+
       homeScreenAnimiation();
       //$(projectID[0]).hide();
       $(projectID[1]).hide();
@@ -454,17 +634,16 @@
       setTimeout(function () {
           initializeProjectsHome();
       },1000);
-      console.log("naim", imageGirdsHome[2]);
       testva();
       function testva() {
           (function (position) {
               setInterval(function () {
                   console.log("papa", position);
                   if(position === 0) {
-                      imageGirdsHome[0]._startAni();
+                      imageGirdsHome[0]._stopAni();
                       setTimeout(function () {
-                          imageGirdsHome[0]._stopAni();
-                      },3000);
+                          imageGirdsHome[0]._startAni();
+                      },500);
                   }
               },6000);
           })(position)
@@ -473,7 +652,7 @@
   });
 </script>
 
-<div class="page-home">
+<div class="page-home" id="home-section">
   <div class="page-home-inner">
     <div class="left-panel">
       <div class="textAnimation" id="text1">

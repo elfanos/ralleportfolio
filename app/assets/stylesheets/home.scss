@@ -103,17 +103,24 @@ $orange: #F79D65;
     .textAnimation-two{
       position: relative;
       letter-spacing: 0.8em;
+      text-indent: 0.8em;
       opacity: 1;
       line-height: 1.5;
       display: inline-block;
       text-align: center;
       font-size: 15px;
       color:$_black;
-      margin-top:5px;
+      overflow: hidden; /* Ensures the content is not revealed until the animation */
+      border-right: 0em solid $orange; /* The typwriter cursor */
+      white-space: nowrap; /* Keeps the content on a single line */
+      margin: 0 auto; /* Gives that scrolling effect as the typing happens */
+      transition: visibility 100ms ease-in-out;
+     // margin-top:5px;
       .char{
         //float:left;
         display: inline-block;
         transition: margin ease-in-out 0.5s;
+        background-color: beige;
       }
     }
     #text1{
@@ -166,5 +173,32 @@ $orange: #F79D65;
     -ms-transform: translate(-50%, -50%);
     -o-transform: translate(-50%, -50%);
     transform: translate(-50%, -50%);
+  }
+}
+#home-section{
+  /* DEMO-SPECIFIC STYLES */
+  .typewriter p {
+    text-align: center;
+    color: black;
+    opacity: 0.5;
+    font-family: Adobe Caslon Pro Regular,adobe-caslon-pro;
+    overflow: hidden; /* Ensures the content is not revealed until the animation */
+    border-right: 0em solid $orange; /* The typwriter cursor */
+    white-space: nowrap; /* Keeps the content on a single line */
+    margin: 0 auto; /* Gives that scrolling effect as the typing happens */
+    letter-spacing: .15em; /* Adjust as needed */
+    width: 0;
+  }
+
+  /* The typing effect */
+  @keyframes typing {
+    from { width: 0 }
+    to { width: 100% }
+  }
+
+  /* The typewriter cursor effect */
+  @keyframes blink-caret {
+    from, to { border-color: transparent }
+    50% { border-color: $orange }
   }
 }
