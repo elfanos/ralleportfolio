@@ -202,3 +202,15 @@ $orange: #F79D65;
     50% { border-color: $orange }
   }
 }
+.addVisibilityTransition{
+  transition:visibility ease-in-out 0.5s;
+}
+.removeVisibilityTransition{
+  transition:margin ease-in-out 0.5s;
+}
+.addMarginTransition{
+  transition:margin ease-in-out 0.5s;
+}
+.removeMarginTransition{
+  transition:margin ease-in-out 0s;
+}

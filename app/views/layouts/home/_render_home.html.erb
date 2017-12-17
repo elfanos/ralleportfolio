@@ -7,18 +7,18 @@
         this._instance = null;
         this._textEffect = function () {
             var i = 0;
-            console.log("yama");
             NodeList.prototype.forEach = Array.prototype.forEach;
             var children = this._div.childNodes;
             (function (instance) {
                 children.forEach(function (item) {
-                    i++
+                    i++;
                     if(item.tagName == 'DIV') {
-                        instance. _addHoverListener(item,i);
+                        instance._addHoverListener(item,i);
                     }
                 });
             })(this._instance);
         };
+
         this._textEffectDefault = function () {
             console.log("yama");
             NodeList.prototype.forEach = Array.prototype.forEach;
@@ -41,6 +41,20 @@
                     this.style.marginRight = "0";
                 }
             );
+        };
+        this._increaseMargin = function(){
+            var childs = this._div.childNodes;
+            for(var i = 1; i < Object.size(childs); i++){
+                childs[i].style.marginLeft = "5px";
+                childs[i].style.marginRight = "5px";
+            }
+        };
+        this._releaseMargin = function(){
+            var childs = this._div.childNodes;
+            for(var i = 1; i < Object.size(childs); i++){
+                childs[i].style.marginLeft = "0";
+                childs[i].style.marginRight = "0";
+            }
         };
         this._siteEffectOrange = function () {
             NodeList.prototype.forEach = Array.prototype.forEach;
@@ -110,12 +124,13 @@
       var uxLetter = new TextAnimationHome(textRightDiv.ux, rightText.ux);
       var codingLetter = new TextAnimationHome(textRightDiv.coding, rightText.coding);
       var andLetter = new TextAnimationHome(textRightDiv.and, rightText.and);
+      var webOne = new TextAnimationHome(textInterValDiv.webOne, interValText.webdesign);
       var animateRighText = {
           ux: uxLetter,
           coding: codingLetter,
-          and: andLetter
+          and: andLetter,
+          interval: webOne
       };
-      var webOne = new TextAnimationHome(textInterValDiv.webOne, interValText.webdesign);
       var webTwo = new TextAnimationHome(textInterValDiv.webTwo, interValText.webdeisgntwo);
       var music = new TextAnimationHome(textInterValDiv.music, interValText.music);
       var musicTwo = new TextAnimationHome(textInterValDiv.musicTwo, interValText.interaction);
@@ -150,6 +165,21 @@
           document.getElementById("secondPicture"),
           document.getElementById("thirdPicture")
       ];
+
+      var textWelcomeEffect = new HoverOnHomeText(textDivs.textOne);
+      textWelcomeEffect._instance = textWelcomeEffect;
+      var textMyEffect = new HoverOnHomeText(textDivs.textTwo);
+      textMyEffect._instance = textMyEffect;
+      var textToEffect = new HoverOnHomeText(textDivs.textThree);
+      textToEffect._instance = textToEffect;
+      var textUXEffect = new HoverOnHomeText(textRightDiv.ux);
+      textUXEffect._instance = textUXEffect;
+      var textCodingEffect = new HoverOnHomeText(textRightDiv.coding);
+      textCodingEffect._instance = textCodingEffect;
+      var textAndEffect = new HoverOnHomeText(textRightDiv.and);
+      textAndEffect._instance = textAndEffect;
+      var textIntervalEffect = new HoverOnHomeText(textRightDiv.interval);
+      textIntervalEffect._instance = textIntervalEffect;
 
       function homeScreenAnimiation(){
           if(!animationIntervalText.webOne._animationSetted){
@@ -204,20 +234,6 @@
               animationWelcome.welcome.initializeLetters();
               animationWelcome.welcome.initializeTags();
           }
-          var textWelcomeEffect = new HoverOnHomeText(textDivs.textOne);
-          textWelcomeEffect._instance = textWelcomeEffect;
-          var textMyEffect = new HoverOnHomeText(textDivs.textTwo);
-          textMyEffect._instance = textMyEffect;
-          var textToEffect = new HoverOnHomeText(textDivs.textThree);
-          textToEffect._instance = textToEffect;
-          var textUXEffect = new HoverOnHomeText(textRightDiv.ux);
-          textUXEffect._instance = textUXEffect;
-          var textCodingEffect = new HoverOnHomeText(textRightDiv.coding);
-          textCodingEffect._instance = textCodingEffect;
-          var textAndEffect = new HoverOnHomeText(textRightDiv.and);
-          textAndEffect._instance = textAndEffect;
-          var textIntervalEffect = new HoverOnHomeText(textRightDiv.interval);
-          textIntervalEffect._instance = textIntervalEffect;
           $(textRightDiv.ux).hover(
               function () {
                   textUXEffect._textEffect();
@@ -306,6 +322,7 @@
                   innerText.innerHTML = letters[i];
                   console.log("innertexT?", letters[i]);
                   div.appendChild(innerText);
+                  div.style.visibility = "hidden";
                   //parentDiv.querySelector("#child2") != null;
                   //this._checkIfIfCharAlreadyExist(this.context.childNodes)
                   var hasChild = this.context.querySelector(div.id) != null;
@@ -360,6 +377,20 @@
           this.getLength = function () {
             return Object.size(this.context.childNodes);
           };
+          this.showDivs = function () {
+              var childs = this.context.childNodes;
+              console.log("wellwell" + Object.size(childs));
+              for(var i = 1; i < Object.size(childs); i++){
+                  console.log("wellwell", childs[i]);
+                  (function (node, j) {
+                      setTimeout(function () {
+                          console.log("wellwell", childs[i]);
+                          node.style.visibility = "visible";
+                      },50*j);
+                  })(childs[i], i)
+              }
+
+          };
           this._checkIfIfCharAlreadyExist = function (childNodes) {
               console.log(childNodes.length);
               for(var i = 0; i < childNodes.length; i++) {
@@ -382,9 +413,6 @@
           }
           return getLetterFromString(Math.floor(Math.random() * letters.length) + 1);
       }
-      setInterval(function () {
-          beginTextChangeAnimation(animationIntervalText.webOne, 1, false);
-      },6000);
       var testtext = 0;
       function getLetterLength(node,index){
           switch (index){
@@ -437,28 +465,27 @@
                       }
                   }, 50);
           }else{
-           //   console.log("loloelsih" + index);
           }
           if(done){
-            //  console.log("ye boi!");
           }
       }
+      /**
+       * check if more or less div elements need to be added
+       * also change the char to the new one in the letter array
+       * */
       function addMoreLetters(node,letters,index){
           var numOfMoreLetters = letters.length - index;
-          console.log("jaman numb of letters", numOfMoreLetters);
           if(numOfMoreLetters >= 0) {
               for (var i = 0; i < index; i++) {
                   node.changeTextOnChild((i+1), letters[i]);
               }
               for (var j = index; j < (numOfMoreLetters + index); j++) {
-               //   console.log("index" + j);
                   node._addANewLetter(letters[j]);
               }
           }
           if(numOfMoreLetters < 0){
             for (var c = 0; c < (letters.length); c++) {
                 node.changeTextOnChild((c+1), letters[c]);
-                console.log("jaman numb of letters", letters[c]);
             }
             setTimeout(function () {
                 node._removeLetter(letters.length);
@@ -628,17 +655,52 @@
       }
 
       homeScreenAnimiation();
-      //$(projectID[0]).hide();
+      $(projectID[0]).hide();
       $(projectID[1]).hide();
       $(projectID[2]).hide();
       setTimeout(function () {
           initializeProjectsHome();
+      },1500);
+
+      /**
+       * text animation interval
+       * */
+
+      setTimeout(function () {
+        animationWelcome.welcome.showDivs();
+        animationWelcome.toLetter.showDivs();
+        animationWelcome.myLetter.showDivs();
+        animationWelcome.siteLetter.showDivs();
+
+      },500);
+      setTimeout(function () {
+          animateRighText.ux.showDivs();
+          textUXEffect._increaseMargin();
+
+          textCodingEffect._increaseMargin();
+          animateRighText.coding.showDivs();
+
+          textAndEffect._increaseMargin();
+          animateRighText.and.showDivs();
+
+          textIntervalEffect._increaseMargin();
+          animateRighText.interval.showDivs();
       },1000);
-      testva();
-      function testva() {
+      setTimeout(function () {
+          textUXEffect._releaseMargin();
+          textCodingEffect._releaseMargin();
+          textAndEffect._releaseMargin();
+          textIntervalEffect._releaseMargin();
+          $(projectID[0]).fadeIn('fast');
+      },1500);
+      setInterval(function () {
+          beginTextChangeAnimation(animationIntervalText.webOne, 1, false);
+      },6000);
+
+      pictureAnimation();
+      function pictureAnimation() {
           (function (position) {
               setInterval(function () {
-                  console.log("papa", position);
                   if(position === 0) {
                       imageGirdsHome[0]._stopAni();
                       setTimeout(function () {
@@ -648,7 +710,6 @@
               },6000);
           })(position)
       }
-
   });
 </script>
 

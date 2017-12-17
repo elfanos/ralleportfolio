@@ -3,7 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="16ea19cc-4517-4ad3-ab13-b14c25166132" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/assets/stylesheets/home.scss" afterPath="$PROJECT_DIR$/app/assets/stylesheets/home.scss" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/layouts/_header.html.erb" afterPath="$PROJECT_DIR$/app/views/layouts/_header.html.erb" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/layouts/home/_render_home.html.erb" afterPath="$PROJECT_DIR$/app/views/layouts/home/_render_home.html.erb" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
@@ -40,21 +39,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="contact.scss" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/assets/stylesheets/contact.scss">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="281">
-              <caret line="90" column="0" lean-forward="true" selection-start-line="90" selection-start-column="0" selection-end-line="90" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="_render_home.html.erb" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/views/layouts/home/_render_home.html.erb">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="258">
-              <caret line="549" column="9" lean-forward="false" selection-start-line="549" selection-start-column="9" selection-end-line="549" selection-end-column="9" />
+            <state relative-caret-position="210">
+              <caret line="711" column="7" lean-forward="false" selection-start-line="711" selection-start-column="7" selection-end-line="711" selection-end-column="7" />
               <folding />
             </state>
           </provider>
@@ -73,8 +62,8 @@
       <file leaf-file-name="home.scss" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/assets/stylesheets/home.scss">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="434">
-              <caret line="119" column="21" lean-forward="true" selection-start-line="119" selection-start-column="21" selection-end-line="119" selection-end-column="21" />
+            <state relative-caret-position="1154">
+              <caret line="208" column="35" lean-forward="false" selection-start-line="208" selection-start-column="35" selection-end-line="208" selection-end-column="35" />
               <folding />
             </state>
           </provider>
@@ -1309,12 +1298,12 @@
       <workItem from="1511282207554" duration="373000" />
       <workItem from="1511282672739" duration="73754000" />
       <workItem from="1512679265029" duration="7425000" />
-      <workItem from="1512923830785" duration="69308000" />
+      <workItem from="1512923830785" duration="73420000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="273496000" />
+    <option name="totallyTimeSpent" value="277608000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1280" height="800" extended-state="6" />
@@ -1750,18 +1739,18 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/assets/stylesheets/home.scss">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="434">
-          <caret line="119" column="21" lean-forward="true" selection-start-line="119" selection-start-column="21" selection-end-line="119" selection-end-column="21" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/assets/stylesheets/contact.scss">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="281">
           <caret line="90" column="0" lean-forward="true" selection-start-line="90" selection-start-column="0" selection-end-line="90" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/assets/stylesheets/home.scss">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1154">
+          <caret line="208" column="35" lean-forward="false" selection-start-line="208" selection-start-column="35" selection-end-line="208" selection-end-column="35" />
           <folding />
         </state>
       </provider>
@@ -1776,8 +1765,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/views/layouts/home/_render_home.html.erb">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="258">
-          <caret line="549" column="9" lean-forward="false" selection-start-line="549" selection-start-column="9" selection-end-line="549" selection-end-column="9" />
+        <state relative-caret-position="210">
+          <caret line="711" column="7" lean-forward="false" selection-start-line="711" selection-start-column="7" selection-end-line="711" selection-end-column="7" />
           <folding />
         </state>
       </provider>
