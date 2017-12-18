@@ -593,28 +593,13 @@
                 textAnimationContact.initializeTags();
                  initializeAllLetters();
             },50);
-           /* textAnimationAbout.initializeLetters();
-            textAnimationAbout.initializeTags();
-            textAnimationContact.initializeLetters();
-            textAnimationContact.initializeTags();*/
-           // textAnimationProject.initializeLetters();
-          //  textAnimationProject.initializeTags();
+           stateOfPage._initializeHeader();
             hideDive(pageWrapper);
-            //draws
-            drawLoadingContent();
+            fadeAwayDiv(resizeContainer);
+            /* fix so it doenst hide transition on paging effec*/
+         //   setMarginValuesForContent();
+           // setTimeOutBeforeTheContentMoveIn();
 
-            stateOfPage._initializeHeader();
-
-            drawLoadingText();
-            hideLoadingElements();
-            drawResizeAndLoadText();
-
-
-            changeOpacityOnEveryLoadingElement(0);
-            changeOpacityOnEveryResizeElement(0);
-
-            //loadLoadingScreen();
-            endLoading();
 
             /***
              * Back browser navigation between
@@ -718,19 +703,9 @@
              * Resizing listener
              * */
             window.addEventListener('resize', function () {
-                checkForLoadingIntervals();
-                loadResizeScreen();
             });
 
 
-        }
-        function loadLoadingScreen() {
-            hideResizeElements();
-            showLoadingElements(document.getElementById('loading-list'));
-            setMarginValuesForContent();
-            startVibratLoading(0);
-            fadeInLoading(0);
-            lightingEffectOnLoading();
         }
         function endLoading() {
             fadeAwayLoading(1);
@@ -739,90 +714,7 @@
             showDivLoadTime(pageWrapper);
 
         }
-        function loadResizeScreen() {
 
-          /*Initalize shimmering effect on background*/
-            clearOpacityOnLoadingBackground(0,loadingContent.childNodes);
-            clearNodeKeeper();
-            redrawChildNodes(0,loadingContent.childNodes,  randomChild());
-
-
-          /*Initalize effect on loading letters*/
-            showLoadingElements(resizeContainer);
-            showLoadingElements(document.getElementById("resize-list"));
-            if(document.getElementById("loading-list").style.display === 'inline-block'){
-                hideLoadingElements(document.getElementById("loading-list").style.display);
-            }
-            fadeInResize(0);
-            startvibrate(0);
-            lightingEffect();
-            setMarginValuesForContent();
-
-        }
-
-        function clearNodeKeeper() {
-            nodeKeeper = {};
-        }
-
-        function checkForLoadingIntervals() {
-            if(loadingIntervalsArray.length > 0){
-                for(var i = 0; i < loadingIntervalsArray.length; i++){
-                    clearInterval(loadingIntervalsArray[i]);
-
-                }
-            }
-        }
-
-        /***
-         * Timer between each vibrating animation
-         * and how many times it should occure´´´´
-         *
-         * @param margin
-         * */
-        function startvibrate(margin) {
-            var counter = 0;
-            numberOfInterVals++;
-            var id = numberOfInterVals-1;
-            loadingIntervalsArray.push(setInterval(function () {
-                    counter++;
-                    letterVibrationsRight(margin)
-                    if(counter > 5){
-                        clearInterval(loadingIntervalsArray[id]);
-                    }
-                },1000)
-            );
-
-        }
-        function startVibratLoading(margin) {
-            var counter = 0;
-            numberOfInterVals++;
-            var id = numberOfInterVals-1;
-            loadingIntervalsArray.push(setInterval(function () {
-                    counter++;
-                    letterVibrationsLoadingRight(margin)
-                    if(counter > 5){
-                        clearInterval(loadingIntervalsArray[id]);
-                    }
-                },1000)
-            );
-        }
-
-        function lightingEffectOnLoading() {
-            var counter = 0;
-            numberOfInterVals++;
-            var id = numberOfInterVals-1;
-            loadingIntervalsArray.push(setInterval(function () {
-                    counter++;
-                    shineEffectOnLoad(0);
-                    if(counter > 2){
-                        clearInterval(loadingIntervalsArray[id]);
-                        setTimeout(function () {
-                            endLoading();
-                        },2500)
-                    }
-                }, 2000)
-            );
-        }
 
         function shineEffectOnLoad(number) {
             setTimeout(function () {
@@ -835,28 +727,6 @@
             }, 100);
         }
 
-
-        /***
-         * Interval for how many times
-         * the light effect should take place and
-         * the time between each shine effect
-         * */
-        function lightingEffect() {
-            var counter = 0;
-            numberOfInterVals++;
-            var id = numberOfInterVals-1;
-            loadingIntervalsArray.push(setInterval(function () {
-                    counter++;
-                    lightningEffectOnResize(0);
-                    if(counter > 2){
-                        clearInterval(loadingIntervalsArray[id]);
-                        setTimeout(function () {
-                            fadeAwayResize(1);
-                        },2500)
-                    }
-                }, 2000)
-            );
-        }
 
         /***
          * set and intervall between each element
@@ -873,11 +743,6 @@
                     lightningEffectOnResize(number);
                 }
             }, 100);
-        }
-        function drawLoadingText() {
-            for(var i = 0; i < Object.size(letterClassInLoading); i++){
-                attributeForEachLoadingLetter(i);
-            }
         }
         function attributeForEachLoadingLetter(val) {
             switch (val){
@@ -923,11 +788,6 @@
                     list.textContent = "g";
                     loadingLetters.appendChild(list);
                     break;
-            }
-        }
-        function drawResizeAndLoadText() {
-            for(var i = 0; i < Object.size(letterClassInResize); i++){
-                attributeForEachResizeLetter(i);
             }
         }
 
@@ -1035,17 +895,11 @@
             },10);
         }
 
-        function hideLoadingElements() {
-            document.getElementById('loading-list').style.display = "none";
-        }
         function showLoadingElements(div) {
             div.style.visibility = 'visible';
             div.style.display = 'block';          // Show
             div.style.display = 'inline';         // Show
             div.style.display = 'inline-block';
-        }
-        function hideResizeElements() {
-            document.getElementById('resize-list').style.display = "none";
         }
         /***
          * Bouncing effect on elements
@@ -1321,27 +1175,6 @@
             }
         }
         /**
-         * Intialize tile map
-         * is loaded when the loading
-         * screen initializes
-         * */
-        function drawLoadingContent(){
-            for(var i = 0; i < mapArray.length; i++){
-                for(var j = 0; j < mapArray.length; j++){
-                    if(parseInt(mapArray[i][j]) == 0){
-                        var div = document.createElement("div");
-                        div.className += " loading-content";
-                        loadingContent.appendChild(div)
-                    }
-                    if(parseInt(mapArray[i][j]) == 1){
-                        var div = document.createElement("div");
-                        div.className += " point-opened";
-                        loadingContent.appendChild(div)
-                    }
-                }
-            }
-        }
-        /**
          * get randomnumber
          * between 0-100
          * */
@@ -1448,7 +1281,7 @@
                 moveInContentToPage(-100,navBars.navContact,'contacts');
                 moveInContentToPage(-100,navBars.navAbout,'about');
                 moveInContentToPage(-100,navBars.navProjects,'projects');
-            },400)
+            },2000)
         }
         /***
          * Move link content by using margin
@@ -1512,9 +1345,6 @@
             //nav contact init
             navBars.navContact.style.marginRight = "-100px";
             navBars.navContact.style.overflow = "hidden";
-            navBars.navContact.style.right = "0";
-            document.getElementById('text-contacts').style.overflow = "hidden";
-
 
             //nav project init
             navBars.navProjects.style.marginBottom = "-100px";
@@ -1525,14 +1355,6 @@
             div.style.visibility = 'hidden';
             div.style.display = 'none';
         }
-
-        function hideDivLoadTime(div) {
-            setTimeout(function () {
-                div.style.visibility = 'hidden';
-                div.style.display = 'none';
-            },1000)
-        }
-
         function showDivLoadTime(div) {
             setTimeout(function () {
                 div.style.visibility = 'visible';
@@ -1721,7 +1543,6 @@
             navBar.style.zIndex ="";
             navBar.style.marginLeft = "";
             navBar.classList.remove("startTransition");
-
             /**
              * temporary pageWrapper hide!!!!!
              * */

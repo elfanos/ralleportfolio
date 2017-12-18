@@ -3,6 +3,8 @@
       document.body.style.overflow ="scroll";
       document.getElementById("content-container").style.overflow = "scroll";
       document.getElementById("projectPage").style.marginTop = "";
+      var loader = document.getElementById("loading-wrapper");
+      $(loader).hide();
       var magaArray = ['m','a','g','a','z','i','n','o','s'];
       var textAnimationMagazinos = new TextAnimationProjectView(
               document.getElementById("magaHeaderText").children[0], magaArray
@@ -161,6 +163,14 @@
           var r = defaults.rows;
           var c = defaults.columns;
           var margin = defaults.margin;
+          this._fadeInGrid = function () {
+              _tileTimelineFadeIn.pause();
+              _tileTimelineFadeIn.restart();
+          };
+          this._fadeOutGrid = function () {
+              _tileTimelineFadeOut.pause();
+              _tileTimelineFadeOut.restart();
+          };
           var _deadSpace = 80;
           var placeholder = defaults.containerName.children[0].children[0];
           var container = document.createElement('div');
@@ -212,27 +222,35 @@
               ];
               return {webkitClipPath:'polygon('+arr[0]+'px '+ arr[1]+'px,'+arr[2]+'px '+arr[3]+'px, '+arr[4]+'px '+ arr[5] +'px, '+arr[6]+'px '+ arr[7] +'px)', clipPath:'polygon('+arr[0]+'px '+ arr[1]+'px,'+arr[2]+'px '+arr[3]+'px, '+arr[4]+'px '+ arr[5] +'px, '+arr[6]+'px '+ arr[7] +'px)'};
           }
+       //   var _tileOne = container.querySelector(".gridTile")[0];
           var _tileTwo = container.querySelectorAll(".gridTile")[1];
           var _tileThree = container.querySelectorAll(".gridTile")[2];
           var _tileFour = container.querySelectorAll(".gridTile")[3];
           var _tileTimelineHoverOut = new TimelineMax({paused:true});
           var _tileTimelineHoverIn = new TimelineMax({paused:true});
-          defaults._textAnimation._hoverIn();
+          var _tileTimelineFadeIn = new TimelineMax({paused:true});
+          var _tileTimelineFadeOut = new TimelineMax({paused:true});
+          setTimeout(function () {
+              defaults._textAnimation._hoverIn();
+          },1000);
+         // defaults._textAnimation._hoverIn();
           testPolygons();
           playAnimations();
           setGreyFilter();
           normalizeTileOne();
-          $(placeholder).hover(function () {
-                if(defaults._textAnimation !=null)
-                    defaults._textAnimation._hoverOut();
-                stopAnimations();
-            },
-            function () {
-                if(defaults._textAnimation !=null)
-                    defaults._textAnimation._hoverIn();
-                playAnimations();
-              }
-          );
+          setTimeout(function () {
+              $(placeholder).hover(function () {
+                      if(defaults._textAnimation !=null)
+                          defaults._textAnimation._hoverOut();
+                      stopAnimations();
+                  },
+                  function () {
+                      if(defaults._textAnimation !=null)
+                          defaults._textAnimation._hoverIn();
+                      playAnimations();
+                  }
+              );
+          },1500);
           function setGreyFilter() {
               var allTiles = container.querySelectorAll(".gridTile");
               for (var t=0, len = allTiles.length; t < len; t++) {
@@ -278,6 +296,19 @@
                   .to(_tileTwo, 0.2, {css:stylePoly(1,0,0),rotation:0.01,ease:Linear.easeNone}, "bottomMovement")
                   .to(_tileFour, 0.2, {css:backgroundPosition(0,0),rotation:0.01,ease:Linear.easeNone},"bottomMovement")
                   .to(_tileTwo, 0.2, {css:backgroundPosition(0,0),rotation:0.01,ease:Linear.easeNone},"bottomMovement");
+
+
+              _tileTimelineFadeIn
+                  .to(_tileFour, 0.2, {css:{visibility:"visible"},rotation:0.01,ease:Linear.easeNone},0)
+                  .to(_tileTwo, 0.2, {css:{visibility:"visible"},rotation:0.01,ease:Linear.easeNone},0)
+                  .add("sideMovement",0.2)
+                  .to(_tileThree, 0.2,{css:{visibility:"visible"},rotation:0.01,ease:Linear.easeNone}, "sideMovement");
+
+              _tileTimelineFadeOut
+                  .to(_tileFour, 0.2, {css:{visibility:"hidden"},rotation:0.01,ease:Linear.easeNone},0)
+                  .to(_tileTwo, 0.2, {css:{visibility:"hidden"},rotation:0.01,ease:Linear.easeNone},0)
+                  .add("sideMovement",0.2)
+                  .to(_tileThree, 0.2,{css:{visibility:"hidden"},rotation:0.01,ease:Linear.easeNone}, "sideMovement");
           }
           function playAnimations() {
               _tileTimelineHoverIn.pause();
@@ -288,6 +319,7 @@
               _tileTimelineHoverIn.restart();
           }
       }
+      hideProjectDivs();
       var imageGirds = [];
       function initializeProjects() {
           for(var i = 0; i < 4; i++){
@@ -302,26 +334,58 @@
                           1.5,
                           textAnimations[i]
                       );
-                      imageGirds.push(ImageGrid(item, i));
+                      imageGirds.push(new ImageGrid(item, i));
 
                   },5);
               })(i);
           }
       }
+      function hideProjectDivs() {
+          for(var i = 0; i < 4;  i++){
+              $(projectID[i]).hide();
+          }
+      }
+      function showProjectDivs() {
+          for(var i = 0; i < 4;  i++){
+              $(projectID[i]).fadeIn("slow");
+          }
+      }
+      function toggleAnimation() {
+          var style = loader.style;
+              if (style.webkitAnimationPlayState === 'running') {
+                  style.webkitAnimationPlayState = 'paused';
+                  document.body.className = 'paused';
+              } else {
+                  style.webkitAnimationPlayState = 'running';
+                  document.body.className = '';
+              }
+      };
+      $(loader).fadeIn("slow");
+      setTimeout(function () {
+          $(loader).fadeOut("slow");
+         // toggleAnimation();
+      },2000);
       setTimeout(function () {
           initializeProjects();
-      },1000);
+      },3000);
+      setTimeout(function () {
+          showProjectDivs();
+      },3000);
   });
 </script>
 
 
 <div id="link-to">
   <div class="container">
+    <div id="loading-wrapper">
+      <div id="loading-text">LOADING</div>
+      <div id="loading-content"></div>
+    </div>
     <div class="row">
       <div class="col-md-6">
             <div id="magazinos">
               <%=link_to(projects_magazinos_path(:state => "magazinos", page: "index"), id: "project-tag", remote:true) do%>
-                <div class="placeholder">
+                  <div class="placeholder">
                   <div class="filler-container">
                     <div class="filler">
                     </div>

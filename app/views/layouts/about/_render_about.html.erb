@@ -32,7 +32,7 @@
       var _barFront = $("#frontend");
       var _barUX = $("#ux");
       var _infoCube = $("#infoCube");
-      var autoScroller = setScrollDown(autoScroller);
+      //var autoScroller = setScrollDown(autoScroller);
       var fadeInSetted=false;
       var fadeInSettedTwo = false;
       var bottomTextItems = {
@@ -63,8 +63,8 @@
               clearTimeout($.data(this, 'scrollTimer'));
               $.data(this, 'scrollTimer', setTimeout(function() {
                      autoScroller = 0;
-                     autoScroller = setScrollDown(autoScroller);
-                  autoScrollActive = true;
+                  //   autoScroller = setScrollDown(autoScroller);
+                  //autoScrollActive = true;
               }, 1000));
               if(event.deltaY > 0){
                   if(!animationSettedUp) {
@@ -88,7 +88,7 @@
               }
           });
       }
-      function setScrollDown(scroller){
+      /*function setScrollDown(scroller){
           scroller = setInterval(function () {
               if( scrollerPosition3d > -420 && autoScrollActive){
                   autoScrollDown();
@@ -97,7 +97,7 @@
                   clearInterval(scroller);
               }
           },200);
-      }
+      }*/
       function handleScrollUp() {
           console.log("jaman up" + scrollerPosition3d);
           if(scrollerPosition3d < 0){
@@ -287,6 +287,42 @@
                //},600);
               fadeInSetted = false;
           },600);
+      }
+      startValues(-420);
+
+      function startValues(startValue){
+          scrollerPosition3d = startValue;
+          fontSize = 2;
+          _frame.childNodes[1].style.webkitTransform = "translate3d(0,0, 0)";
+          _frame.childNodes[1].style.transform = "translate3d(0,"+startValue+"px, 0)";
+          _frame.childNodes[1].style.fontSize = 2+ "vw";
+
+          var newValue = ((650)-Math.abs(startValue));
+          //well this is retarded but needed otherwise scrolling is bugging haha xD
+          document.getElementById("brogress").style.webkitTransform = "translate3d(0,0,0)";
+          document.getElementById("brogress").style.webkitTransform = "translate3d(0,"+newValue+"px, 0)";
+
+          //well this is retarded but needed otherwise scrolling is bugging haha xD
+          document.getElementById("frontend").style.webkitTransform = "translate3d(0,0,0)";
+          document.getElementById("frontend").style.webkitTransform = "translate3d(0,"+newValue+"px, 0)";
+
+          //well this is retarded but needed otherwise scrolling is bugging haha xD
+          document.getElementById("design").style.webkitTransform = "translate3d(0,0,0)";
+          document.getElementById("design").style.webkitTransform = "translate3d(0,"+newValue+"px, 0)";
+
+          //well this is retarded but needed otherwise scrolling is bugging haha xD
+          document.getElementById("ux").style.webkitTransform = "translate3d(0,0,0)";
+          document.getElementById("ux").style.webkitTransform = "translate3d(0,"+newValue+"px, 0)";
+
+          var infoValue = ((800)-Math.abs(startValue));
+          document.getElementById("infoCube").style.webkitTransform = "translate3d(0,0,0)";
+
+          //here is the actual value xD
+          document.getElementById("infoCube").style.webkitTransform = "translate3d(0,"+infoValue+"px, 0)";
+          setTimeout(function () {
+              fadeInBars();
+              _infoCube.fadeIn("slow");
+          },500);
       }
   });
 </script>
