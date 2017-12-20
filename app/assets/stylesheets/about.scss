@@ -61,10 +61,10 @@ $orange: #F79D65;
         font-weight: 900;
         letter-spacing: 0.4em;
         transform: scale(1,1) translate3d(0px, 0px, 0px);
-        transition: all 100ms ease;
-        -webkit-transition: all 200ms linear;
-        -moz-transition: all 200ms linear;
-        -o-transition: all 200ms linear;
+        transition: all 0ms linear;
+        -webkit-transition: all 0ms linear;
+        -moz-transition: all 0ms linear;
+        -o-transition: all 0ms linear;
 
        // transition: transform ease-in 0.3s;
 

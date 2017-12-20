@@ -320,9 +320,12 @@
           //here is the actual value xD
           document.getElementById("infoCube").style.webkitTransform = "translate3d(0,"+infoValue+"px, 0)";
           setTimeout(function () {
+              _infoCube.hide().fadeIn("slow");
+              addTransitionToBars();
+              removeTransitionToBars();
               fadeInBars();
-              _infoCube.fadeIn("slow");
-          },500);
+              fadeInProgressBar(newValue);
+          },1000);
       }
   });
 </script>
