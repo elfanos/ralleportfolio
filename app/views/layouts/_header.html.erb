@@ -1,4 +1,82 @@
 <script>
+
+    /***
+     * content before the redraw intro
+     * of home page
+     * */
+    function setTimeOutBeforeTheContentMoveIn(navBars) {
+        setTimeout(function () {
+            moveInContentToPage(-100,navBars.navContact,'contacts');
+            moveInContentToPage(-100,navBars.navAbout,'about');
+            moveInContentToPage(-100,navBars.navProjects,'projects');
+        },2000)
+    }
+
+    /**
+     * Set dem marginvalues for drop in animation
+     */
+    function setMarginValuesForContent(navBars) {
+        //nav about init
+        navBars.navAbout.style.marginLeft = "-100px";
+        //nav contact init
+        navBars.navContact.style.marginRight = "-100px";
+        //nav project init
+        navBars.navProjects.style.marginBottom = "-100px";
+    }
+    /***
+     * Move link content by using margin
+     * Apply the margin based on which content
+     * thats is going to move
+     * Increasing margin recursive to get the move
+     * animation
+     * @param margin
+     * @param element
+     * @param style
+     * */
+    function moveInContentToPage(margin, element, style) {
+        switch (style){
+            case 'about':
+                setTimeout(function () {
+                    if(margin < 1) {
+                        margin += 5;
+                        element.style.marginLeft = margin + "px";
+                        moveInContentToPage(margin, element, style);
+                    }
+                }, 10);
+                break;
+            case 'music':
+                setTimeout(function () {
+                    if(margin < 1) {
+                        margin += 5;
+                        element.style.marginTop = margin + "px";
+                        moveInContentToPage(margin, element, style);
+                    }
+                }, 10);
+                break;
+            case 'projects':
+                setTimeout(function () {
+                    if(margin < 1) {
+                        margin += 5;
+                        element.style.marginBottom = margin + "px";
+                        moveInContentToPage(margin, element, style);
+                    }
+                }, 10);
+                break;
+            case 'contacts':
+                setTimeout(function () {
+                    if(margin < 1) {
+                        margin += 5;
+                        element.style.marginRight = margin + "px";
+                        moveInContentToPage(margin, element, style);
+                    }
+                }, 10);
+                break;
+        }
+    }
+
+    /**
+     * variables which keep track of each states
+     * */
     var stateManager = {
         aboutForward: null,
         aboutBack: null,
@@ -61,6 +139,17 @@
         }
     });
 
+
+    /**
+     * TextAnimation is the animation of
+     * the header components, all interaction
+     * is executed here
+     *
+     * @param context the html object
+     * @param letters the letters which will be added
+     * @param textClassName
+     * @param backButton
+     * */
     function TextAnimation(context,letters, textClassName,
                            backButton) {
         this.context = context;
@@ -96,19 +185,12 @@
         };
         this.initializeTags = function () {
             var childs = this.context.childNodes;
-           // console.log("le childs?", childs[0].childNodes);
-           // console.log("le childs?", childs[2].childNodes[0]);
-            //console.log("le chileads?", Object.size(childs));
             for(var i = 0; i < loopLength(childs); i++){
-                console.log("wat is i " + childs[i].childNodes[0]);
-               // if(childs[i].childNodes[0] != null) {
-                    this.textDivTags.push(childs[i].childNodes[0]);
-              //  }
+                this.textDivTags.push(childs[i].childNodes[0]);
             }
         };
         this._addTextHover = function () {
             var childs = this.context.childNodes;
-            //charanimation
             if(this.backButton != undefined){
                 $(this.backButton).removeClass("hoverClassOut");
                 $(this.backButton).addClass("hoverClass");
@@ -121,7 +203,6 @@
                 }else {
                     $(childs).width(($(window).height() / this.instance.letters.length) - 20 + "px");
                 }
-                //  childs.style.width = ($(window).height() / this.instance.letters.length) - 20 + "px";
             }
         };
         this._removeTextHover = function () {
@@ -138,9 +219,7 @@
         this._moveCharOnTimeOut = function (textAnimation,
                                             navBar, backPressed, state) {
                 var childs = this.context.childNodes;
-               // textAnimation._addTextHover();
                 for(var i = 0; i < loopLength(childs); i++){
-                //    console.log("childe?" + childs[i].children[0].innerHTML);
                    (function(j, instance) {
                      setTimeout(function () {
                          if(j === (Object.size(childs))){
@@ -153,7 +232,6 @@
                 }
                 (function(instance, navBar) {
                     setTimeout(function () {
-                       // console.log("eyo?");
                         instance._normalizePosition(navBar,
                             backPressed, textAnimation, state);
                     },2000)
@@ -178,27 +256,23 @@
             var width = document.body.clientWidth;
             var height = document.body.clientHeight;
             if(!backButtonPressed) {
-             //   console.log("yolo?");
                 var interval = setInterval(function () {
                     position += 10;
                     if(state == "about") {
                         if (position < (width - 70)) {
                             bar.style.bottom = position + "px";
-                            //  console.log("le element " + bar.innerHTML);
                         } else {
                             clearInterval(interval);
                         }
                     }else if(state == "contact"){
                         if (position < (width - 70)) {
                             bar.style.bottom = position + "px";
-                            //  console.log("le element " + bar.innerHTML);
                         } else {
                             clearInterval(interval);
                         }
                     }else{
                         if (position < (height - 80)) {
                             bar.style.bottom = position + "px";
-                            //  console.log("le element " + bar.innerHTML);
                         } else {
                             clearInterval(interval);
                         }
@@ -256,9 +330,7 @@
             hoverStates.project = false;
             hoverStates.contact = false;
             hoverStates.about = false;
-
             $(navBar).removeClass("startTransition");
-
             textAnimation._removeTextHover();
             navBar.style.pointerEvents = "";
             var childs = this.context.childNodes;
@@ -334,6 +406,7 @@
         this._state = null;
         this.__previousState = null;
         this._backNavButtons = null;
+        this._navBars = null;
         this._instance = null;
         this._setSate = function (state) {
             this._state = state;
@@ -349,11 +422,15 @@
                   $(this._backNavButtons.buttonAbout).hide();
                   $(this._backNavButtons.buttonProject).hide();
                   $(this._backNavButtons.buttonContact).hide();
-                  setTimeout(function () {
-                      //Do some cool animation
-                      $("#content-container").
-                      html("<%= escape_javascript(render partial: 'layouts/home/render_home', locals: { state: "alla?" }) %>").fadeIn("slow");
-                  }, 4000);
+                  (function (instance) {
+                      setTimeout(function () {
+                          //Do some cool animation
+                          $("#content-container").
+                          html("<%= escape_javascript(render partial: 'layouts/home/render_home', locals: { state: "alla?" }) %>").fadeIn("slow");
+                          setMarginValuesForContent(instance._navBars);
+                          setTimeOutBeforeTheContentMoveIn(instance._navBars);
+                      }, 4000);
+                  })(this);
                   //normal position of nav
                   break;
               case "about":
@@ -433,7 +510,7 @@
                     stateManager.contactBack();
                     break;
                 case 'home':
-
+                    console.log("hollamab?");
                     break;
             }
         };
@@ -487,53 +564,9 @@
     };
 
     $(document).ready(function(){
-        var loadingContent = document.getElementById("load-container");
         var resizeContainer = document.getElementById("resize-container");
         var pageWrapper = document.getElementById("page-wrapper");
-        var resizeLetters = document.getElementById("resize-list");
-        var loadingLetters = document.getElementById("loading-list");
         var nodeKeeper = {};
-        var resizeLetterKeeper = {};
-        var loadingIntervalsArray = [];
-        var numberOfInterVals = 0;
-        var mapArray = [
-            [0,0,0,0,0,0,0,0,0,0],
-            [0,0,0,0,0,0,0,0,0,0],
-            [0,0,0,0,0,0,0,0,0,0],
-            [0,0,0,0,0,0,0,0,0,0],
-            [0,0,0,0,0,0,0,0,0,0],
-            [0,0,0,0,0,0,0,0,0,0],
-            [0,0,0,0,0,0,0,0,0,0],
-            [0,0,0,0,0,0,0,0,0,0],
-            [0,0,0,0,0,0,0,0,0,0],
-            [0,0,0,0,0,0,0,0,0,0]
-        ];
-
-        //loading elements class/id
-        var letterClassInLoading = {
-            l: "loading-l",
-            o: "loading-o",
-            a: "loading-a",
-            d: "loading-d",
-            i: "loading-i",
-            n: "loading-n",
-            g: "loading-g"
-        };
-        //resizing elements
-        var letterClassInResize = {
-            r: 'resize-r',
-            e: 'resize-e',
-            s: 'resize-s',
-            i: 'resize-ione',
-            z: 'resize-z',
-            i2: 'resize-itwo',
-            n: 'resize-n',
-            g: 'resize-g'
-        };
-
-        var loadingAnimations = {
-            resizeLoad: 'loaded'
-        };
         var navBars = {
             navAbout: document.getElementById("navAbout"),
             navProjects: document.getElementById("navProjects"),
@@ -568,8 +601,6 @@
             lettersProject,'textProject', backNavButtons.buttonProject
         );
         textAnimationProject.newInstance(textAnimationProject);
-
-        console.log("lestate?? " + "<%= @state %>")
         var stateOfPage = new StateOnPage("<%= @state %>",navBars, backNavButtons);
         function initializeAllLetters() {
             if(!textAnimationProject.alreadyCreated){
@@ -577,15 +608,13 @@
                 textAnimationProject.initializeTags();
             }
         }
-
         function init(){
-
-
             // should be applied on resize
             $(backNavButtons.buttonAbout).hide();
             $(backNavButtons.buttonContact).hide();
             $(backNavButtons.buttonProject).hide();
             stateKeeper._backNavButtons = backNavButtons;
+            stateKeeper._navBars = navBars;
            setTimeout(function () {
                 textAnimationAbout.initializeLetters();
                 textAnimationAbout.initializeTags();
@@ -593,14 +622,12 @@
                 textAnimationContact.initializeTags();
                  initializeAllLetters();
             },50);
+           console.log("init?");
             stateOfPage._initializeHeader();
             hideDive(pageWrapper);
             fadeAwayDiv(resizeContainer);
-            /* fix so it doenst hide transition on paging effec*/
-         //   setMarginValuesForContent();
-           // setTimeOutBeforeTheContentMoveIn();
-
-
+            setMarginValuesForContent(navBars);
+            setTimeOutBeforeTheContentMoveIn(navBars);
             /***
              * Back browser navigation between
              * links and stuff.
@@ -698,24 +725,12 @@
                     textAnimationContact, false);
                 stateOfButtons.contactState = true;
             };
-
             /***
              * Resizing listener
              * */
             window.addEventListener('resize', function () {
             });
-
-
         }
-        function endLoading() {
-            fadeAwayLoading(1);
-            fadeAwayDiv(resizeContainer);
-            setTimeOutBeforeTheContentMoveIn();
-            showDivLoadTime(pageWrapper);
-
-        }
-
-
         function shineEffectOnLoad(number) {
             setTimeout(function () {
                 if(number < 8){
@@ -744,129 +759,6 @@
                 }
             }, 100);
         }
-        function attributeForEachLoadingLetter(val) {
-            switch (val){
-                case 0:
-                    var list = document.createElement('li');
-                    list.className = letterClassInLoading.l;
-                    list.textContent = "l";
-                    loadingLetters.appendChild(list);
-                    break;
-                case 1:
-                    var list = document.createElement('li');
-                    list.className = letterClassInLoading.o;
-                    list.textContent = "o";
-                    loadingLetters.appendChild(list);
-                    break;
-                case 2:
-                    var list = document.createElement('li');
-                    list.className = letterClassInLoading.a;
-                    list.textContent = "a";
-                    loadingLetters.appendChild(list);
-                    break;
-                case 3:
-                    var list = document.createElement('li');
-                    list.className = letterClassInLoading.d;
-                    list.textContent = "d";
-                    loadingLetters.appendChild(list);
-                    break;
-                case 4:
-                    var list = document.createElement('li');
-                    list.className = letterClassInLoading.i;
-                    list.textContent = "i";
-                    loadingLetters.appendChild(list);
-                    break;
-                case 5:
-                    var list = document.createElement('li');
-                    list.className = letterClassInLoading.n;
-                    list.textContent = "n";
-                    loadingLetters.appendChild(list);
-                    break;
-                case 6:
-                    var list = document.createElement('li');
-                    list.className = letterClassInLoading.g;
-                    list.textContent = "g";
-                    loadingLetters.appendChild(list);
-                    break;
-            }
-        }
-
-        /**
-         * Give each char a own class property
-         *
-         * @param val
-         * */
-        function attributeForEachResizeLetter(val) {
-            switch (val){
-                case 0:
-                    var list = document.createElement('li');
-                    list.className = letterClassInResize.r;
-                    list.textContent = "r";
-                    resizeLetters.appendChild(list);
-                    resizeLetterKeeper["r"] = document.
-                    getElementsByClassName(letterClassInResize.r);
-                    break;
-                case 1:
-                    var list = document.createElement('li');
-                    list.className = letterClassInResize.e;
-                    list.textContent = "e";
-                    resizeLetters.appendChild(list);
-                    resizeLetterKeeper["e"] = document.
-                    getElementsByClassName(letterClassInResize.e);
-                    break;
-                case 2:
-                    var list = document.createElement('li');
-                    list.className = letterClassInResize.s;
-                    list.textContent = "s";
-                    resizeLetters.appendChild(list);
-                    resizeLetterKeeper["s"] = document.
-                    getElementsByClassName(letterClassInResize.s);
-                    break;
-                case 3:
-                    var list = document.createElement('li');
-                    list.className = letterClassInResize.i;
-                    list.textContent = "i";
-                    resizeLetters.appendChild(list);
-                    resizeLetterKeeper["i"] = document.
-                    getElementsByClassName(letterClassInResize.r);
-                    break;
-                case 4:
-                    var list = document.createElement('li');
-                    list.className = letterClassInResize.z;
-                    list.textContent = "z";
-                    resizeLetters.appendChild(list);
-                    resizeLetterKeeper["z"] = document.
-                    getElementsByClassName(letterClassInResize.z);
-                    break;
-                case 5:
-                    var list = document.createElement('li');
-                    list.className = letterClassInResize.i2;
-                    list.textContent = "i";
-                    resizeLetters.appendChild(list);
-                    resizeLetterKeeper["i2"] = document.
-                    getElementsByClassName(letterClassInResize.i2);
-                    break;
-                case 6:
-                    var list = document.createElement('li');
-                    list.className = letterClassInResize.n;
-                    list.textContent = "n";
-                    resizeLetters.appendChild(list);
-                    resizeLetterKeeper["n"] = document.
-                    getElementsByClassName(letterClassInResize.n);
-                    break;
-                case 7:
-                    var list = document.createElement('li');
-                    list.className = letterClassInResize.g;
-                    list.textContent = "g";
-                    resizeLetters.appendChild(list);
-                    resizeLetterKeeper["g"] = document.
-                    getElementsByClassName(letterClassInResize.g);
-                    break;
-            }
-        }
-
-
-
         /***
          * Bouncing effect on elements
          * in the list
@@ -1099,7 +991,6 @@
             document.getElementsByClassName("resize-n")[0].style.opacity = opacity;
             document.getElementsByClassName("resize-g")[0].style.opacity = opacity;
         }
-
         function fadeAwayDiv(div, opacity) {
             setTimeout(function () {
                 if(opacity > 0){
@@ -1272,105 +1163,15 @@
             },50)
         }
 
-        /***
-         * content before the redraw intro
-         * of home page
-         * */
-        function setTimeOutBeforeTheContentMoveIn() {
-            setTimeout(function () {
-                moveInContentToPage(-100,navBars.navContact,'contacts');
-                moveInContentToPage(-100,navBars.navAbout,'about');
-                moveInContentToPage(-100,navBars.navProjects,'projects');
-            },2000)
-        }
-        /***
-         * Move link content by using margin
-         * Apply the margin based on which content
-         * thats is going to move
-         * Increasing margin recursive to get the move
-         * animation
-         * @param margin
-         * @param element
-         * @param style
-         * */
-        function moveInContentToPage(margin, element, style) {
-            switch (style){
-                case 'about':
-                    setTimeout(function () {
-                        if(margin < 1) {
-                            margin += 5;
-                            element.style.marginLeft = margin + "px";
-                            moveInContentToPage(margin, element, style);
-                        }
-                    }, 10);
-                    break;
-                case 'music':
-                    setTimeout(function () {
-                        if(margin < 1) {
-                            margin += 5;
-                            element.style.marginTop = margin + "px";
-                            moveInContentToPage(margin, element, style);
-                        }
-                    }, 10);
-                    break;
-                case 'projects':
-                    setTimeout(function () {
-                        if(margin < 1) {
-                            margin += 5;
-                            element.style.marginBottom = margin + "px";
-                            moveInContentToPage(margin, element, style);
-                        }
-                    }, 10);
-                    break;
-                case 'contacts':
-                    setTimeout(function () {
-                        if(margin < 1) {
-                            margin += 5;
-                            element.style.marginRight = margin + "px";
-                            moveInContentToPage(margin, element, style);
-                        }
-                    }, 10);
-                    break;
-            }
-        }
-
-        /**
-         * Set dem marginvalues for drop in animation
-         */
-        function setMarginValuesForContent() {
-            //nav about init
-            navBars.navAbout.style.marginLeft = "-100px";
-            navBars.navAbout.style.overflow = "hidden";
-
-            //nav contact init
-            navBars.navContact.style.marginRight = "-100px";
-            navBars.navContact.style.overflow = "hidden";
-
-            //nav project init
-            navBars.navProjects.style.marginBottom = "-100px";
-            navBars.navProjects.style.overflow = "hidden";
-        }
-
         function hideDive(div) {
             div.style.visibility = 'hidden';
             div.style.display = 'none';
         }
-        function showDivLoadTime(div) {
-            setTimeout(function () {
-                div.style.visibility = 'visible';
-                div.style.display = 'block';          // Show
-                div.style.display = 'inline';         // Show
-                div.style.display = 'inline-block';
-            },1000)
-        }
         init();
-
         navBars.navProjects.addEventListener("click",function () {
             hoverStates.project = true;
             if(!stateOfButtons.projectState) {
-                console.log("rasttaa farairaw??" + stateOfPage.projects);
                 stateOfPage.projects = true;
-                console.log("rasttaa faraira true?w??" + stateOfPage.projects);
                 $("#content-container").
                 html("<%= escape_javascript(render partial: 'layouts/home/render_home',locals: { state: "index" }) %>").fadeOut("slow");
                 stateManager.projectForward();
@@ -1413,7 +1214,6 @@
             }else{
                 $("#content-container").
                 html("<%= escape_javascript(render partial: 'layouts/contact/render_contact',locals: { state: "index" }) %>").fadeOut("slow");
-
                 stateKeeper._setSate('home');
                 stateKeeper._setPreviousState('contact');
                 stateKeeper._initializeState();

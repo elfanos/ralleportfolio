@@ -71,14 +71,6 @@
             console.log(div);
             div.style.background = "#F79D65";
         };
-        this._interValForChange = function () {
-            (function (instance) {
-                setInterval(function(){
-                },5000);
-            })(this._instance);
-        };
-        this._changePosition = function () {
-        };
     };
   $(document).ready(function () {
       var position = 0;
@@ -347,14 +339,6 @@
                   this.context.removeChild(this.context.lastChild);
               }
           };
-          this._removeAllLetters = function(){
-              var childs = this.context.childNodes;
-              while(Object.size(childs) > 1){
-                //  console.log(this.context.lastChild.innerHTML);
-                //  this.context.removeChild(this.context.lastChild);
-                  this.context.lastChild.style.visibility = "hidden";
-              }
-          };
           this.initializeTags = function () {
               var childs = this.context.childNodes;
               for(var i = 0; i < childs.length; i++){
@@ -365,10 +349,8 @@
           this.changeTextOnChild = function (index,letter){
               var childs = this.context.childNodes;
               for(var i = 0; i < loopLength(childs); i++){
-           //       console.log("jaman" + childs[i].innerHTML);
                  if(i === index){
                      if(letter != undefined) {
-                         console.log("le div?", childs[i]);
                          childs[i].innerHTML = letter;
                      }
                  }
@@ -379,28 +361,13 @@
           };
           this.showDivs = function () {
               var childs = this.context.childNodes;
-              console.log("wellwell" + Object.size(childs));
               for(var i = 1; i < loopLength(childs); i++){
-                  console.log("wellwell", childs[i]);
                   (function (node, j) {
                       setTimeout(function () {
                           console.log("wellwell", childs[i]);
                           node.style.visibility = "visible";
                       },50*j);
                   })(childs[i], i)
-              }
-
-          };
-          this._checkIfIfCharAlreadyExist = function (childNodes) {
-              console.log(childNodes.length);
-              for(var i = 0; i < childNodes.length; i++) {
-                  console.log(childNodes[i].id);
-                  if (childNodes[i].id == "id-chars"+i) {
-                      this._animationSetted = true;
-                  } else {
-                      console.log("in else duplicates");
-                      this._animationSetted = false;
-                  }
               }
           };
       }
@@ -414,20 +381,7 @@
           return getLetterFromString(Math.floor(Math.random() * letters.length) + 1);
       }
       var testtext = 0;
-      function getLetterLength(node,index){
-          switch (index){
-              case 0:
-                  return node._textView.web.length;
-              case 1:
-                  return node._textView.engineering.length;
-              case 2:
-                  return node._textView.interaction.length;
-          }
-      }
       function beginTextChangeAnimation(node,index, done){
-          /*setTimeout(function () {
-              node._removeAllLetters(getLetterLength(node,node._intervalTime));
-          },20);*/
           setTimeout(function () {
               startChangeTextEffect(animationIntervalText.webOne, index, done);
           },1000)
@@ -444,7 +398,6 @@
                                  return startChangeTextEffect(node, index+1, true);
                               }else{
                                   testtext +=1;
-                                  //console.log("one time plz");
                                   clearInterval(webONE);
                                   return startChangeTextEffect(node, index+1, false);
                               }
@@ -500,13 +453,11 @@
           this.rows = row;
           this.columns = column;
           this.margin = margin;
-          this.animTime = animTime;
       }
       function ImageGridHome(defaults) {
           var r = defaults.rows;
           var c = defaults.columns;
           var margin = defaults.margin;
-          this._pop = "pop";
           this._stopAni = function () {
               _tileTimelineHoverOut.pause();
               _tileTimelineHoverIn.restart();
@@ -516,15 +467,11 @@
               _tileTimelineHoverOut.restart();
           };
           var _deadSpace = 80;
-          console.log("le container?" + $(defaults.containerName).children(0));
           var placeholder =  defaults.containerName.children[0];
           var container = document.createElement('div');
-          console.log("waitta?",  defaults.containerName.children[0]);
           container.className = "gridContainer";
           placeholder.appendChild(container);
-
           var gridTile;
-
           var w = ((container.offsetWidth - _deadSpace) / c) -margin;
           var h = ((container.offsetHeight - _deadSpace) / r) -margin;
           var arr = [];
@@ -532,7 +479,6 @@
               gridTile = document.createElement('div');
               gridTile.className = "gridTile";
               gridTile.style.backgroundImage = "url("+defaults.imgSrc+")";
-              console.log("le background", defaults.imgSrc);
               arr = [((w+margin)*(i%c) + (_deadSpace/2)), ((h+margin)*Math.floor(i/c))+ (_deadSpace/2), ((w+margin)*(i%c)+w-margin)+ (_deadSpace/2), ((h+margin)*Math.floor(i/c))+ (_deadSpace/2), (((w+margin)*(i%c)+w-margin))+ (_deadSpace/2), ((h+margin)*Math.floor(i/c) + h-margin)+ (_deadSpace/2), ((w+margin)*(i%c))+ (_deadSpace/2), ((h+margin)*Math.floor(i/c) + h-margin)+ (_deadSpace/2)];
               TweenMax.set(gridTile, {webkitClipPath:'polygon('+arr[0]+'px '+ arr[1]+'px,'+arr[2]+'px '+arr[3]+'px, '+arr[4]+'px '+ arr[5] +'px, '+arr[6]+'px '+ arr[7] +'px)', clipPath:'polygon('+arr[0]+'px '+ arr[1]+'px,'+arr[2]+'px '+arr[3]+'px, '+arr[4]+'px '+ arr[5] +'px, '+arr[6]+'px '+ arr[7] +'px)'});
               container.appendChild(gridTile);
@@ -627,14 +573,8 @@
               _tileTimelineHoverIn.pause();
               _tileTimelineHoverOut.restart();
           }
-          function stopAnimations() {
-              _tileTimelineHoverOut.pause();
-              _tileTimelineHoverIn.restart();
-          }
       }
-
       var imageGirdsHome = [];
-      var test = null;
       function initializeProjectsHome() {
           for(var i = 0; i < 2; i++){
               (function (i) {
@@ -661,11 +601,9 @@
       setTimeout(function () {
           initializeProjectsHome();
       },1500);
-
       /**
        * text animation interval
        * */
-
       setTimeout(function () {
         animationWelcome.welcome.showDivs();
         animationWelcome.toLetter.showDivs();
@@ -696,7 +634,6 @@
       setInterval(function () {
           beginTextChangeAnimation(animationIntervalText.webOne, 1, false);
       },6000);
-
       pictureAnimation();
       function pictureAnimation() {
           (function (position) {
