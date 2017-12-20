@@ -44,14 +44,14 @@
         };
         this._increaseMargin = function(){
             var childs = this._div.childNodes;
-            for(var i = 1; i < Object.size(childs); i++){
+            for(var i = 1; i < loopLength(childs); i++){
                 childs[i].style.marginLeft = "5px";
                 childs[i].style.marginRight = "5px";
             }
         };
         this._releaseMargin = function(){
             var childs = this._div.childNodes;
-            for(var i = 1; i < Object.size(childs); i++){
+            for(var i = 1; i < loopLength(childs); i++){
                 childs[i].style.marginLeft = "0";
                 childs[i].style.marginRight = "0";
             }
@@ -364,7 +364,7 @@
           };
           this.changeTextOnChild = function (index,letter){
               var childs = this.context.childNodes;
-              for(var i = 0; i < Object.size(childs); i++){
+              for(var i = 0; i < loopLength(childs); i++){
            //       console.log("jaman" + childs[i].innerHTML);
                  if(i === index){
                      if(letter != undefined) {
@@ -380,7 +380,7 @@
           this.showDivs = function () {
               var childs = this.context.childNodes;
               console.log("wellwell" + Object.size(childs));
-              for(var i = 1; i < Object.size(childs); i++){
+              for(var i = 1; i < loopLength(childs); i++){
                   console.log("wellwell", childs[i]);
                   (function (node, j) {
                       setTimeout(function () {
