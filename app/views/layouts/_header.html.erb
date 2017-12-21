@@ -12,6 +12,12 @@
         },2000)
     }
 
+    function showHeaders(navBars){
+        $(navBars.navAbout).show();
+        $(navBars.navContact).show();
+        $(navBars.navProjects).show();
+    }
+
     /**
      * Set dem marginvalues for drop in animation
      */
@@ -22,6 +28,10 @@
         navBars.navContact.style.marginRight = "-100px";
         //nav project init
         navBars.navProjects.style.marginBottom = "-100px";
+
+        setTimeout(function () {
+            showHeaders(navBars);
+        },500);
     }
     /***
      * Move link content by using margin
@@ -417,6 +427,7 @@
         this._initializeState = function () {
           switch (this._state){
               case "home":
+                  console.log("statekeeeeepeer---------------------------------");
                   this._animationBackState(this.__previousState);
                   //hide backnavbuttons on home page
                   $(this._backNavButtons.buttonAbout).hide();
@@ -1311,7 +1322,6 @@
                         counter,navBar, childNodes,
                         navBars, state,textAnimation, backButton);
                 }else{
-                    console.log("haj");
                     clearInterval(interval);
                     PagingEffect.moveNavBar(margin,
                         navBar, childNodes, navBars, state,
@@ -1350,24 +1360,18 @@
             switch (state){
                 case 'about':
                     setTimeout(function () {
-                        $(navBars.navContact).fadeIn("slow");
-                        $(navBars.navProjects).fadeIn("slow");
                         navBars.navContact.style.zIndex = "1001";
                         navBars.navProjects.style.zIndex = "1001";
                     },3000);
                     break;
                 case 'projects':
                     setTimeout(function () {
-                        $(navBars.navContact).fadeIn("slow");
-                        $(navBars.navAbout).fadeIn("slow");
                         navBars.navContact.style.zIndex = "1001";
                         navBars.navAbout.style.zIndex = "1001";
                     },3000);
                     break;
                 case 'contact':
                     setTimeout(function () {
-                        $(navBars.navProjects).fadeIn("slow");
-                        $(navBars.navAbout).fadeIn("slow");
                         navBars.navAbout.style.zIndex = "1001";
                         navBars.navProjects.style.zIndex = "1001";
                     },3000);

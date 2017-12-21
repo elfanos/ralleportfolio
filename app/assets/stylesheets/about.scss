@@ -57,7 +57,7 @@ $orange: #F79D65;
         -moz-transform-origin: top left;
         transform-origin: top left;
         white-space: nowrap;
-        font-family: brandon-grotesque;
+        font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
         font-weight: 900;
         letter-spacing: 0.4em;
         transform: scale(1,1) translate3d(0px, 0px, 0px);
@@ -77,14 +77,14 @@ $orange: #F79D65;
       }*/
     }
     h1{
-      font-family: brandon-grotesque;
+      font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
       color: $black;
       font-size: 16px;
       text-align: center;
       letter-spacing: 0.4em;
     }
     h2{
-      font-family: brandon-grotesque;
+      font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
       color: $orange;
       font-size: 10px;
       letter-spacing: 0.4em;
@@ -163,7 +163,7 @@ $orange: #F79D65;
     #infoCube{
      // -webkit-transform: translate3d(0,220px,0);
       h1 {
-        font-family: brandon-grotesque;
+        font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
         color: $black;
         font-size: 16px;
         text-align: left;
@@ -171,7 +171,7 @@ $orange: #F79D65;
         margin-bottom: 30px;
       }
       p{
-        font-family: brandon-grotesque;
+        font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
         color: $black;
         opacity: 0.6;
         line-height: 8px;

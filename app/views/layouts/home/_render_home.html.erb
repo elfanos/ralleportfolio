@@ -73,6 +73,7 @@
         };
     };
   $(document).ready(function () {
+      console.log("show em all???----------------------------");
       var position = 0;
       var welcomeText = {
           welcome: ['W', 'e', 'l', 'c', 'o', 'm', 'e'],
@@ -364,7 +365,7 @@
               for(var i = 1; i < loopLength(childs); i++){
                   (function (node, j) {
                       setTimeout(function () {
-                          console.log("wellwell", childs[i]);
+                       //   console.log("wellwell", childs[i]);
                           node.style.visibility = "visible";
                       },50*j);
                   })(childs[i], i)
