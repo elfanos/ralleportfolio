@@ -18,6 +18,18 @@ $orange: #F79D65;
     margin-right: 50px;
     margin-left: 100px;
   }
+  @media (min-width: 990px) {
+    .row{
+      margin-right: 50px;
+      margin-left: 100px;
+    }
+  }
+  @media (max-width: 990px) {
+    .row {
+      margin-right: 0;
+      margin-left: 0;
+    }
+  }
   .nav-col {
     position: relative;
     height: 100%;

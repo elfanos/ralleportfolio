@@ -150,6 +150,120 @@ $orange: #F79D65;
       -webkit-transform: translate3d(0,0,0);
       transition: all 0.5s linear;
     }
+    @media (min-width: 990px) {
+      .progressCoding{
+        width: 150px;
+        height: 150px;
+        margin-left: 50px;
+      }
+      .progressFrontend{
+        width: 150px;
+        height: 150px;
+        margin-left: 100px;
+        left: 15%;
+      }
+      .progressUx{
+        width: 150px;
+        height: 150px;
+        margin-left: 100px;
+        left: 45%;
+      }
+      .progressDesign{
+        width: 150px;
+        height: 150px;
+        margin-left: 100px;
+        left: 30%;
+      }
+    }
+    @media (max-width: 990px) {
+      .progressCoding{
+        width: 100px;
+        height: 100px;
+        margin-left: 100px;
+        margin-right: 40px;
+      }
+      .progressFrontend{
+        width: 100px;
+        height: 100px;
+        margin-left: 100px;
+        margin-right: 40px;
+        left: 15%;
+      }
+      .progressUx{
+        width: 100px;
+        height: 100px;
+        margin-left: 100px;
+        margin-right: 40px;
+        left: 45%;
+      }
+      .progressDesign{
+        width: 100px;
+        height: 100px;
+        margin-left: 100px;
+        margin-right: 40px;
+        left: 30%;
+      }
+    }
+    @media (max-width: 800px) {
+      .progressCoding{
+        width: 100px;
+        height: 100px;
+        margin-left: 50px;
+        margin-right: 40px;
+      }
+      .progressFrontend{
+        width: 100px;
+        height: 100px;
+        margin-left: 50px;
+        margin-right: 40px;
+        left: 20%;
+      }
+      .progressUx{
+        width: 100px;
+        height: 100px;
+        margin-left: 50px;
+        margin-right: 40px;
+        left: 60%;
+      }
+      .progressDesign{
+        width: 100px;
+        height: 100px;
+        margin-left: 50px;
+        margin-right: 40px;
+        left: 40%;
+      }
+    }
+    @media (max-width: 600px) {
+      .progressCoding{
+        width: 100px;
+        height: 100px;
+        margin-left: 50px;
+        margin-right: 40px;
+      }
+      .progressFrontend{
+        width: 100px;
+        height: 100px;
+        margin-left: 50px;
+        margin-right: 40px;
+        left: 40%;
+      }
+      .progressUx{
+        width: 100px;
+        height: 100px;
+        margin-left: 50px;
+        margin-right: 40px;
+        left: 40%;
+        top: -20%;
+      }
+      .progressDesign{
+        width: 100px;
+        height: 100px;
+        margin-left: 50px;
+        margin-right: 40px;
+        left: 0;
+        top: -20%;
+      }
+    }
     #ux{
       h2{
 
